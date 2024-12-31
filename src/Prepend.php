@@ -32,7 +32,7 @@ class Prepend extends Process
         // contributor permission
         App::auth()->setPermissionType(
             My::id(),
-            My::name() . ':' . __('Frontend')
+            My::name()
         );
 
         // add session login URL
