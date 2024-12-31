@@ -17,16 +17,13 @@ _FrontendSession_ is a plugin for the open-source web publishing software called
 * Dotclear 2.33
 * PHP 8.1+
 * Dotclear admin permission for configuration
-* Dotclear contentadmin permission for management
-* System writable directory on public path to store picture
-* Note: it also creates dedicated database tables
 
 ## USAGE
 
 First install _FrontendSession_, manualy from a zip package or from 
 Dotaddict repository. (See Dotclear's documentation to know how do this)
 
-Once it's done you can manage FrontendSession option from from blog preferences.
+Once it's done you can manage FrontendSession option from blog preferences.
 
 There are templates for public page. These template is adapted to 
 default Dotclear's theme. If you want to create your own template 
