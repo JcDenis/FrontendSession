@@ -20,11 +20,11 @@ $this->registerModule(
     '0.1',
     [
         'requires'    => [['core', '2.33']],
-        'settings'    => ['blog' => '#params.' . basename(__DIR__) . '_params'],
+        'settings'    => ['blog' => '#params.' . $this->id . '_params'],
         'permissions' => 'My',
         'type'        => 'plugin',
-        'support'     => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/issues',
-        'details'     => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/src/branch/master/README.md',
-        'repository'  => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/raw/branch/master/dcstore.xml',
+        'support'     => 'https://git.dotclear.watch/JcDenis/' . $this->id . '/issues',
+        'details'     => 'https://git.dotclear.watch/JcDenis/' . $this->id . '/src/branch/master/README.md',
+        'repository'  => 'https://git.dotclear.watch/JcDenis/' . $this->id . '/raw/branch/master/dcstore.xml',
     ]
 );
