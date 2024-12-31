@@ -35,6 +35,7 @@ class Widgets
                 'Public login form'
             )
             ->addTitle(__('Login'))
+            ->addHomeOnly()
             ->addContentOnly()
             ->addClass()
             ->addOffline();
