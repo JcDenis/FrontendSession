@@ -1,10 +1,10 @@
 # README
 
-[![Release](https://img.shields.io/badge/release-0.1-a2cbe9.svg)](https://git.dotclear.watch/JcDenis/FrontendSession/releases)
-![Date](https://img.shields.io/badge/date-2024.12.31-c44d58.svg)
+[![Release](https://img.shields.io/github/v/release/jcdenis/FrontendSession?color=lightblue)](https://git.dotclear.watch/JcDenis/FrontendSession/releases)
+![Date](https://img.shields.io/github/release-date/jcdenis/FrontendSession?color=red)
 [![Dotclear](https://img.shields.io/badge/dotclear-v2.33-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/FrontendSession)
-[![License](https://img.shields.io/badge/license-GPL--3.0-ececec.svg)](https://git.dotclear.watch/JcDenis/FrontendSession/src/branch/master/LICENSE)
+[![License](https://img.shields.io/github/license/jcdenis/FrontendSession?color=white)](https://git.dotclear.watch/JcDenis/FrontendSession/src/branch/master/LICENSE)
 
 ## ABOUT
 
