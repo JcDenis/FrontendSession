@@ -7,6 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Process;
+use Dotclear\Core\Backend\Notices;
 use Dotclear\Helper\Html\Form\{
     Checkbox,
     Div,
@@ -16,6 +17,7 @@ use Dotclear\Helper\Html\Form\{
     Textarea
 };
 use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Network\Http;
 use Dotclear\Interface\Core\BlogSettingsInterface;
 
 /**
@@ -91,6 +93,23 @@ class Backend extends Process
                     $attr[0] = __('Login');
                     $attr[1] = __('Sign in to this blog');
                     $attr[2] = App::blog()->url() . App::url()->getURLFor(My::id());
+                }
+            },
+            'adminUsersActions' => function (array $users, array $blogs, string $action, string $redir): void {
+                if ($action == My::id()) {
+                    foreach ($users as $u) {
+                        try {
+                            $cur              = App::auth()->openUserCursor();
+                            $cur->user_status = My::USER_PENDING;
+                            App::users()->updUser($u, $cur);
+                        } catch (Exception $e) {
+                            App::error()->add($e->getMessage());
+                        }
+                    }
+                    if (!App::error()->flag()) {
+                        Notices::addSuccessNotice(__('User has been successfully marked as pending.'));
+                        Http::redirect($redir);
+                    }
                 }
             },
         ]);

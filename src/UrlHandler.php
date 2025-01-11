@@ -49,6 +49,10 @@ class UrlHandler extends Url
             App::blog()->triggerBlog();
 
             Http::redirect(App::blog()->url());
+        // user pending activation
+        } elseif (is_array($args) && $args[0] == 'pending' && App::auth()->userID() == '') {
+            App::frontend()->context()->form_error = __("Error: your account is not yet activated.");
+            self::serveTemplate(My::id() . '.html');
         // no loggin session, go to login page
         } elseif (App::auth()->userID() == '') {
             self::serveTemplate(My::id() . '.html');

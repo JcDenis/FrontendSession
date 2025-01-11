@@ -93,27 +93,44 @@ class Frontend extends Process
             // we check the user and its perm
             if (App::auth()->checkUser($user_id, $user_pwd, $user_key, false) === true
              && App::auth()->check(My::id(), App::blog()->id()) === true
+             //&& !App::status()->user()->isRestricted((int) App::auth()->getInfo('user_status'))
             ) {
-                if ($user_key === null) {
-                    $cookie_console = Http::browserUID(
-                        App::config()->masterKey() .
-                        $user_id .
-                        App::auth()->cryptLegacy($user_id)
-                    ) . bin2hex(pack('a32', $user_id));
+                // check if user is pending activation
+                if ((int) App::auth()->getInfo('user_status') == My::USER_PENDING) {
+                    self::resetCookie();
+                    Http::redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/pending');
+                // check if user is not enabled
+                } elseif (App::status()->user()->isRestricted((int) App::auth()->getInfo('user_status'))) {
+                     self::resetCookie();
+                    Http::redirect(Http::getSelfURI());
                 } else {
-                    $cookie_console = $_COOKIE[My::id()];
+                    if ($user_key === null) {
+                        $cookie_console = Http::browserUID(
+                            App::config()->masterKey() .
+                            $user_id .
+                            App::auth()->cryptLegacy($user_id)
+                        ) . bin2hex(pack('a32', $user_id));
+                    } else {
+                        $cookie_console = $_COOKIE[My::id()];
+                    }
+                    setcookie(My::id(), $cookie_console, strtotime('+20 hours'), '/', '', self::useSSL());
                 }
-                setcookie(My::id(), $cookie_console, strtotime('+20 hours'), '/', '', self::useSSL());
             } else {
-                //App::frontend()->context()->form_error = __("Error: your password may be wrong or you haven't an account or you haven't ask for its activation.");
-
-                if (isset($_COOKIE[My::id()])) {
-                    unset($_COOKIE[My::id()]);
-                    setcookie(My::id(), '', time() - 3600, '/', '', self::useSSL());
-                }
+                self::resetCookie();
                 // need to replay doAuthControl() to remove user information from Auth if it exists but have no permissions
                 Http::redirect(Http::getSelfURI());
             }
+        }
+    }
+
+    /**
+     * Remove cookie
+     */
+    public static function resetCookie(): void
+    {
+        if (isset($_COOKIE[My::id()])) {
+            unset($_COOKIE[My::id()]);
+            setcookie(My::id(), '', time() - 3600, '/', '', self::useSSL());
         }
     }
 

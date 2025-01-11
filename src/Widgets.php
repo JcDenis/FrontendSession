@@ -59,7 +59,7 @@ class Widgets
         } else {
             $res .= '<form method="post" name="' . My::id() . '_form" id="' . My::id() . '_widget_form" action="">';
             if (App::frontend()->context()->form_error !== null) {
-                $res .= '<p class="erreur">' . Html::escapeHTML(App::frontend()->context()->form_error) . '</p>';
+                //$res .= '<p class="erreur">' . Html::escapeHTML(App::frontend()->context()->form_error) . '</p>';
             }
             $res .= '<p>' .
                     '<label for="' . My::id() . '_login" class="required">' . __('Login:') . '</label><br />' .

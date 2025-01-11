@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Core\PostType;
 use Dotclear\Core\Process;
-use Dotclear\Database\MetaRecord;
+use Dotclear\Helper\Stack\Status;
 
 /**
  * @brief       FrontendSession module prepend.
@@ -29,19 +28,28 @@ class Prepend extends Process
             return false;
         }
 
-        // contributor permission
+        // Add frontend permission (required to login in frontend)
         App::auth()->setPermissionType(
             My::id(),
             My::name()
         );
 
-        // add session login URL
+        // Add session login URL
         App::url()->register(
             My::id(),
             'session/login',
             '^session/login(/.+)?$',
             [UrlHandler::class, 'sessionLogin']
         );
+
+        // Add user status
+        App::status()->user()->set((new Status(
+            My::USER_PENDING , 
+            My::id(), 
+            'Pending registration', 
+            'pending registration (>1)', 
+            My::fileURL('icon.svg'))
+        ));
 
         return true;
     }

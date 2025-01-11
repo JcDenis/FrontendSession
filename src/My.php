@@ -18,5 +18,5 @@ use Dotclear\Module\MyPlugin;
  */
 class My extends MyPlugin
 {
-    // nothing special
+    public const USER_PENDING = -201;
 }
