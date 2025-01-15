@@ -26,13 +26,15 @@ Dotaddict repository. (See Dotclear's documentation to know how do this)
 Once it's done you can manage FrontendSession option from blog preferences.
 
 There are templates for public page. These template is adapted to 
-default Dotclear's theme. If you want to create your own template 
-for your theme, copy files from FrontendSession/default-templates 
+default Dotclear's theme. (based on dotty template set)
+If you want to create your own template for your theme, 
+copy files from FrontendSession/default-templates 
 to your theme tpl path and adapt them.
 
-This plugin only manage sign in and session on public pages, nothing more.
-Users must exist on Dotclear's database and have rights permissions.
-Features enabled by session must be done by others plugins.
+* This plugin manage sign in, sign up (WIP) and session on public pages, nothing more.
+* User must have __FrontendSession__ permissions on blog and the __enbaled__ status to sign in.
+* The registration form create user with this permission and a __pending__ status.
+* Features enabled by session must be done by others plugins.
 
 ## LINKS
 
