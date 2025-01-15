@@ -37,9 +37,9 @@ class Prepend extends Process
         // Add session login URL
         App::url()->register(
             My::id(),
-            'session/login',
-            '^session/login(/.+)?$',
-            [UrlHandler::class, 'sessionLogin']
+            'session',
+            '^session(/.+)?$',
+            [UrlHandler::class, 'sessionSign']
         );
 
         // Add user status

@@ -24,38 +24,38 @@ use Exception;
 class UrlHandler extends Url
 {
     /**
-     * Session login endpoint
+     * Session login endpoint.
+     * 
+     * User sign in, sign up, sign out.
      */
-    public static function sessionLogin(?string $args): void
+    public static function sessionSign(?string $args): void
     {
         if (!My::settings()->get('active')) {
             self::p404();
         }
 
-        //self::doAuthControl();
+        $action = '';
 
+        // action from URL
         if (!is_null($args)) {
             $args = substr($args, 1);
             $args = explode('/', $args);
+            $action = $args[0];
         }
 
         // logout
-        if (is_array($args) && $args[0] == 'logout') {
-            // Unset cookie if necessary
-            if (isset($_COOKIE[My::id()])) {
-                unset($_COOKIE[My::id()]);
-                setcookie(My::id(), '', time() - 3600, '/', '', Frontend::useSSL());
-            }
+        if ($action == 'signout') {
+            Frontend::resetCookie();
             App::blog()->triggerBlog();
-
             Http::redirect(App::blog()->url());
-        // user pending activation
-        } elseif (is_array($args) && $args[0] == 'pending' && App::auth()->userID() == '') {
+        // reponse from user pending activation
+        } elseif ($action == 'pending' && App::auth()->userID() == '') {
             App::frontend()->context()->form_error = __("Error: your account is not yet activated.");
             self::serveTemplate(My::id() . '.html');
-        // no loggin session, go to login page
+        // no session, go to signin page
         } elseif (App::auth()->userID() == '') {
             self::serveTemplate(My::id() . '.html');
+        // all others cases go to signin page
         } else {
             self::serveTemplate(My::id() . '.html');
             //self::p404();

@@ -28,6 +28,43 @@ class FrontendTemplate
     }
 
     /**
+     * Check conditions.
+     *
+     * @param   ArrayObject<string, mixed>  $attr       The attributes
+     */
+    public static function FrontendSessionIf(ArrayObject $attr, string $content): string
+    {
+        $if = [];
+        $sign = fn ($a): string => (bool) $a ? '' : '!';
+
+        $operator = isset($attr['operator']) ? Tpl::getOperator($attr['operator']) : '&&';
+
+        // allow registration
+        if (isset($attr['registration'])) {
+            $if[] = $sign($attr['registration']) . My::CLASS . '::settings()->get(\'active_registration\')';
+        }
+
+        // allow registration
+        if (isset($attr['authenticate'])) {
+            $if[] = '!(App::auth()->userID() ' . $sign($attr['authenticate']) . '== \'\')';
+        }
+
+        return empty($if) ?
+            $content :
+            '<?php if(' . implode(' ' . $operator . ' ', $if) . ') : ?>' . $content . '<?php endif; ?>';
+    }
+
+    /**
+     * Get module ID.
+     *
+     * @param   ArrayObject<string, mixed>  $attr       The attributes
+     */
+    public static function FrontendSessionNonce(ArrayObject $attr): string
+    {
+        return self::filter($attr, 'App::nonce()->getNonce()');
+    }
+
+    /**
      * Get module ID.
      *
      * @param   ArrayObject<string, mixed>  $attr       The attributes
@@ -44,7 +81,7 @@ class FrontendTemplate
      */
     public static function FrontendSessionUrl(ArrayObject $attr): string
     {
-        return self::filter($attr, 'App::blog()->url().App::url()->getURLFor(' . My::class . '::id())' . (!empty($attr['logout']) ? ".'/logout'" : ''));
+        return self::filter($attr, 'App::blog()->url().App::url()->getURLFor(' . My::class . '::id())' . (!empty($attr['signout']) ? ".'/signout'" : ''));
     }
 
     /**

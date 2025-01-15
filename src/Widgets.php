@@ -54,8 +54,13 @@ class Widgets
         $res = $widget->renderTitle($widget->get('title'));
 
         if (App::auth()->userID()) {
-            $res .= '<p>' . __('Welcome') . ' ' . App::auth()->getInfo('user_cn') .
-                '<ul><li><a href="' . $url . '/logout">' . __('Logout') . '</a></li></ul>';
+            $res .= '<p>' . __('Welcome') . '<br />' . App::auth()->getInfo('user_cn') . '<p>' .
+                '<form method="post" name="' . My::id() . '_form" id="' . My::id() . '_widget_form_out" action="' . $url . '">' .
+                '<p>' .
+                    '<input type="hidden" id="' . My::id() . '_widget_hidden" name="' . My::id() . '_action" value="signout" />' .
+                    '<input class="submit" type="submit" id="' . My::id() . '_widget_submit" name="' . My::id() . '_submit" value="' . __('Disconnect') . '" />' .
+                '</p>' .
+                '</form>';
         } else {
             $res .= '<form method="post" name="' . My::id() . '_form" id="' . My::id() . '_widget_form" action="">';
             if (App::frontend()->context()->form_error !== null) {
@@ -70,6 +75,7 @@ class Widgets
                     '<input type="password" id="' . My::id() . '_widget_password" name="' . My::id() . '_password" value="" />' .
                 '</p>' .
                 '<p>' .
+                    '<input type="hidden" id="' . My::id() . '_widget_hidden" name="' . My::id() . '_action" value="signin" />' .
                     '<input class="submit" type="submit" id="' . My::id() . '_widget_submit" name="' . My::id() . '_submit" value="' . __('Connect') . '" />' .
                 '</p>' .
                 '</form>';

@@ -19,6 +19,7 @@ use Dotclear\Helper\Html\Form\{
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Interface\Core\BlogSettingsInterface;
+use Throwable;
 
 /**
  * @brief       FrontendSession backend class.
@@ -54,9 +55,17 @@ class Backend extends Process
                             ->items([
                                 (new Checkbox(My::id() . 'active', (bool) $blog_settings->get(My::id())->get('active')))
                                     ->value(1),
-                                (new Label(__('Enable sessions on public pages'), Label::OUTSIDE_LABEL_AFTER))
+                                (new Label(__('Enable sessions on frontend'), Label::OUTSIDE_LABEL_AFTER))
                                     ->class('classic')
                                     ->for(My::id() . 'active'),
+                            ]),
+                        (new Para())
+                            ->items([
+                                (new Checkbox(My::id() . 'active_registration', (bool) $blog_settings->get(My::id())->get('active_registration')))
+                                    ->value(1),
+                                (new Label(__('Activate registration form on frontend'), Label::OUTSIDE_LABEL_AFTER))
+                                    ->class('classic')
+                                    ->for(My::id() . 'active_registration'),
                             ]),
                         (new Para())
                             ->items([
@@ -78,6 +87,7 @@ class Backend extends Process
             // blog settings update
             'adminBeforeBlogSettingsUpdate' => function (BlogSettingsInterface $blog_settings): void {
                 $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']));
+                $blog_settings->get(My::id())->put('active_registration', !empty($_POST[My::id() . 'active_registration']));
                 $blog_settings->get(My::id())->put('connected', $_POST[My::id() . 'connected']);
                 $blog_settings->get(My::id())->put('disconnected', $_POST[My::id() . 'disconnected']);
             },
@@ -102,7 +112,7 @@ class Backend extends Process
                             $cur              = App::auth()->openUserCursor();
                             $cur->user_status = My::USER_PENDING;
                             App::users()->updUser($u, $cur);
-                        } catch (Exception $e) {
+                        } catch (Throwable $e) {
                             App::error()->add($e->getMessage());
                         }
                     }

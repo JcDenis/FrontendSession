@@ -30,6 +30,7 @@ class Install extends Process
 
         try {
             My::settings()->put('active', false, 'boolean', 'Enable public sessions', false, true);
+            My::settings()->put('active_registration', false, 'boolean', 'Activate registration form on frontend', false, true);
             My::settings()->put('connected', "You're now connected to the blog.", 'text', 'Connected display text', false, true);
             My::settings()->put('disconnected', "You're must be connected to unlock all blog's features.", 'text', 'Diconnected display text', false, true);
 
