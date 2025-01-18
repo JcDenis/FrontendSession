@@ -1,3 +1,9 @@
+FrontendSession 0.6 - 2025.01.18
+==========================================================
+* Require Dotclear 2.33-dev
+* Require PHP 8.3
+* Add email notification
+
 FrontendSession 0.5 - 2025.01.18
 ==========================================================
 * Require Dotclear 2.33-dev

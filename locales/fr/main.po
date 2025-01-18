@@ -1,15 +1,15 @@
 # Language: Français
-# Module: FrontendSession - 0.5
-# Date: 2025-01-18 16:03:18
+# Module: FrontendSession - 0.6
+# Date: 2025-01-18 20:58:17
 # Author: , contact@jcdenis.fr
 # Translated with translater 2023.11.04
 
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: FrontendSession 0.5\n"
+"Project-Id-Version: FrontendSession 0.6\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-01-18T16:03:18+00:00\n"
+"PO-Revision-Date: 2025-01-18T20:58:17+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: default-templates/dotty/FrontendSession.html:22
+#: src/Backend.php:126
 msgid "Connexion"
 msgstr "Connexion"
 
@@ -92,37 +93,66 @@ msgstr "Répéter le mot de passe :"
 msgid "Register"
 msgstr "S'enregistrer"
 
-#: src/Backend.php:58
+#: src/Backend.php:61
 msgid "Enable sessions on frontend"
 msgstr "Autoriser les sessions publiques"
 
-#: src/Backend.php:66
+#: src/Backend.php:69
 msgid "Activate registration form on frontend"
-msgstr "Activer le formulaire d'enregistrement publique"
+msgstr "Activer le formulaire d'inscription publique"
 
-#: src/Backend.php:75
+#: src/Backend.php:74
+msgid "Registration administrator email:"
+msgstr "Email des superviseurs des inscriptions :"
+
+#: src/Backend.php:77
+msgid "This is the comma separeted list of administrator mail address who receive new registration notification."
+msgstr "Ceci est la liste séparée par des virgules des adresses mails qui recevront les notification de nouvel inscription d'utilisateurs."
+
+#: src/Backend.php:79
+msgid "Registration no-reply email:"
+msgstr "Email sans-réponse des inscriptions :"
+
+#: src/Backend.php:82
+msgid "This is mail address used on registration confirmation email."
+msgstr "Ceci est l'adresse mail utilisée dans la confirmation d'inscription."
+
+#: src/Backend.php:88
 msgid "Text to display on login page when user is connected:"
 msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est connecté."
 
-#: src/Backend.php:82
+#: src/Backend.php:95
 msgid "Text to display on login page when user is disconnected:"
 msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est déconnecté."
 
-#: src/Backend.php:89
+#: src/Backend.php:102
 msgid "Text to display on login page when user is pending activation:"
 msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est en attente de validation."
 
-#: src/Backend.php:105
+#: src/Backend.php:120
 msgid "Public login page"
 msgstr "Page publique de connexion"
 
-#: src/Backend.php:112
+#: src/Backend.php:127
 msgid "Sign in to this blog"
 msgstr "Se connecter au blog"
 
-#: src/Backend.php:128
+#: src/Backend.php:143
 msgid "User has been successfully marked as pending."
 msgstr "L'utilisateur est été marqué en attente avec succès."
+
+#: src/Backend.php:171
+msgid "Confirmation of activation"
+msgstr "Confirmation d'activation"
+
+#: src/Backend.php:173
+#: src/UrlHandler.php:180
+msgid "Thank you for your registration on blog %1$s!"
+msgstr "Merci pour votre inscription sur le blog %S !"
+
+#: src/Backend.php:174
+msgid "Your account is now activated."
+msgstr "Votre compte est maintenant activé."
 
 #: src/UrlHandler.php:77
 msgid "This username is not valid."
@@ -152,13 +182,53 @@ msgstr "Le mot de passe n'est pas valide."
 msgid "Thank you for your registration. An administrator will validate your request soon."
 msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
 
-#: src/UrlHandler.php:121
+#: src/UrlHandler.php:124
 msgid "Something went wrong while trying to register user."
 msgstr "Quelques choses a mal tourné lors de votre enregistrement."
 
-#: src/UrlHandler.php:134
+#: src/UrlHandler.php:137
 msgid "Account is not yet activated."
 msgstr "Ce compte n'est pas encore activé."
+
+#: src/UrlHandler.php:178
+msgid "Confirmation of registration"
+msgstr "Confirmation d'inscription"
+
+#: src/UrlHandler.php:181
+msgid "Your login is: %s"
+msgstr "Votre identifiant est : %s"
+
+#: src/UrlHandler.php:182
+msgid "Your password is: %s"
+msgstr "Votre mot de passe est : %s"
+
+#: src/UrlHandler.php:183
+msgid "Administrators need to review before activate your account but they will do it as soon as possible."
+msgstr "Un administrateur doit vérifier votre inscription avant activation de votre compte. Ce sera fait aussi vite que posible."
+
+#: src/UrlHandler.php:184
+msgid "You will receive an email when it will be ready."
+msgstr "Vous recevrez un email lorsque ce sera prêt."
+
+#: src/UrlHandler.php:194
+msgid "New user registration"
+msgstr "Nouvelle inscription"
+
+#: src/UrlHandler.php:196
+msgid "A new user registration has been made on blog %s!"
+msgstr "Une nouvelle inscription d'utilisateur a été faite sur le blog %s !"
+
+#: src/UrlHandler.php:197
+msgid "User login is: %s"
+msgstr "Identifiant : %s"
+
+#: src/UrlHandler.php:198
+msgid "User email is: %s"
+msgstr "Mail : %s"
+
+#: src/UrlHandler.php:199
+msgid "Administrators need to review user account and activate it."
+msgstr "Un administrateur doit vérifier et activer l'utilisateur."
 
 #: src/Widgets.php:33
 msgid "Frontend session"
