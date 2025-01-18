@@ -116,7 +116,10 @@ class UrlHandler extends Url
                             }
                             App::auth()->sudo([App::users(), 'setUserPermissions'], $r_user_id, [App::blog()->id() => [My::id() => true]]);
                             // @todo    email notification on user registration
-                            $err[] = __('Thank you for your registration. An administrator will validate your request soon.');
+                            App::frontend()->context()->form_error = __('Thank you for your registration. An administrator will validate your request soon.');
+                            
+                            // send confirmation email
+                            self::sendRegistrationMail($r_user_id, $r_user_pwd, $r_user_email);
                         } catch (Exception) {
                             $err[] = __('Something went wrong while trying to register user.');
                         }
@@ -162,5 +165,47 @@ class UrlHandler extends Url
         }
 
         self::serveDocument($tpl);
+    }
+
+    /**
+     * Send registration email.
+     */
+    private static function sendRegistrationMail(string $user_id, string $user_pwd, string $user_email): void
+    {
+        // user email
+        My::mailSender(
+            $user_email,
+            __('Confirmation of registration'),
+            wordwrap(
+                sprintf(__('Thank you for your registration on blog %1$s!'), App::blog()->id()) . "\n\n" .
+                sprintf(__('Your login is: %s'), $user_id) . "\n" .
+                sprintf(__('Your password is: %s'), $user_pwd) . "\n\n" .
+                __('Administrators need to review before activate your account but they will do it as soon as possible.') . "\n" .
+                __('You will receive an email when it will be ready.') . "\n",
+                80
+            )
+        );
+
+        // admin email
+        foreach(explode(',', (string) My::settings()->get('email_registration')) as $mail) {
+            if (!empty(trim($mail))) {
+                My::mailSender(
+                    trim($mail),
+                    __('New user registration'),
+                    wordwrap(
+                        sprintf(__('A new user registration has been made on blog %s!'), App::blog()->id()) . "\n\n" .
+                        sprintf(__('User login is: %s'), $user_id) . "\n" .
+                        sprintf(__('User email is: %s'), $user_email) . "\n" .
+                        __('Administrators need to review user account and activate it.') . "\n" .
+                        App::config()->adminUrl() . '?' . http_build_query([
+                                'status' => My::USER_PENDING,
+                                'q' => $user_id,
+                                'switchblog' => App::blog()->id()
+                            ]) . "\n",
+                        80
+                    )
+                );
+            }
+        }
     }
 }

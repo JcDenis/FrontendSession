@@ -8,10 +8,13 @@ use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Core\Backend\Notices;
+use Dotclear\Database\Cursor;
 use Dotclear\Helper\Html\Form\{
     Checkbox,
     Div,
+    Input,
     Label,
+    Note,
     Para,
     Text,
     Textarea
@@ -67,6 +70,16 @@ class Backend extends Process
                                     ->class('classic')
                                     ->for(My::id() . 'active_registration'),
                             ]),
+                        (new Para())->items([
+                            (new Label(__('Registration administrator email:')))->for(My::id() . 'email_registration'),
+                            (new Input(My::id() . 'email_registration'))->class('maximal')->size(65)->maxlength(255)->value($blog_settings->get(My::id())->get('email_registration')),
+                        ]),
+                        (new Note())->class('form-note')->text(__('This is the comma separeted list of administrator mail address who receive new registration notification.')),
+                        (new Para())->items([
+                            (new Label(__('Registration no-reply email:')))->for(My::id() . 'email_from'),
+                            (new Input(My::id() . 'email_from'))->class('maximal')->size(65)->maxlength(255)->value($blog_settings->get(My::id())->get('email_from')),
+                        ]),
+                        (new Note())->class('form-note')->text(__('This is mail address used on registration confirmation email.')),
                         (new Para())
                             ->items([
                                 (new Textarea(My::id() . 'connected', Html::escapeHTML((string) $blog_settings->get(My::id())->get(My::SESSION_CONNECTED))))
@@ -95,6 +108,8 @@ class Backend extends Process
             'adminBeforeBlogSettingsUpdate' => function (BlogSettingsInterface $blog_settings): void {
                 $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']));
                 $blog_settings->get(My::id())->put('active_registration', !empty($_POST[My::id() . 'active_registration']));
+                $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration']);
+                $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from']);
                 $blog_settings->get(My::id())->put(My::SESSION_CONNECTED, $_POST[My::id() . 'connected']);
                 $blog_settings->get(My::id())->put(My::SESSION_DISCONNECTED, $_POST[My::id() . 'disconnected']);
                 $blog_settings->get(My::id())->put(My::SESSION_PENDING, $_POST[My::id() . 'pending']);
@@ -108,7 +123,7 @@ class Backend extends Process
             // simple menu select
             'adminSimpleMenuBeforeEdit' => function ($type, $select, &$attr) {
                 if ($type == My::id()) {
-                    $attr[0] = __('Login');
+                    $attr[0] = __('Connexion');
                     $attr[1] = __('Sign in to this blog');
                     $attr[2] = App::blog()->url() . App::url()->getURLFor(My::id());
                 }
@@ -130,8 +145,35 @@ class Backend extends Process
                     }
                 }
             },
+            'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
+                $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING], true);
+                if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED) {
+                    self::mailActivation($user->user_email);
+                }
+
+            },
+            'adminBeforeUserEnable' => function (string $user_id): void {
+                $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
+                if (!$user->isEmpty()) {
+                    self::mailActivation($user->user_email);
+                }
+            }
         ]);
 
         return true;
+    }
+
+    private static function mailActivation(string $user_email): void
+    {
+        // user email
+        My::mailSender(
+            $user_email,
+            __('Confirmation of activation'),
+            wordwrap(
+                sprintf(__('Thank you for your registration on blog %1$s!'), App::blog()->id()) . "\n\n" .
+                __('Your account is now activated.') . "\n",
+                80
+            )
+        );
     }
 }
