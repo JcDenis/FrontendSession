@@ -1,3 +1,10 @@
+FrontendSession 0.5 - 2025.01.18
+==========================================================
+* Require Dotclear 2.33-dev
+* Require PHP 8.3
+* Use real session
+* Add translation (fr)
+
 FrontendSession 0.3 - 2025.01.11
 ==========================================================
 * Require Dotclear 2.33-dev

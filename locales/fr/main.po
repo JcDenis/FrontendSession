@@ -1,0 +1,174 @@
+# Language: Français
+# Module: FrontendSession - 0.5
+# Date: 2025-01-18 16:03:18
+# Author: , contact@jcdenis.fr
+# Translated with translater 2023.11.04
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: FrontendSession 0.5\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2025-01-18T16:03:18+00:00\n"
+"Last-Translator: Jean-Christian Denis\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: default-templates/dotty/FrontendSession.html:22
+msgid "Connexion"
+msgstr "Connexion"
+
+#: default-templates/dotty/FrontendSession.html:27
+#: src/Widgets.php:58
+msgid "You are connected as:"
+msgstr "Vous êtes :"
+
+#: default-templates/dotty/FrontendSession.html:28
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: default-templates/dotty/FrontendSession.html:35
+msgid "Sign in"
+msgstr "Se connecter"
+
+#: default-templates/dotty/FrontendSession.html:40
+#: src/Widgets.php:72
+msgid "Login:"
+msgstr "Identifiant :"
+
+#: default-templates/dotty/FrontendSession.html:44
+#: src/Widgets.php:76
+msgid "Password:"
+msgstr "Mot de passe :"
+
+#: default-templates/dotty/FrontendSession.html:48
+msgid "Remember me:"
+msgstr "Se souvenir de moi :"
+
+#: default-templates/dotty/FrontendSession.html:55
+#: src/Widgets.php:86
+msgid "Connect"
+msgstr "Se connecter"
+
+#: default-templates/dotty/FrontendSession.html:63
+msgid "Sign up"
+msgstr "S'inscrire"
+
+#: default-templates/dotty/FrontendSession.html:68
+msgid "Username:"
+msgstr "Nom d'utilisatrice ou d'utilisateur :"
+
+#: default-templates/dotty/FrontendSession.html:71
+msgid "Should be at least 3 characters long with only figures and letters."
+msgstr "Doit contenir au moins 3 caractères avec uniquement des chiffres et des lettres"
+
+#: default-templates/dotty/FrontendSession.html:75
+msgid "First Name:"
+msgstr "Prénom :"
+
+#: default-templates/dotty/FrontendSession.html:81
+msgid "Last Name:"
+msgstr "Nom :"
+
+#: default-templates/dotty/FrontendSession.html:87
+msgid "E-mail:"
+msgstr "E-mail :"
+
+#: default-templates/dotty/FrontendSession.html:92
+msgid "Repeat e-mail:"
+msgstr "Répéter l'e-mail:"
+
+#: default-templates/dotty/FrontendSession.html:100
+msgid "Should be at least 6 characters long."
+msgstr "Doit contenir au moins 6 caractères."
+
+#: default-templates/dotty/FrontendSession.html:103
+msgid "Repeat password:"
+msgstr "Répéter le mot de passe :"
+
+#: default-templates/dotty/FrontendSession.html:110
+msgid "Register"
+msgstr "S'enregistrer"
+
+#: src/Backend.php:58
+msgid "Enable sessions on frontend"
+msgstr "Autoriser les sessions publiques"
+
+#: src/Backend.php:66
+msgid "Activate registration form on frontend"
+msgstr "Activer le formulaire d'enregistrement publique"
+
+#: src/Backend.php:75
+msgid "Text to display on login page when user is connected:"
+msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est connecté."
+
+#: src/Backend.php:82
+msgid "Text to display on login page when user is disconnected:"
+msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est déconnecté."
+
+#: src/Backend.php:89
+msgid "Text to display on login page when user is pending activation:"
+msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est en attente de validation."
+
+#: src/Backend.php:105
+msgid "Public login page"
+msgstr "Page publique de connexion"
+
+#: src/Backend.php:112
+msgid "Sign in to this blog"
+msgstr "Se connecter au blog"
+
+#: src/Backend.php:128
+msgid "User has been successfully marked as pending."
+msgstr "L'utilisateur est été marqué en attente avec succès."
+
+#: src/UrlHandler.php:77
+msgid "This username is not valid."
+msgstr "L'identifiant n'est pas valide."
+
+#: src/UrlHandler.php:79
+msgid "This username is not available."
+msgstr "Cet identifiant n'est pas disponible."
+
+#: src/UrlHandler.php:88
+msgid "Emails missmatch."
+msgstr "L'email ne correspondent pas."
+
+#: src/UrlHandler.php:90
+msgid "Email is not valid."
+msgstr "L'email n'est pas valide."
+
+#: src/UrlHandler.php:96
+msgid "Passwords missmatch."
+msgstr "Les mots de passe ne correspondent pas."
+
+#: src/UrlHandler.php:98
+msgid "Password must be at lesat 6 characters long."
+msgstr "Le mot de passe n'est pas valide."
+
+#: src/UrlHandler.php:119
+msgid "Thank you for your registration. An administrator will validate your request soon."
+msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
+
+#: src/UrlHandler.php:121
+msgid "Something went wrong while trying to register user."
+msgstr "Quelques choses a mal tourné lors de votre enregistrement."
+
+#: src/UrlHandler.php:134
+msgid "Account is not yet activated."
+msgstr "Ce compte n'est pas encore activé."
+
+#: src/Widgets.php:33
+msgid "Frontend session"
+msgstr "Session publique"
+
+#: src/Widgets.php:63
+msgid "Disconnect"
+msgstr "Se déconnecter"
+
+#: src/Widgets.php:81
+msgid "Remenber me"
+msgstr "Se souvenir de moi"
+

@@ -31,10 +31,11 @@ If you want to create your own template for your theme,
 copy files from FrontendSession/default-templates 
 to your theme tpl path and adapt them.
 
-* This plugin manage sign in, sign up (WIP) and session on public pages, nothing more.
-* User must have __FrontendSession__ permissions on blog and the __enbaled__ status to sign in.
+* This plugin manage sign in, sign up, sign out, and session on public pages, nothing more.
+* User must have __FrontendSession__ permission on blog and the __enbaled__ status to sign in.
 * The registration form create user with this permission and a __pending__ status.
 * Features enabled by session must be done by others plugins.
+* Using session on Frontend reduces cache system to near zero.
 
 ## LINKS
 
