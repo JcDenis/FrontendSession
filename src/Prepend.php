@@ -38,7 +38,7 @@ class Prepend extends Process
         App::url()->register(
             My::id(),
             'session',
-            '^session(/.+)?$',
+            '^session(/[a-z]+)?$',
             [UrlHandler::class, 'sessionSign']
         );
 

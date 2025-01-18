@@ -31,8 +31,9 @@ class Install extends Process
         try {
             My::settings()->put('active', false, 'boolean', 'Enable public sessions', false, true);
             My::settings()->put('active_registration', false, 'boolean', 'Activate registration form on frontend', false, true);
-            My::settings()->put('connected', "You're now connected to the blog.", 'text', 'Connected display text', false, true);
-            My::settings()->put('disconnected', "You're must be connected to unlock all blog's features.", 'text', 'Diconnected display text', false, true);
+            My::settings()->put(My::SESSION_CONNECTED, "You're now connected to the blog.", 'text', 'Connected display text', false, true);
+            My::settings()->put(My::SESSION_DISCONNECTED, "You're must be connected to unlock all blog's features.", 'text', 'Diconnected display text', false, true);
+            My::settings()->put(My::SESSION_PENDING, "Your account is not yet activated. An administrator will review your account and validate it soon.", 'text', 'User pending display text', false, true);
 
             return true;
         } catch (Exception $e) {

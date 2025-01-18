@@ -69,17 +69,24 @@ class Backend extends Process
                             ]),
                         (new Para())
                             ->items([
-                                (new Textarea(My::id() . 'connected', Html::escapeHTML((string) $blog_settings->get(My::id())->get('connected'))))
+                                (new Textarea(My::id() . 'connected', Html::escapeHTML((string) $blog_settings->get(My::id())->get(My::SESSION_CONNECTED))))
                                     ->rows(6)
                                     ->class('maximal')
                                     ->label((new Label(__('Text to display on login page when user is connected:'), Label::OL_TF))),
                             ]),
                         (new Para())
                             ->items([
-                                (new Textarea(My::id() . 'disconnected', Html::escapeHTML((string) $blog_settings->get(My::id())->get('disconnected'))))
+                                (new Textarea(My::id() . 'disconnected', Html::escapeHTML((string) $blog_settings->get(My::id())->get(My::SESSION_DISCONNECTED))))
                                     ->rows(6)
                                     ->class('maximal')
                                     ->label((new Label(__('Text to display on login page when user is disconnected:'), Label::OL_TF))),
+                            ]),
+                        (new Para())
+                            ->items([
+                                (new Textarea(My::id() . 'pending', Html::escapeHTML((string) $blog_settings->get(My::id())->get(My::SESSION_PENDING))))
+                                    ->rows(6)
+                                    ->class('maximal')
+                                    ->label((new Label(__('Text to display on login page when user is pending activation:'), Label::OL_TF))),
                             ]),
                     ])
                     ->render();
@@ -88,8 +95,9 @@ class Backend extends Process
             'adminBeforeBlogSettingsUpdate' => function (BlogSettingsInterface $blog_settings): void {
                 $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']));
                 $blog_settings->get(My::id())->put('active_registration', !empty($_POST[My::id() . 'active_registration']));
-                $blog_settings->get(My::id())->put('connected', $_POST[My::id() . 'connected']);
-                $blog_settings->get(My::id())->put('disconnected', $_POST[My::id() . 'disconnected']);
+                $blog_settings->get(My::id())->put(My::SESSION_CONNECTED, $_POST[My::id() . 'connected']);
+                $blog_settings->get(My::id())->put(My::SESSION_DISCONNECTED, $_POST[My::id() . 'disconnected']);
+                $blog_settings->get(My::id())->put(My::SESSION_PENDING, $_POST[My::id() . 'pending']);
             },
             // simple menu type
             'adminSimpleMenuAddType' => function (ArrayObject $items) {

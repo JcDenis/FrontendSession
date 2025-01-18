@@ -20,92 +20,94 @@
 <tpl:Block name="main-content">
   <header id="content-info">
   	<h2>{{tpl:lang Connexion}}</h2>
-		<tpl:FrontendSessionIf authenticate="1">
-			<div>{{tpl:FrontendSessionConnected}}</div>
-		</tpl:FrontendSessionIf>
-		<tpl:FrontendSessionIf authenticate="0">
-			<div>{{tpl:FrontendSessionDisconnected}}</div>
-		</tpl:FrontendSessionIf>
+			<div class="info">{{tpl:FrontendSessionMessage}}</div>
   </header>
   <div class="content-inner">
-		<tpl:FrontendSessionIf authenticate="1">
-			<p>{{tpl:lang Welcome}} {{tpl:FrontendSessionDisplayName}}</p>
+		<tpl:FrontendSessionIf session="connected">
+			<p>{{tpl:lang You are connected as:}} {{tpl:FrontendSessionDisplayName}}</p>
 			<p><a href="{{tpl:FrontendSessionUrl signout="1"}}">{{tpl:lang Logout}}</a></p>
 		</tpl:FrontendSessionIf>
 			<tpl:SysIfFormError>
 			<p class="error">{{tpl:SysFormError}}</p>
 			</tpl:SysIfFormError>
-	<tpl:FrontendSessionIf authenticate="0">
+	<tpl:FrontendSessionIf session="disconnected">
 		<div class="login">
 			<h3>{{tpl:lang Sign in}}</h3>
-			<form method="post" name="{{tpl:FrontendSessionID}}_form" id="{{tpl:FrontendSessionID}}_login_form" action="{{tpl:FrontendSessionUrl}}">
+			<form method="post" name="{{tpl:FrontendSessionID}}_form" id="{{tpl:FrontendSessionID}}login_form" action="{{tpl:FrontendSessionUrl}}">
 	      <fieldset>
 	       <legend>{{tpl:lang Sign in}}</legend>
 	       <div class="inputfield">
-						<label for="{{tpl:FrontendSessionID}}_login">{{tpl:lang Login:}}</label>
-						<input type="text" id="{{tpl:FrontendSessionID}}_page_login" name="{{tpl:FrontendSessionID}}_login" value="" />
+						<label for="{{tpl:FrontendSessionID}}_page_login">{{tpl:lang Login:}}</label>
+						<input type="text" name="{{tpl:FrontendSessionID}}login" id="{{tpl:FrontendSessionID}}_page_login" value="" />
 				</div>
 	      <div class="inputfield">
-					<label for="{{tpl:FrontendSessionID}}_password">{{tpl:lang Password:}}</label>
-					<input type="password" id="{{tpl:FrontendSessionID}}_login_password" name="{{tpl:FrontendSessionID}}_password" value="" />
+					<label for="{{tpl:FrontendSessionID}}_page_password">{{tpl:lang Password:}}</label>
+					<input type="password" name="{{tpl:FrontendSessionID}}password" id="{{tpl:FrontendSessionID}}_page_password" value="" />
+				</div>
+	      <div class="inputfield">
+					<label for="{{tpl:FrontendSessionID}}_page_remember">{{tpl:lang Remember me:}}</label>
+					<input type="checkbox" name="{{tpl:FrontendSessionID}}remember" id="{{tpl:FrontendSessionID}}_page_remember" value="1" />
 				</div>
 	      <div class="controlset">
-					<input type="hidden" id="{{tpl:FrontendSessionID}}_register_hidden" name="{{tpl:FrontendSessionID}}_action" value="signin" />
-					<input class="submit" type="submit" id="{{tpl:FrontendSessionID}}_login_submit" name="{{tpl:FrontendSessionID}}_submit" value="{{tpl:lang Connect}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_page_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_page_action" value="signin" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_page_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_page_submit" value="{{tpl:lang Connect}}" />
 				</div>
 			</form>
 		</div>
 	</tpl:FrontendSessionIf>
-	<tpl:FrontendSessionIf registration="1" authenticate="0">
+	<tpl:FrontendSessionIf registration="1" session="disconnected">
 		<hr />
 		<div class="login">
 			<h3>{{tpl:lang Sign up}}</h3>
-			<form method="post" name="{{tpl:FrontendSessionID}}_form" id="{{tpl:FrontendSessionID}}_register_form" action="{{tpl:FrontendSessionUrl}}">
+			<form method="post" name="{{tpl:FrontendSessionID}}register_form" id="{{tpl:FrontendSessionID}}_register_form" action="{{tpl:FrontendSessionUrl}}">
       <fieldset>
         <legend>{{tpl:lang Sign up}}</legend>
         <div class="required">
-          <label for="user_login">Username:</label>
-          <input type="text" size="30" name="{{tpl:FrontendSessionID}}_user_login" id="{{tpl:FrontendSessionID}}_user_login" maxlength="32"
+          <label for="{{tpl:FrontendSessionID}}_user_login">{{tpl:lang Username:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}user_login" id="{{tpl:FrontendSessionID}}_user_login" maxlength="32"
           value="" />
-          <p class="note">Should be at least 3 characters long with only figures and letters.</p>
+          <p class="note">{{tpl:lang Should be at least 3 characters long with only figures and letters.}}</p>
         </div>
         
         <div class="inputfield">
-          <label for="user_firstname">First Name:</label>
-          <input type="text" size="30" name="{{tpl:FrontendSessionID}}_user_firstname" id="{{tpl:FrontendSessionID}}_user_firstname" maxlength="255"
+          <label for="{{tpl:FrontendSessionID}}_user_firstname">{{tpl:lang First Name:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}user_firstname" id="{{tpl:FrontendSessionID}}_user_firstname" maxlength="255"
           value="" />
         </div>
         
         <div class="inputfield">
-          <label for="user_name">Last Name:</label>
-          <input type="text" size="30" name="{{tpl:FrontendSessionID}}_user_name" id="{{tpl:FrontendSessionID}}_user_name" maxlength="255"
+          <label for="{{tpl:FrontendSessionID}}_user_name">{{tpl:lang Last Name:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}user_name" id="{{tpl:FrontendSessionID}}_user_name" maxlength="255"
           value="" />
         </div>
         
         <div class="required">
-          <label for="user_email">E-mail:</label>
-          <input type="text" size="30" name="{{tpl:FrontendSessionID}}_user_email" id="{{tpl:FrontendSessionID}}_user_email" maxlength="512"
+          <label for="{{tpl:FrontendSessionID}}_user_email">{{tpl:lang E-mail:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}user_email" id="{{tpl:FrontendSessionID}}_user_email" maxlength="512"
           value="" />
         </div>
         <div class="required">
-          <label for="user_email_cf">Repeat e-mail:</label>
-          <input type="text" size="30" name="{{tpl:FrontendSessionID}}_user_esecond" id="{{tpl:FrontendSessionID}}_user_esecond" maxlength="512"
+          <label for="{{tpl:FrontendSessionID}}_user_esecond">{{tpl:lang Repeat e-mail:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}user_esecond" id="{{tpl:FrontendSessionID}}_user_esecond" maxlength="512"
           value="" />
         </div>
         
         <div class="required">
-          <label for="user_pwd">Password:</label>
-          <input type="password" size="30" name="{{tpl:FrontendSessionID}}_user_pwd" id="{{tpl:FrontendSessionID}}_user_pwd" maxlength="255" />
-          <p class="note">Should be at least 6 characters long.</p>
+          <label for="{{tpl:FrontendSessionID}}_user_pwd">{{tpl:lang Password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}user_pwd" id="{{tpl:FrontendSessionID}}_user_pwd" maxlength="255" />
+          <p class="note">{{tpl:lang Should be at least 6 characters long.}}</p>
         </div>
         <div class="required">
-          <label for="user_pwd_cf">Repeat password:</label>
-          <input type="password" size="30" name="{{tpl:FrontendSessionID}}_user_psecond" id="{{tpl:FrontendSessionID}}_user_psecond" maxlength="255" />
+          <label for="{{tpl:FrontendSessionID}}_user_psecond">{{tpl:lang Repeat password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}user_psecond" id="{{tpl:FrontendSessionID}}_user_psecond" maxlength="255" />
         </div>
         <div class="controlset">
-					<input type="hidden" id="{{tpl:FrontendSessionID}}_register_hidden" name="{{tpl:FrontendSessionID}}_action" value="signup" />
-					<input type="hidden" id="{{tpl:FrontendSessionID}}_register_hidden" name="xd_check" value="{{tpl:FrontendSessionNonce}}" />
-					<input class="submit" type="submit" id="{{tpl:FrontendSessionID}}_register_submit" name="{{tpl:FrontendSessionID}}_register_submit" value="{{tpl:lang Register}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_register_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_register_action" value="signup" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_register_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_register_submit" value="{{tpl:lang Register}}" />
 				</div>
       </fieldset>
 			</form>

@@ -19,4 +19,13 @@ use Dotclear\Module\MyPlugin;
 class My extends MyPlugin
 {
     public const USER_PENDING = -201;
+
+    public const SESSION_CONNECTED    = 'connected';
+    public const SESSION_DISCONNECTED = 'disconnected';
+    public const SESSION_PENDING      = 'pending';
+
+    public const ACTION_SIGNIN  = 'signin';
+    public const ACTION_SIGNOUT = 'signout';
+    public const ACTION_SIGNUP  = 'signup';
+    public const ACTION_PENDING = 'pending';
 }

@@ -29,13 +29,13 @@
     margin-right: 10px;
     padding-right: 10px;
     text-align: right;
-    width: 180px;
+    width: 240px;
 }
 .login input {
     display: inline-block;
 }
 .login p.note, .login form fieldset div.controlset {
     clear: left;
-    margin: 0 0 0 190px;
+    margin: 0 0 0 250px;
     font-style: italic;
 }

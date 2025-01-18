@@ -7,6 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Frontend\Tpl;
+use Dotclear\Helper\Html\Html;
 
 /**
  * @brief       FrontendSession module template specifics.
@@ -44,9 +45,9 @@ class FrontendTemplate
             $if[] = $sign($attr['registration']) . My::CLASS . '::settings()->get(\'active_registration\')';
         }
 
-        // allow registration
-        if (isset($attr['authenticate'])) {
-            $if[] = '!(App::auth()->userID() ' . $sign($attr['authenticate']) . '== \'\')';
+        // session state
+        if (isset($attr['session'])) {
+            $if[] = "App::frontend()->context()->session_state == '" . Html::escapeHTML($attr['session']) . "'";
         }
 
         return empty($if) ?
@@ -85,23 +86,13 @@ class FrontendTemplate
     }
 
     /**
-     * Get session page text when user is connected.
+     * Get session page text when user is connected, disconnected, pending.
      *
      * @param   ArrayObject<string, mixed>  $attr       The attributes
      */
-    public static function FrontendSessionConnected(ArrayObject $attr): string
+    public static function FrontendSessionMessage(ArrayObject $attr): string
     {
-        return self::filter($attr, My::class . '::settings()->get(\'connected\')');
-    }
-
-    /**
-     * Get session page text when user is disconnected.
-     *
-     * @param   ArrayObject<string, mixed>  $attr       The attributes
-     */
-    public static function FrontendSessionDisconnected(ArrayObject $attr): string
-    {
-        return self::filter($attr, My::class . '::settings()->get(\'disconnected\')');
+        return self::filter($attr, 'App::frontend()->context()->session_message');
     }
 
     /**
