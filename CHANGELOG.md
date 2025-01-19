@@ -1,3 +1,9 @@
+FrontendSession 0.7 - 2025.01.19
+==========================================================
+* Require Dotclear 2.33-dev
+* Require PHP 8.3
+* Add text editor to blog preference forms
+
 FrontendSession 0.6 - 2025.01.18
 ==========================================================
 * Require Dotclear 2.33-dev
