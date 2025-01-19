@@ -114,6 +114,19 @@ class Backend extends Process
                 $blog_settings->get(My::id())->put(My::SESSION_DISCONNECTED, $_POST[My::id() . 'disconnected']);
                 $blog_settings->get(My::id())->put(My::SESSION_PENDING, $_POST[My::id() . 'pending']);
             },
+            // add js for test editor
+            'adminBlogPreferencesHeaders' => function (): string {
+                return My::jsLoad('backend');
+            },
+            // add our textarea form ID to post editor
+            'adminPostEditorTags' => function (string $editor, string $context, ArrayObject $alt_tags, string $format): void {
+                // there is an existsing postEditor on this page, so we add our textarea to it
+                if ($context == 'blog_desc') {
+                    $alt_tags->append('#' . My::id() . 'connected');
+                    $alt_tags->append('#' . My::id() . 'disconnected');
+                    $alt_tags->append('#' . My::id() . 'pending');
+                }
+            },
             // simple menu type
             'adminSimpleMenuAddType' => function (ArrayObject $items) {
                 if (My::settings()->get('active')) {
@@ -157,7 +170,7 @@ class Backend extends Process
                 if (!$user->isEmpty()) {
                     self::mailActivation($user->user_email);
                 }
-            }
+            },
         ]);
 
         return true;
