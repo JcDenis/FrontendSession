@@ -52,7 +52,7 @@
 					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_page_redir" value="{{tpl:SysSelfURI}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_page_action" value="signin" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_page_check" value="{{tpl:FrontendSessionNonce}}" />
-					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_page_submit" value="{{tpl:lang Connect}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_page_submit" value="{{tpl:lang Sign in}}" />
 				</div>
 			</form>
 		</div>
@@ -84,12 +84,12 @@
         </div>
         
         <div class="required">
-          <label for="{{tpl:FrontendSessionID}}_user_email">{{tpl:lang E-mail:}}</label>
+          <label for="{{tpl:FrontendSessionID}}_user_email">{{tpl:lang Email:}}</label>
           <input type="text" size="30" name="{{tpl:FrontendSessionID}}user_email" id="{{tpl:FrontendSessionID}}_user_email" maxlength="512"
           value="" />
         </div>
         <div class="required">
-          <label for="{{tpl:FrontendSessionID}}_user_esecond">{{tpl:lang Repeat e-mail:}}</label>
+          <label for="{{tpl:FrontendSessionID}}_user_esecond">{{tpl:lang Repeat email:}}</label>
           <input type="text" size="30" name="{{tpl:FrontendSessionID}}user_esecond" id="{{tpl:FrontendSessionID}}_user_esecond" maxlength="512"
           value="" />
         </div>
@@ -107,7 +107,60 @@
 					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_register_redir" value="{{tpl:SysSelfURI}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_register_action" value="signup" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_register_check" value="{{tpl:FrontendSessionNonce}}" />
-					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_register_submit" value="{{tpl:lang Register}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_register_submit" value="{{tpl:lang Sign up}}" />
+				</div>
+      </fieldset>
+			</form>
+		</div>
+	</tpl:FrontendSessionIf>
+	<tpl:FrontendSessionIf session="disconnected">
+		<hr />
+		<div class="login">
+			<h3>{{tpl:lang Password recovery}}</h3>
+			<form method="post" name="{{tpl:FrontendSessionID}recover_form" id="{{tpl:FrontendSessionID}}_recover_form" action="{{tpl:FrontendSessionUrl}}">
+      <fieldset>
+        <legend>{{tpl:lang Password recovery}}</legend>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}_recover_login">{{tpl:lang Username:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}recover_login" id="{{tpl:FrontendSessionID}}_recover_login" maxlength="32"
+          value="" />
+        </div>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}_lost_email">{{tpl:lang Email:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}recover_email" id="{{tpl:FrontendSessionID}}_recover_email" maxlength="512"
+          value="" />
+        </div>
+        <div class="controlset">
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_recover_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_recover_action" value="recover" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_recover_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_recover_submit" value="{{tpl:lang Recover}}" />
+				</div>
+      </fieldset>
+			</form>
+		</div>
+	</tpl:FrontendSessionIf>
+	<tpl:FrontendSessionIf session="newpwd">
+		<div class="login">
+			<h3>{{tpl:lang Password change}}</h3>
+			<form method="post" name="{{tpl:FrontendSessionID}}newpwd_form" id="{{tpl:FrontendSessionID}}_newpwd_form" action="{{tpl:FrontendSessionUrl}}">
+      <fieldset>
+        <legend>{{tpl:lang Password change}}</legend>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}_newpwd_pwd">{{tpl:lang New password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}newpwd_pwd" id="{{tpl:FrontendSessionID}}_newpwd_pwd" maxlength="255" />
+          <p class="note">{{tpl:lang Should be at least 6 characters long.}}</p>
+        </div>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}_newpwd_psecond">{{tpl:lang Repeat new password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}newpwd_psecond" id="{{tpl:FrontendSessionID}}_newpwd_psecond" maxlength="255" />
+        </div>
+        <div class="controlset">
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_newpwd_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}data" id="{{tpl:FrontendSessionID}}_newpwd_data" value="{{tpl:FrontendSessionData}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_newpwd_action" value="newpwd" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_newpwd_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_newpwd_submit" value="{{tpl:lang Change}}" />
 				</div>
       </fieldset>
 			</form>

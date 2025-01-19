@@ -100,6 +100,20 @@ class Session
                 // check if user is not enabled
                 } elseif (App::status()->user()->isRestricted((int) App::auth()->getInfo('user_status'))) {
                     self::resetCookie();
+                    self::redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_PENDING . '/' . My::SESSION_DISABLED);
+                // check if user must change password
+                } elseif (App::auth()->mustChangePassword()) {
+                    $data = implode('/', [
+                        base64_encode($user_id),
+                        Http::browserUID(
+                            App::config()->masterKey() . 
+                            $user_id . 
+                            App::auth()->cryptLegacy($user_id)
+                        ) . bin2hex(pack('a32', $user_id)),
+                        $remember ? '0' : '1',
+                ]);
+                    self::resetCookie();
+                    self::redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_PASSWORD . '/' . urlencode($data));
                 } else {
                     App::session()->start();
                     $_SESSION['sess_user_id']     = $user_id;

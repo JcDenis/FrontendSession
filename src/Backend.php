@@ -161,33 +161,18 @@ class Backend extends Process
             'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING], true);
                 if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED) {
-                    self::mailActivation($user->user_email);
+                    Mail::sendActivationMail($user->user_email);
                 }
 
             },
             'adminBeforeUserEnable' => function (string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
                 if (!$user->isEmpty()) {
-                    self::mailActivation($user->user_email);
+                    Mail::sendActivationMail($user->user_email);
                 }
             },
         ]);
 
         return true;
-    }
-
-    private static function mailActivation(string $user_email): void
-    {
-        // user email
-        My::mailSender(
-            $user_email,
-            __('Confirmation of activation'),
-            wordwrap(
-                sprintf(__('Thank you for your registration on blog "$s"!'), App::blog()->name()) . "\n\n" .
-                __('Your account is now activated.') . "\n",
-                sprintf(__('You can now sign in to: %s'), App::blog()->url() . App::url()->getURLFor(My::id())) . "\n",
-                80
-            )
-        );
     }
 }

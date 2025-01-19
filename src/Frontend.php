@@ -39,6 +39,7 @@ class Frontend extends Process
         App::frontend()->template()->addValue('FrontendSessionUrl', [FrontendTemplate::class, 'FrontendSessionUrl']);
         App::frontend()->template()->addValue('FrontendSessionMessage', [FrontendTemplate::class, 'FrontendSessionMessage']);
         App::frontend()->template()->addValue('FrontendSessionDisplayName', [FrontendTemplate::class, 'FrontendSessionDisplayName']);
+        App::frontend()->template()->addValue('FrontendSessionData', [FrontendTemplate::class, 'FrontendSessionData']);
 
         // behaviors
         App::behavior()->addBehaviors([

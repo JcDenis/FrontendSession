@@ -13,6 +13,7 @@ use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Helper\Text;
 use Exception;
+use Throwable;
 
 /**
  * @brief       FrontendSession module URL handler.
@@ -34,18 +35,22 @@ class UrlHandler extends Url
             self::p404();
         }
 
-        $action = '';
+        $action = $more = '';
 
         // action from URL
         if (!is_null($args)) {
             $args = substr($args, 1);
             $args = explode('/', $args);
             $action = $args[0];
+            $more = $args[1] ?? '';
         }
 
         // action from POST form
         if (!empty($_POST[My::id() . 'action'])) {
             $action = $_POST[My::id() . 'action'];
+        }
+        if (!empty($_POST[My::id() . 'more'])) {
+            $more = $_POST[My::id() . 'more'];
         }
 
         App::frontend()->context()->session_state   = App::auth()->userID() == '' ? My::SESSION_DISCONNECTED : My::SESSION_CONNECTED;
@@ -119,8 +124,8 @@ class UrlHandler extends Url
                             App::frontend()->context()->form_error = __('Thank you for your registration. An administrator will validate your request soon.');
                             
                             // send confirmation email
-                            self::sendRegistrationMail($r_user_id, $r_user_pwd, $r_user_email);
-                        } catch (Exception) {
+                            Mail::sendRegistrationMail($r_user_id, $r_user_pwd, $r_user_email);
+                        } catch (Throwable) {
                             $err[] = __('Something went wrong while trying to register user.');
                         }
                     }
@@ -134,10 +139,90 @@ class UrlHandler extends Url
 
             case My::ACTION_PENDING:
                 if (App::auth()->userID() == '') {
-                    App::frontend()->context()->form_error      = __('Account is not yet activated.');
+                    App::frontend()->context()->form_error      = $more == My::SESSION_DISABLED ? __('This account is disabled.') : __('Account is not yet activated.');
                     App::frontend()->context()->session_state   = My::SESSION_PENDING;
-                    App::frontend()->context()->session_message = My::settings()->get(My::SESSION_PENDING);
+                    App::frontend()->context()->session_message = $more == My::SESSION_DISABLED ? '' : My::settings()->get(My::SESSION_PENDING);
                 }
+                self::serveTemplate(My::id() . '.html');
+                break;
+
+            case My::ACTION_RECOVER:
+                $user_id    = $_POST[My::id() . 'recover_login'] ?? '';
+                $user_email = $_POST[My::id() . 'recover_email'] ?? '';
+
+                // change password from recovery email
+                if (!empty($more)) {
+                    try {
+                        $res = App::auth()->recoverUserPassword($more);
+                        Mail::sendPasswordMail($res['user_id'], $res['new_pass'], $res['user_email']);
+                        App::frontend()->context()->form_error = __('Your new password is in your mailbox.');
+                    } catch(Throwable $e) {pdump($e->getMessage());
+                        App::frontend()->context()->form_error = __('Unknow username or email.');
+                    }
+                // send recovery email
+                } elseif (App::auth()->userID() == '' && !empty($user_id) && !empty($user_email)) {
+                    try {
+                        $user_key = App::auth()->setRecoverKey($user_id, $user_email);
+                        Mail::sendRecoveryMail($user_id, $user_key, $user_email);
+                        App::frontend()->context()->form_error = sprintf(__('The e-mail was sent successfully to %s.'), $user_email);
+                    } catch(Throwable) {
+                        App::frontend()->context()->form_error = __('Unknow username or email.');
+                    }
+                }
+                self::serveTemplate(My::id() . '.html');
+                break;
+
+            case My::ACTION_PASSWORD:
+                // set data for post from
+                if (!is_null($args) && count($args) == 4 && empty($_POST[My::id() . 'data'])) {
+                    App::frontend()->context()->session_state = My::SESSION_PASSWORD;
+                    App::frontend()->context()->session_data  = $args[1] . '/' . $args[2] . '/' . $args[3];
+                } elseif (!empty($_POST[My::id() . 'data'])) {
+                    App::frontend()->context()->session_state = My::SESSION_PASSWORD;
+                    App::frontend()->context()->session_data  = $_POST[My::id() . 'data'];
+
+                    // decode data
+                    $data     = explode('/', $_POST[My::id() . 'data']);
+                    $user     = base64_decode($data[0] ?? '', true);
+                    $cookie   = $data[1] ?? '';
+                    $remember = ($args[2] ?? 0) === '1';
+                    $check    = false;
+                    $user_pwd = $_POST[My::id() . 'newpwd_pwd'] ?? '';
+
+                    if ($user !== false && strlen($cookie) == 104) {
+                        $user_id = substr($cookie, 40);
+                        $user_id = @unpack('a32', @pack('H*', $user_id));
+                        if (is_array($user_id)) {
+                            $user_id  = trim($user);
+                            $user_key = substr($cookie, 0, 40);
+                            $check    = App::auth()->checkUser($user_id, null, $user_key);
+                        } else {
+                            $user_id = trim((string) $user_id);
+                        }
+                    }
+
+                    if (!$check) {
+                        App::frontend()->context()->form_error = __("Unable to retrieve user informations.");
+                    } elseif (empty($user_pwd) || $user_pwd != $_POST[My::id() . 'newpwd_psecond']) {
+                        App::frontend()->context()->form_error = __("Passwords don't match");
+                    } elseif (App::auth()->checkUser($user_id, $user_pwd)) {
+                        App::frontend()->context()->form_error = __("You didn't change your password.");
+                    } else {
+                        // change user password
+                        try {
+                            $cur                  = App::auth()->openUserCursor();
+                            $cur->user_change_pwd = 0;
+                            $cur->user_pwd        = $user_pwd;
+                            App::users()->updUser($user_id, $cur);
+
+                            // sign in user
+                            Session::checkUser($user_id, $user_pwd, null, null, $remember);
+                        } catch (Throwable $e) {
+                            App::frontend()->context()->form_error = $e->getMessage();
+                        }
+                    }
+                }
+
                 self::serveTemplate(My::id() . '.html');
                 break;
 
@@ -165,49 +250,5 @@ class UrlHandler extends Url
         }
 
         self::serveDocument($tpl);
-    }
-
-    /**
-     * Send registration email.
-     */
-    private static function sendRegistrationMail(string $user_id, string $user_pwd, string $user_email): void
-    {
-        // user email
-        My::mailSender(
-            $user_email,
-            __('Confirmation of registration'),
-            wordwrap(
-                sprintf(__('Thank you for your registration on blog "%s"!'), App::blog()->name()) . "\n\n" .
-                sprintf(__('Blog URL: %s'), App::blog()->url()) . "\n" .
-                sprintf(__('Your login: %s'), $user_id) . "\n" .
-                sprintf(__('Your password: %s'), $user_pwd) . "\n\n" .
-                __('Administrators need to review before activate your account but they will do it as soon as possible.') . "\n" .
-                __('You will receive an email when it will be ready.') . "\n",
-                80
-            )
-        );
-
-        // admin email
-        foreach(explode(',', (string) My::settings()->get('email_registration')) as $mail) {
-            if (!empty(trim($mail))) {
-                My::mailSender(
-                    trim($mail),
-                    __('New user registration'),
-                    wordwrap(
-                        sprintf(__('A new user registration has been made on blog "%s" (%s)!'), App::blog()->name(), App::blog()->id()) . "\n\n" .
-                        sprintf(__('User login is: %s'), $user_id) . "\n" .
-                        sprintf(__('User email is: %s'), $user_email) . "\n" .
-                        __('Administrators need to review user account and activate it.') . "\n" .
-                        App::config()->adminUrl() . '?' . http_build_query([
-                            'process' => 'Users',
-                            'status' => My::USER_PENDING,
-                            'q' => $user_id,
-                            'switchblog' => App::blog()->id()
-                        ]) . "\n",
-                        80
-                    )
-                );
-            }
-        }
     }
 }

@@ -50,6 +50,11 @@ class FrontendTemplate
             $if[] = "App::frontend()->context()->session_state == '" . Html::escapeHTML($attr['session']) . "'";
         }
 
+        // session message
+        if (isset($attr['message'])) {
+            $if[] = $sign($attr['message']) . "(App::frontend()->context()->session_message != '')";
+        }
+
         return empty($if) ?
             $content :
             '<?php if(' . implode(' ' . $operator . ' ', $if) . ') : ?>' . $content . '<?php endif; ?>';
@@ -120,5 +125,15 @@ class FrontendTemplate
     public static function FrontendSessionDisplayName(ArrayObject $attr): string
     {
         return self::filter($attr, '(App::auth()->userID() != \'\' ? App::auth()->getInfo(\'user_cn\') : \'\')');
+    }
+
+    /**
+     * Get session data for password changes.
+     *
+     * @param   ArrayObject<string, mixed>  $attr       The attributes
+     */
+    public static function FrontendSessionData(ArrayObject $attr): string
+    {
+        return self::filter($attr, 'App::frontend()->context()->session_data ?? ""');
     }
 }

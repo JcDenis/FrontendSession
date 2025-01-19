@@ -1,6 +1,6 @@
 # Language: Français
 # Module: FrontendSession - 0.7
-# Date: 2025-01-19 09:52:40
+# Date: 2025-01-19 23:19:07
 # Author: , contact@jcdenis.fr
 # Translated with translater 2023.11.04
 
@@ -9,7 +9,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: FrontendSession 0.7\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-01-19T09:52:40+00:00\n"
+"PO-Revision-Date: 2025-01-19T23:19:07+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,7 @@ msgid "Login:"
 msgstr "Identifiant :"
 
 #: default-templates/dotty/FrontendSession.html:44
+#: src/Mail.php:84
 #: src/Widgets.php:76
 msgid "Password:"
 msgstr "Mot de passe :"
@@ -58,6 +59,7 @@ msgid "Sign up"
 msgstr "S'inscrire"
 
 #: default-templates/dotty/FrontendSession.html:68
+#: src/Mail.php:83
 msgid "Username:"
 msgstr "Nom d'utilisatrice ou d'utilisateur :"
 
@@ -74,12 +76,13 @@ msgid "Last Name:"
 msgstr "Nom :"
 
 #: default-templates/dotty/FrontendSession.html:87
-msgid "E-mail:"
-msgstr "E-mail :"
+#: src/Mail.php:100
+msgid "Email:"
+msgstr "Email :"
 
 #: default-templates/dotty/FrontendSession.html:92
-msgid "Repeat e-mail:"
-msgstr "Répéter l'e-mail:"
+msgid "Repeat email:"
+msgstr "Répéter l'email :"
 
 #: default-templates/dotty/FrontendSession.html:100
 msgid "Should be at least 6 characters long."
@@ -92,6 +95,30 @@ msgstr "Répéter le mot de passe :"
 #: default-templates/dotty/FrontendSession.html:110
 msgid "Register"
 msgstr "S'enregistrer"
+
+#: default-templates/dotty/FrontendSession.html:119
+msgid "Password recovery"
+msgstr "Mot de passe oublié"
+
+#: default-templates/dotty/FrontendSession.html:137
+msgid "Recover"
+msgstr "Récupérer"
+
+#: default-templates/dotty/FrontendSession.html:145
+msgid "Password change"
+msgstr "Changement de mot de passe"
+
+#: default-templates/dotty/FrontendSession.html:150
+msgid "New password:"
+msgstr "Nouveau mot de passe :"
+
+#: default-templates/dotty/FrontendSession.html:155
+msgid "Repeat new password:"
+msgstr "Répéter le nouveau mot de passe :"
+
+#: default-templates/dotty/FrontendSession.html:163
+msgid "Change"
+msgstr "Changer"
 
 #: src/Backend.php:61
 msgid "Enable sessions on frontend"
@@ -141,105 +168,133 @@ msgstr "Se connecter au blog"
 msgid "User has been successfully marked as pending."
 msgstr "L'utilisateur est été marqué en attente avec succès."
 
-#: src/Backend.php:184
+#: src/Mail.php:61
 msgid "Confirmation of activation"
 msgstr "Confirmation d'activation"
 
-#: src/Backend.php:186
+#: src/Mail.php:63
 msgid "Thank you for your registration on blog \"$s\"!"
 msgstr "Merci pour votre inscription sur le blog \"%s\" !"
 
-#: src/Backend.php:187
+#: src/Mail.php:64
 msgid "Your account is now activated."
 msgstr "Votre compte est maintenant activé."
 
-#: src/Backend.php:188
+#: src/Mail.php:65
 msgid "You can now sign in to: %s"
 msgstr "Vous pouvez vous connecter à l'adresse: %s"
 
-#: src/UrlHandler.php:77
-msgid "This username is not valid."
-msgstr "L'identifiant n'est pas valide."
-
-#: src/UrlHandler.php:79
-msgid "This username is not available."
-msgstr "Cet identifiant n'est pas disponible."
-
-#: src/UrlHandler.php:88
-msgid "Emails missmatch."
-msgstr "L'email ne correspondent pas."
-
-#: src/UrlHandler.php:90
-msgid "Email is not valid."
-msgstr "L'email n'est pas valide."
-
-#: src/UrlHandler.php:96
-msgid "Passwords missmatch."
-msgstr "Les mots de passe ne correspondent pas."
-
-#: src/UrlHandler.php:98
-msgid "Password must be at lesat 6 characters long."
-msgstr "Le mot de passe n'est pas valide."
-
-#: src/UrlHandler.php:119
-msgid "Thank you for your registration. An administrator will validate your request soon."
-msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
-
-#: src/UrlHandler.php:124
-msgid "Something went wrong while trying to register user."
-msgstr "Quelques choses a mal tourné lors de votre enregistrement."
-
-#: src/UrlHandler.php:137
-msgid "Account is not yet activated."
-msgstr "Ce compte n'est pas encore activé."
-
-#: src/UrlHandler.php:178
+#: src/Mail.php:79
 msgid "Confirmation of registration"
 msgstr "Confirmation d'inscription"
 
-#: src/UrlHandler.php:180
+#: src/Mail.php:81
 msgid "Thank you for your registration on blog \"%s\"!"
 msgstr "Merci pour votre inscription sur le blog \"%s\" !"
 
-#: src/UrlHandler.php:181
-msgid "Blog URL: %s"
-msgstr "URL du blog : %s"
+#: src/Mail.php:82
+msgid "Site:"
+msgstr "Site :"
 
-#: src/UrlHandler.php:182
-msgid "Your login: %s"
-msgstr "Votre identifiant : %s"
-
-#: src/UrlHandler.php:183
-msgid "Your password: %s"
-msgstr "Votre mot de passe : %s"
-
-#: src/UrlHandler.php:184
+#: src/Mail.php:85
 msgid "Administrators need to review before activate your account but they will do it as soon as possible."
 msgstr "Un administrateur doit vérifier votre inscription avant activation de votre compte. Ce sera fait aussi vite que posible."
 
-#: src/UrlHandler.php:185
+#: src/Mail.php:86
 msgid "You will receive an email when it will be ready."
 msgstr "Vous recevrez un email lorsque ce sera prêt."
 
-#: src/UrlHandler.php:195
+#: src/Mail.php:96
 msgid "New user registration"
 msgstr "Nouvelle inscription"
 
-#: src/UrlHandler.php:197
+#: src/Mail.php:98
 msgid "A new user registration has been made on blog \"%s\" (%s)!"
-msgstr "Une nouvelle inscription d'utilisateur a été faite sur le blog %s !"
+msgstr "Une nouvelle inscription d'utilisateur a été faite sur le blog \"%s\" (%s) !"
 
-#: src/UrlHandler.php:198
-msgid "User login is: %s"
-msgstr "Identifiant : %s"
-
-#: src/UrlHandler.php:199
-msgid "User email is: %s"
-msgstr "Mail : %s"
-
-#: src/UrlHandler.php:200
+#: src/Mail.php:101
 msgid "Administrators need to review user account and activate it."
 msgstr "Un administrateur doit vérifier et activer l'utilisateur."
+
+#: src/Mail.php:122
+msgid "Password reset"
+msgstr "Réinitialisation du mot de passe"
+
+#: src/Mail.php:124
+msgid "Someone has requested to reset the password for the following site and username."
+msgstr "Quelqu'un a demandé la réinitialisation du mot de passe pour le site et l'utilisateur·rice suivants."
+
+#: src/Mail.php:127
+msgid "To reset your password visit the following address, otherwise just ignore this email and nothing will happen."
+msgstr "Pour réinitialiser votre mot de passe, rendez-vous à l'adresse suivante. Sinon ignorez simplement ce message et rien ne se passera."
+
+#: src/Mail.php:141
+msgid "Your new password"
+msgstr "Votre nouveau mot de passe"
+
+#: src/Mail.php:147
+msgid "To change this password visit the following address and sign in with these idents."
+msgstr "Pour changer le mot de passe, rendez-vous à l'adresse suivante et connectez vous avec ces identifiants."
+
+#: src/UrlHandler.php:82
+msgid "This username is not valid."
+msgstr "L'identifiant n'est pas valide."
+
+#: src/UrlHandler.php:84
+msgid "This username is not available."
+msgstr "Cet identifiant n'est pas disponible."
+
+#: src/UrlHandler.php:93
+msgid "Emails missmatch."
+msgstr "L'email ne correspondent pas."
+
+#: src/UrlHandler.php:95
+msgid "Email is not valid."
+msgstr "L'email n'est pas valide."
+
+#: src/UrlHandler.php:101
+msgid "Passwords missmatch."
+msgstr "Les mots de passe ne correspondent pas."
+
+#: src/UrlHandler.php:103
+msgid "Password must be at lesat 6 characters long."
+msgstr "Le mot de passe n'est pas valide."
+
+#: src/UrlHandler.php:124
+msgid "Thank you for your registration. An administrator will validate your request soon."
+msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
+
+#: src/UrlHandler.php:129
+msgid "Something went wrong while trying to register user."
+msgstr "Quelques choses a mal tourné lors de votre enregistrement."
+
+#: src/UrlHandler.php:142
+msgid "Account is not yet activated."
+msgstr "Ce compte n'est pas encore activé."
+
+#: src/UrlHandler.php:158
+msgid "Your new password is in your mailbox."
+msgstr "Votre nouveau mot de passe est dans votre boîte à lettres."
+
+#: src/UrlHandler.php:160
+msgid "Unknow username or email."
+msgstr "identifiant ou adresse email inconnu."
+
+#: src/UrlHandler.php:167
+msgid "The e-mail was sent successfully to %s."
+msgstr "Le message a été envoyé à %s."
+
+#: src/UrlHandler.php:205
+msgid "Unable to retrieve user informations."
+msgstr "Impossible de retrouver les informations de l'utilisateur."
+
+#: src/UrlHandler.php:207
+msgid "Passwords don't match"
+msgstr "Les mots de passe ne correspondent pas"
+
+#: src/UrlHandler.php:209
+msgid "You didn't change your password."
+msgstr "Vous n'avez pas changé votre mot de passe."
 
 #: src/Widgets.php:33
 msgid "Frontend session"
