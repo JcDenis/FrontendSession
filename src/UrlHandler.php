@@ -177,9 +177,10 @@ class UrlHandler extends Url
             $user_email,
             __('Confirmation of registration'),
             wordwrap(
-                sprintf(__('Thank you for your registration on blog %s!'), App::blog()->id()) . "\n\n" .
-                sprintf(__('Your login is: %s'), $user_id) . "\n" .
-                sprintf(__('Your password is: %s'), $user_pwd) . "\n\n" .
+                sprintf(__('Thank you for your registration on blog "%s"!'), App::blog()->name()) . "\n\n" .
+                sprintf(__('Blog URL: %s'), App::blog()->url()) . "\n" .
+                sprintf(__('Your login: %s'), $user_id) . "\n" .
+                sprintf(__('Your password: %s'), $user_pwd) . "\n\n" .
                 __('Administrators need to review before activate your account but they will do it as soon as possible.') . "\n" .
                 __('You will receive an email when it will be ready.') . "\n",
                 80
@@ -193,15 +194,16 @@ class UrlHandler extends Url
                     trim($mail),
                     __('New user registration'),
                     wordwrap(
-                        sprintf(__('A new user registration has been made on blog %s!'), App::blog()->id()) . "\n\n" .
+                        sprintf(__('A new user registration has been made on blog "%s" (%s)!'), App::blog()->name(), App::blog()->id()) . "\n\n" .
                         sprintf(__('User login is: %s'), $user_id) . "\n" .
                         sprintf(__('User email is: %s'), $user_email) . "\n" .
                         __('Administrators need to review user account and activate it.') . "\n" .
                         App::config()->adminUrl() . '?' . http_build_query([
-                                'status' => My::USER_PENDING,
-                                'q' => $user_id,
-                                'switchblog' => App::blog()->id()
-                            ]) . "\n",
+                            'process' => 'Users',
+                            'status' => My::USER_PENDING,
+                            'q' => $user_id,
+                            'switchblog' => App::blog()->id()
+                        ]) . "\n",
                         80
                     )
                 );

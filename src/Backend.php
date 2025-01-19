@@ -183,8 +183,9 @@ class Backend extends Process
             $user_email,
             __('Confirmation of activation'),
             wordwrap(
-                sprintf(__('Thank you for your registration on blog %1$s!'), App::blog()->id()) . "\n\n" .
+                sprintf(__('Thank you for your registration on blog "$s"!'), App::blog()->name()) . "\n\n" .
                 __('Your account is now activated.') . "\n",
+                sprintf(__('You can now sign in to: %s'), App::blog()->url() . App::url()->getURLFor(My::id())) . "\n",
                 80
             )
         );
