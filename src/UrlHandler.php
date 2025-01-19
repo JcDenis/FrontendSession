@@ -177,7 +177,7 @@ class UrlHandler extends Url
             $user_email,
             __('Confirmation of registration'),
             wordwrap(
-                sprintf(__('Thank you for your registration on blog %1$s!'), App::blog()->id()) . "\n\n" .
+                sprintf(__('Thank you for your registration on blog %s!'), App::blog()->id()) . "\n\n" .
                 sprintf(__('Your login is: %s'), $user_id) . "\n" .
                 sprintf(__('Your password is: %s'), $user_pwd) . "\n\n" .
                 __('Administrators need to review before activate your account but they will do it as soon as possible.') . "\n" .
