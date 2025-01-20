@@ -30,7 +30,7 @@ class Frontend extends Process
         }
 
         // locales in public file
-        l10n::set(dirname(__DIR__) . '/locales/' . App::lang()->getLang() . '/public');
+        L10n::set(dirname(__DIR__) . '/locales/' . App::lang()->getLang() . '/public');
 
         // template values and block
         App::frontend()->template()->addBlock('FrontendSessionIf', [FrontendTemplate::class, 'FrontendSessionIf']);
@@ -57,7 +57,7 @@ class Frontend extends Process
         Session::checkCookie();
 
         // Check nonce from POST requests
-        if ($_POST !== [] && (empty($_POST[My::id() . 'xd_check']) || !App::nonce()->checkNonce($_POST[My::id() . 'xd_check']))) {
+        if ($_POST !== [] && (empty($_POST[My::id() . 'check']) || !App::nonce()->checkNonce($_POST[My::id() . 'check']))) {
             throw new PreconditionException();
         }
 

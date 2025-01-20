@@ -4,16 +4,9 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
-use ArrayObject;
 use Dotclear\App;
-use Dotclear\Core\Frontend\Url;
-use Dotclear\Core\Frontend\Utility;
-use Dotclear\Helper\File\Path;
-use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Helper\Network\Mail\Mail as RootMail;
-use Dotclear\Helper\Text;
-use Exception;
 
 /**
  * @brief       FrontendSession module mail helper.

@@ -64,11 +64,19 @@ class Backend extends Process
                             ]),
                         (new Para())
                             ->items([
-                                (new Checkbox(My::id() . 'active_registration', (bool) $blog_settings->get(My::id())->get('active_registration')))
+                                (new Checkbox(My::id() . 'enable_registration', (bool) $blog_settings->get(My::id())->get('enable_registration')))
                                     ->value(1),
-                                (new Label(__('Activate registration form on frontend'), Label::OUTSIDE_LABEL_AFTER))
+                                (new Label(__('Enable user registration form on frontend'), Label::OUTSIDE_LABEL_AFTER))
                                     ->class('classic')
-                                    ->for(My::id() . 'active_registration'),
+                                    ->for(My::id() . 'enable_registration'),
+                            ]),
+                        (new Para())
+                            ->items([
+                                (new Checkbox(My::id() . 'enable_recovery', (bool) $blog_settings->get(My::id())->get('enable_recovery')))
+                                    ->value(1),
+                                (new Label(__('Enable user password recovery form on frontend'), Label::OUTSIDE_LABEL_AFTER))
+                                    ->class('classic')
+                                    ->for(My::id() . 'enable_recovery'),
                             ]),
                         (new Para())->items([
                             (new Label(__('Registration administrator email:')))->for(My::id() . 'email_registration'),
@@ -82,24 +90,17 @@ class Backend extends Process
                         (new Note())->class('form-note')->text(__('This is mail address used on registration confirmation email.')),
                         (new Para())
                             ->items([
-                                (new Textarea(My::id() . 'connected', Html::escapeHTML((string) $blog_settings->get(My::id())->get(My::SESSION_CONNECTED))))
+                                (new Textarea(My::id() . 'connected', Html::escapeHTML((string) $blog_settings->get(My::id())->get('connected'))))
                                     ->rows(6)
                                     ->class('maximal')
                                     ->label((new Label(__('Text to display on login page when user is connected:'), Label::OL_TF))),
                             ]),
                         (new Para())
                             ->items([
-                                (new Textarea(My::id() . 'disconnected', Html::escapeHTML((string) $blog_settings->get(My::id())->get(My::SESSION_DISCONNECTED))))
+                                (new Textarea(My::id() . 'disconnected', Html::escapeHTML((string) $blog_settings->get(My::id())->get('disconnected'))))
                                     ->rows(6)
                                     ->class('maximal')
                                     ->label((new Label(__('Text to display on login page when user is disconnected:'), Label::OL_TF))),
-                            ]),
-                        (new Para())
-                            ->items([
-                                (new Textarea(My::id() . 'pending', Html::escapeHTML((string) $blog_settings->get(My::id())->get(My::SESSION_PENDING))))
-                                    ->rows(6)
-                                    ->class('maximal')
-                                    ->label((new Label(__('Text to display on login page when user is pending activation:'), Label::OL_TF))),
                             ]),
                     ])
                     ->render();
@@ -107,12 +108,12 @@ class Backend extends Process
             // blog settings update
             'adminBeforeBlogSettingsUpdate' => function (BlogSettingsInterface $blog_settings): void {
                 $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']));
-                $blog_settings->get(My::id())->put('active_registration', !empty($_POST[My::id() . 'active_registration']));
+                $blog_settings->get(My::id())->put('enable_registration', !empty($_POST[My::id() . 'enable_registration']));
+                $blog_settings->get(My::id())->put('enable_recovery', !empty($_POST[My::id() . 'enable_recovery']));
                 $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration']);
                 $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from']);
-                $blog_settings->get(My::id())->put(My::SESSION_CONNECTED, $_POST[My::id() . 'connected']);
-                $blog_settings->get(My::id())->put(My::SESSION_DISCONNECTED, $_POST[My::id() . 'disconnected']);
-                $blog_settings->get(My::id())->put(My::SESSION_PENDING, $_POST[My::id() . 'pending']);
+                $blog_settings->get(My::id())->put('connected', $_POST[My::id() . 'connected']);
+                $blog_settings->get(My::id())->put('disconnected', $_POST[My::id() . 'disconnected']);
             },
             // add js for test editor
             'adminBlogPreferencesHeaders' => function (): string {
@@ -124,7 +125,6 @@ class Backend extends Process
                 if ($context == 'blog_desc') {
                     $alt_tags->append('#' . My::id() . 'connected');
                     $alt_tags->append('#' . My::id() . 'disconnected');
-                    $alt_tags->append('#' . My::id() . 'pending');
                 }
             },
             // simple menu type

@@ -42,17 +42,15 @@ class FrontendTemplate
 
         // allow registration
         if (isset($attr['registration'])) {
-            $if[] = $sign($attr['registration']) . My::CLASS . '::settings()->get(\'active_registration\')';
+            $if[] = $sign($attr['registration']) . My::CLASS . "::settings()->get('enable_registration')";
         }
-
+        // allow password recovery
+        if (isset($attr['recovery'])) {
+            $if[] = $sign($attr['recovery']) . My::CLASS . "::settings()->get('enable_recovery')";
+        }
         // session state
-        if (isset($attr['session'])) {
-            $if[] = "App::frontend()->context()->session_state == '" . Html::escapeHTML($attr['session']) . "'";
-        }
-
-        // session message
-        if (isset($attr['message'])) {
-            $if[] = $sign($attr['message']) . "(App::frontend()->context()->session_message != '')";
+        if (isset($attr['state'])) {
+            $if[] = "App::frontend()->context()->session_state == '" . Html::escapeHTML($attr['state']) . "'";
         }
 
         return empty($if) ?
@@ -91,30 +89,13 @@ class FrontendTemplate
     }
 
     /**
-     * Get session page text when user is connected, disconnected, pending.
+     * Get session page text when user is (dis)connected.
      *
      * @param   ArrayObject<string, mixed>  $attr       The attributes
      */
     public static function FrontendSessionMessage(ArrayObject $attr): string
     {
-        return self::filter($attr, 'App::frontend()->context()->session_message');
-    }
-
-    /**
-     * Check if user is authenticate.
-     *
-     * @param   ArrayObject<string, mixed>  $attr       The attributes
-     */
-    public static function FrontendSessionIsAuth(ArrayObject $attr, string $content): string
-    {
-        $if = 'App::auth()->userID()';
-
-        if (isset($attr['true'])) {
-            $sign = (bool) $attr['true'] ? '' : '!';
-            $if   = $sign . '(' . $if . ')';
-        }
-
-        return '<?php if(' . $if . ') : ?>' . $content . '<?php endif; ?>';
+        return self::filter($attr, My::CLASS . "::settings()->get(App::auth()->userID() == '' ? 'disconnected' : 'connected')");
     }
 
     /**
@@ -124,7 +105,7 @@ class FrontendTemplate
      */
     public static function FrontendSessionDisplayName(ArrayObject $attr): string
     {
-        return self::filter($attr, '(App::auth()->userID() != \'\' ? App::auth()->getInfo(\'user_cn\') : \'\')');
+        return self::filter($attr, "(App::auth()->userID() != '' ? App::auth()->getInfo('user_cn') : '')");
     }
 
     /**

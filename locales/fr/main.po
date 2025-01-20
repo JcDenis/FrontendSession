@@ -1,15 +1,15 @@
 # Language: Français
-# Module: FrontendSession - 0.7
-# Date: 2025-01-19 23:19:07
+# Module: FrontendSession - 0.7.1
+# Date: 2025-01-20 10:17:05
 # Author: , contact@jcdenis.fr
 # Translated with translater 2023.11.04
 
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: FrontendSession 0.7\n"
+"Project-Id-Version: FrontendSession 0.7.1\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-01-19T23:19:07+00:00\n"
+"PO-Revision-Date: 2025-01-20T10:17:05+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgid "Connexion"
 msgstr "Connexion"
 
 #: default-templates/dotty/FrontendSession.html:27
-#: src/Widgets.php:58
+#: src/Widgets.php:55
 msgid "You are connected as:"
 msgstr "Vous êtes :"
 
@@ -35,13 +35,13 @@ msgid "Sign in"
 msgstr "Se connecter"
 
 #: default-templates/dotty/FrontendSession.html:40
-#: src/Widgets.php:72
+#: src/Widgets.php:66
 msgid "Login:"
 msgstr "Identifiant :"
 
 #: default-templates/dotty/FrontendSession.html:44
-#: src/Mail.php:84
-#: src/Widgets.php:76
+#: src/Mail.php:77
+#: src/Widgets.php:70
 msgid "Password:"
 msgstr "Mot de passe :"
 
@@ -49,17 +49,12 @@ msgstr "Mot de passe :"
 msgid "Remember me:"
 msgstr "Se souvenir de moi :"
 
-#: default-templates/dotty/FrontendSession.html:55
-#: src/Widgets.php:86
-msgid "Connect"
-msgstr "Se connecter"
-
 #: default-templates/dotty/FrontendSession.html:63
 msgid "Sign up"
 msgstr "S'inscrire"
 
 #: default-templates/dotty/FrontendSession.html:68
-#: src/Mail.php:83
+#: src/Mail.php:76
 msgid "Username:"
 msgstr "Nom d'utilisatrice ou d'utilisateur :"
 
@@ -76,7 +71,7 @@ msgid "Last Name:"
 msgstr "Nom :"
 
 #: default-templates/dotty/FrontendSession.html:87
-#: src/Mail.php:100
+#: src/Mail.php:93
 msgid "Email:"
 msgstr "Email :"
 
@@ -91,10 +86,6 @@ msgstr "Doit contenir au moins 6 caractères."
 #: default-templates/dotty/FrontendSession.html:103
 msgid "Repeat password:"
 msgstr "Répéter le mot de passe :"
-
-#: default-templates/dotty/FrontendSession.html:110
-msgid "Register"
-msgstr "S'enregistrer"
 
 #: default-templates/dotty/FrontendSession.html:119
 msgid "Password recovery"
@@ -125,36 +116,36 @@ msgid "Enable sessions on frontend"
 msgstr "Autoriser les sessions publiques"
 
 #: src/Backend.php:69
-msgid "Activate registration form on frontend"
-msgstr "Activer le formulaire d'inscription publique"
+msgid "Enable user registration form on frontend"
+msgstr "Autoriser le formulaire publique d'inscription"
 
-#: src/Backend.php:74
+#: src/Backend.php:77
+msgid "Enable user password recovery form on frontend"
+msgstr "Autoriser la récupération publique de mot de passe"
+
+#: src/Backend.php:82
 msgid "Registration administrator email:"
 msgstr "Email des superviseurs des inscriptions :"
 
-#: src/Backend.php:77
+#: src/Backend.php:85
 msgid "This is the comma separeted list of administrator mail address who receive new registration notification."
 msgstr "Ceci est la liste séparée par des virgules des adresses mails qui recevront les notification de nouvel inscription d'utilisateurs."
 
-#: src/Backend.php:79
+#: src/Backend.php:87
 msgid "Registration no-reply email:"
 msgstr "Email sans-réponse des inscriptions :"
 
-#: src/Backend.php:82
+#: src/Backend.php:90
 msgid "This is mail address used on registration confirmation email."
 msgstr "Ceci est l'adresse mail utilisée dans la confirmation d'inscription."
 
-#: src/Backend.php:88
+#: src/Backend.php:96
 msgid "Text to display on login page when user is connected:"
 msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est connecté."
 
-#: src/Backend.php:95
+#: src/Backend.php:103
 msgid "Text to display on login page when user is disconnected:"
 msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est déconnecté."
-
-#: src/Backend.php:102
-msgid "Text to display on login page when user is pending activation:"
-msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est en attente de validation."
 
 #: src/Backend.php:133
 msgid "Public login page"
@@ -168,143 +159,159 @@ msgstr "Se connecter au blog"
 msgid "User has been successfully marked as pending."
 msgstr "L'utilisateur est été marqué en attente avec succès."
 
-#: src/Mail.php:61
+#: src/Mail.php:54
 msgid "Confirmation of activation"
 msgstr "Confirmation d'activation"
 
-#: src/Mail.php:63
+#: src/Mail.php:56
 msgid "Thank you for your registration on blog \"$s\"!"
 msgstr "Merci pour votre inscription sur le blog \"%s\" !"
 
-#: src/Mail.php:64
+#: src/Mail.php:57
 msgid "Your account is now activated."
 msgstr "Votre compte est maintenant activé."
 
-#: src/Mail.php:65
+#: src/Mail.php:58
 msgid "You can now sign in to: %s"
 msgstr "Vous pouvez vous connecter à l'adresse: %s"
 
-#: src/Mail.php:79
+#: src/Mail.php:72
 msgid "Confirmation of registration"
 msgstr "Confirmation d'inscription"
 
-#: src/Mail.php:81
+#: src/Mail.php:74
 msgid "Thank you for your registration on blog \"%s\"!"
 msgstr "Merci pour votre inscription sur le blog \"%s\" !"
 
-#: src/Mail.php:82
+#: src/Mail.php:75
 msgid "Site:"
 msgstr "Site :"
 
-#: src/Mail.php:85
+#: src/Mail.php:78
 msgid "Administrators need to review before activate your account but they will do it as soon as possible."
 msgstr "Un administrateur doit vérifier votre inscription avant activation de votre compte. Ce sera fait aussi vite que posible."
 
-#: src/Mail.php:86
+#: src/Mail.php:79
 msgid "You will receive an email when it will be ready."
 msgstr "Vous recevrez un email lorsque ce sera prêt."
 
-#: src/Mail.php:96
+#: src/Mail.php:89
 msgid "New user registration"
 msgstr "Nouvelle inscription"
 
-#: src/Mail.php:98
+#: src/Mail.php:91
 msgid "A new user registration has been made on blog \"%s\" (%s)!"
 msgstr "Une nouvelle inscription d'utilisateur a été faite sur le blog \"%s\" (%s) !"
 
-#: src/Mail.php:101
+#: src/Mail.php:94
 msgid "Administrators need to review user account and activate it."
 msgstr "Un administrateur doit vérifier et activer l'utilisateur."
 
-#: src/Mail.php:122
+#: src/Mail.php:115
 msgid "Password reset"
 msgstr "Réinitialisation du mot de passe"
 
-#: src/Mail.php:124
+#: src/Mail.php:117
 msgid "Someone has requested to reset the password for the following site and username."
 msgstr "Quelqu'un a demandé la réinitialisation du mot de passe pour le site et l'utilisateur·rice suivants."
 
-#: src/Mail.php:127
+#: src/Mail.php:120
 msgid "To reset your password visit the following address, otherwise just ignore this email and nothing will happen."
 msgstr "Pour réinitialiser votre mot de passe, rendez-vous à l'adresse suivante. Sinon ignorez simplement ce message et rien ne se passera."
 
-#: src/Mail.php:141
+#: src/Mail.php:134
 msgid "Your new password"
 msgstr "Votre nouveau mot de passe"
 
-#: src/Mail.php:147
+#: src/Mail.php:140
 msgid "To change this password visit the following address and sign in with these idents."
 msgstr "Pour changer le mot de passe, rendez-vous à l'adresse suivante et connectez vous avec ces identifiants."
 
-#: src/UrlHandler.php:82
+#: src/UrlHandler.php:69
+msgid "This account is disabled."
+msgstr "Ce compte est désactivé."
+
+#: src/UrlHandler.php:69
+msgid "Your account is not yet activated. An administrator will review your account and validate it soon."
+msgstr "Votre compte n'est pas encore activé. Un administrateur vérifiera votre inscription dès que possible."
+
+#: src/UrlHandler.php:88
 msgid "This username is not valid."
 msgstr "L'identifiant n'est pas valide."
 
-#: src/UrlHandler.php:84
+#: src/UrlHandler.php:90
 msgid "This username is not available."
 msgstr "Cet identifiant n'est pas disponible."
 
-#: src/UrlHandler.php:93
+#: src/UrlHandler.php:99
 msgid "Emails missmatch."
 msgstr "L'email ne correspondent pas."
 
-#: src/UrlHandler.php:95
+#: src/UrlHandler.php:101
 msgid "Email is not valid."
 msgstr "L'email n'est pas valide."
 
-#: src/UrlHandler.php:101
+#: src/UrlHandler.php:107
 msgid "Passwords missmatch."
 msgstr "Les mots de passe ne correspondent pas."
 
-#: src/UrlHandler.php:103
+#: src/UrlHandler.php:109
 msgid "Password must be at lesat 6 characters long."
 msgstr "Le mot de passe n'est pas valide."
 
-#: src/UrlHandler.php:124
-msgid "Thank you for your registration. An administrator will validate your request soon."
-msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
-
-#: src/UrlHandler.php:129
+#: src/UrlHandler.php:126
 msgid "Something went wrong while trying to register user."
 msgstr "Quelques choses a mal tourné lors de votre enregistrement."
 
-#: src/UrlHandler.php:142
-msgid "Account is not yet activated."
-msgstr "Ce compte n'est pas encore activé."
+#: src/UrlHandler.php:129
+msgid "Thank you for your registration. An administrator will validate your request soon."
+msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
 
-#: src/UrlHandler.php:158
+#: src/UrlHandler.php:152
 msgid "Your new password is in your mailbox."
 msgstr "Votre nouveau mot de passe est dans votre boîte à lettres."
 
-#: src/UrlHandler.php:160
+#: src/UrlHandler.php:154
 msgid "Unknow username or email."
 msgstr "identifiant ou adresse email inconnu."
 
-#: src/UrlHandler.php:167
+#: src/UrlHandler.php:161
+msgid "You are an admin, you must change password from backend."
+msgstr "Vous êtes administrateur, vous devez changer votre mot de passe depuis l'interface d'administration."
+
+#: src/UrlHandler.php:166
 msgid "The e-mail was sent successfully to %s."
 msgstr "Le message a été envoyé à %s."
 
-#: src/UrlHandler.php:205
+#: src/UrlHandler.php:180
+msgid "You must set a new password."
+msgstr "Vous devez changer votre mot de passe."
+
+#: src/UrlHandler.php:213
 msgid "Unable to retrieve user informations."
 msgstr "Impossible de retrouver les informations de l'utilisateur."
 
-#: src/UrlHandler.php:207
+#: src/UrlHandler.php:215
 msgid "Passwords don't match"
 msgstr "Les mots de passe ne correspondent pas"
 
-#: src/UrlHandler.php:209
+#: src/UrlHandler.php:217
 msgid "You didn't change your password."
 msgstr "Vous n'avez pas changé votre mot de passe."
 
-#: src/Widgets.php:33
+#: src/Widgets.php:30
 msgid "Frontend session"
 msgstr "Session publique"
 
-#: src/Widgets.php:63
+#: src/Widgets.php:60
 msgid "Disconnect"
 msgstr "Se déconnecter"
 
-#: src/Widgets.php:81
+#: src/Widgets.php:75
 msgid "Remenber me"
 msgstr "Se souvenir de moi"
+
+#: src/Widgets.php:80
+msgid "Connect"
+msgstr "Se connecter"
 

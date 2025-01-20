@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Database\MetaRecord;
-use Dotclear\Helper\Html\Form\Hidden;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
-use Dotclear\Plugin\widgets\Widgets as dcWidgets;
 use Dotclear\Plugin\widgets\WidgetsElement;
 use Dotclear\Plugin\widgets\WidgetsStack;
 
@@ -59,16 +56,13 @@ class Widgets
                 '<form method="post" name="' . My::id() . 'form" id="' . My::id() . 'widget_form_out" action="' . $url . '">' .
                 '<p>' .
                     '<input type="hidden" id="' . My::id() . 'widget_action" name="' . My::id() . 'action" value="' . My::ACTION_SIGNOUT . '" />' .
-                    '<input type="hidden" id="' . My::id() . 'widget_check" name="' . My::id() . 'xd_check" value="' . App::nonce()->getNonce() . '" />' .
+                    '<input type="hidden" id="' . My::id() . 'widget_check" name="' . My::id() . 'check" value="' . App::nonce()->getNonce() . '" />' .
                     '<input class="submit" type="submit" id="' . My::id() . 'widget_submit" name="' . My::id() . 'submit" value="' . __('Disconnect') . '" />' .
                 '</p>' .
                 '</form>';
         } else {
-            $res .= '<form method="post" name="' . My::id() . 'form" id="' . My::id() . 'widget_form" action="' . $url . '">';
-            if (App::frontend()->context()->form_error !== null) {
-                //$res .= '<p class="erreur">' . Html::escapeHTML(App::frontend()->context()->form_error) . '</p>';
-            }
-            $res .= '<p>' .
+            $res .= '<form method="post" name="' . My::id() . 'form" id="' . My::id() . 'widget_form" action="' . $url . '">' .
+                '<p>' .
                     '<label for="' . My::id() . 'login" class="required">' . __('Login:') . '</label><br />' .
                     '<input type="text" id="' . My::id() . '_widget_login" name="' . My::id() . 'login" value="" />' .
                 '</p>' .
@@ -82,7 +76,7 @@ class Widgets
                 '<p>' .
                     '<input type="hidden" id="' . My::id() . 'widget_action" name="' . My::id() . 'action" value="' . My::ACTION_SIGNIN . '" />' .
                     '<input type="hidden" id="' . My::id() . 'widget_redir" name="' . My::id() . 'redir" value="' . Http::getSelfURI() . '" />' .
-                    '<input type="hidden" id="' . My::id() . 'widget_check" name="' . My::id() . 'xd_check" value="' . App::nonce()->getNonce() . '" />' .
+                    '<input type="hidden" id="' . My::id() . 'widget_check" name="' . My::id() . 'check" value="' . App::nonce()->getNonce() . '" />' .
                     '<input class="submit" type="submit" id="' . My::id() . 'widget_submit" name="' . My::id() . 'submit" value="' . __('Connect') . '" />' .
                 '</p>' .
                 '</form>';

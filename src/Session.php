@@ -96,11 +96,11 @@ class Session
                 // check if user is pending activation
                 if ((int) App::auth()->getInfo('user_status') == My::USER_PENDING) {
                     self::resetCookie();
-                    self::redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_PENDING);
+                    self::redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_SIGNIN . '/' . My::STATE_PENDING);
                 // check if user is not enabled
                 } elseif (App::status()->user()->isRestricted((int) App::auth()->getInfo('user_status'))) {
                     self::resetCookie();
-                    self::redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_PENDING . '/' . My::SESSION_DISABLED);
+                    self::redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_SIGNIN . '/' . My::STATE_DISABLED);
                 // check if user must change password
                 } elseif (App::auth()->mustChangePassword()) {
                     $data = implode('/', [

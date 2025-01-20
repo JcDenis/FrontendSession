@@ -23,14 +23,14 @@
 			<div class="info">{{tpl:FrontendSessionMessage}}</div>
   </header>
   <div class="content-inner">
-		<tpl:FrontendSessionIf session="connected">
+		<tpl:FrontendSessionIf state="connected">
 			<p>{{tpl:lang You are connected as:}} {{tpl:FrontendSessionDisplayName}}</p>
 			<p><a href="{{tpl:FrontendSessionUrl signout="1"}}">{{tpl:lang Logout}}</a></p>
 		</tpl:FrontendSessionIf>
 			<tpl:SysIfFormError>
 			<p class="error">{{tpl:SysFormError}}</p>
 			</tpl:SysIfFormError>
-	<tpl:FrontendSessionIf session="disconnected">
+	<tpl:FrontendSessionIf state="disconnected">
 		<div class="login">
 			<h3>{{tpl:lang Sign in}}</h3>
 			<form method="post" name="{{tpl:FrontendSessionID}}_form" id="{{tpl:FrontendSessionID}}login_form" action="{{tpl:FrontendSessionUrl}}">
@@ -51,13 +51,13 @@
 	      <div class="controlset">
 					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_page_redir" value="{{tpl:SysSelfURI}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_page_action" value="signin" />
-					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_page_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}_page_check" value="{{tpl:FrontendSessionNonce}}" />
 					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_page_submit" value="{{tpl:lang Sign in}}" />
 				</div>
 			</form>
 		</div>
 	</tpl:FrontendSessionIf>
-	<tpl:FrontendSessionIf registration="1" session="disconnected">
+	<tpl:FrontendSessionIf registration="1" state="disconnected">
 		<hr />
 		<div class="login">
 			<h3>{{tpl:lang Sign up}}</h3>
@@ -106,14 +106,14 @@
         <div class="controlset">
 					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_register_redir" value="{{tpl:SysSelfURI}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_register_action" value="signup" />
-					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_register_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}_register_check" value="{{tpl:FrontendSessionNonce}}" />
 					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_register_submit" value="{{tpl:lang Sign up}}" />
 				</div>
       </fieldset>
 			</form>
 		</div>
 	</tpl:FrontendSessionIf>
-	<tpl:FrontendSessionIf session="disconnected">
+	<tpl:FrontendSessionIf recovery="1" state="disconnected">
 		<hr />
 		<div class="login">
 			<h3>{{tpl:lang Password recovery}}</h3>
@@ -133,14 +133,14 @@
         <div class="controlset">
 					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_recover_redir" value="{{tpl:SysSelfURI}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_recover_action" value="recover" />
-					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_recover_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}_recover_check" value="{{tpl:FrontendSessionNonce}}" />
 					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_recover_submit" value="{{tpl:lang Recover}}" />
 				</div>
       </fieldset>
 			</form>
 		</div>
 	</tpl:FrontendSessionIf>
-	<tpl:FrontendSessionIf session="newpwd">
+	<tpl:FrontendSessionIf recovery="1" state="newpwd">
 		<div class="login">
 			<h3>{{tpl:lang Password change}}</h3>
 			<form method="post" name="{{tpl:FrontendSessionID}}newpwd_form" id="{{tpl:FrontendSessionID}}_newpwd_form" action="{{tpl:FrontendSessionUrl}}">
@@ -159,7 +159,7 @@
 					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}_newpwd_redir" value="{{tpl:SysSelfURI}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}data" id="{{tpl:FrontendSessionID}}_newpwd_data" value="{{tpl:FrontendSessionData}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}_newpwd_action" value="newpwd" />
-					<input type="hidden" name="{{tpl:FrontendSessionID}}xd_check" id="{{tpl:FrontendSessionID}}_newpwd_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}_newpwd_check" value="{{tpl:FrontendSessionNonce}}" />
 					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}_newpwd_submit" value="{{tpl:lang Change}}" />
 				</div>
       </fieldset>
