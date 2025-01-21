@@ -57,7 +57,7 @@ class Frontend extends Process
         Session::checkCookie();
 
         // Check nonce from POST requests
-        if ($_POST !== [] && (empty($_POST[My::id() . 'check']) || !App::nonce()->checkNonce($_POST[My::id() . 'check']))) {
+        if (!empty($_POST[My::id() . 'check']) && !App::nonce()->checkNonce($_POST[My::id() . 'check'])) {
             throw new PreconditionException();
         }
 
