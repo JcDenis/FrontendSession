@@ -1,3 +1,9 @@
+FrontendSession 0.9 - 2025.01.25
+==========================================================
+* Require Dotclear 2.33-dev
+* Require PHP 8.3
+* Various fixes
+
 FrontendSession 0.8 - 2025.01.20
 ==========================================================
 * Require Dotclear 2.33-dev
