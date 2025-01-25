@@ -3,6 +3,7 @@
   <module id="FrontendSession">
     <name>Frontend Session</name>
     <version>0.8</version>
+    <date>2025-01-23T22:00:00+01:00</date>
     <author>Jean-Christian Paul Denis and contributors</author>
     <desc>Allow session on frontend.</desc>
     <file>https://github.com/JcDenis/FrontendSession/releases/download/v0.8/plugin-FrontendSession.zip</file>
