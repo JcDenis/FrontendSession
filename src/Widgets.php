@@ -64,11 +64,11 @@ class Widgets
             $res .= '<form method="post" name="' . My::id() . 'form" id="' . My::id() . 'widget_form" action="' . $url . '">' .
                 '<p>' .
                     '<label for="' . My::id() . 'login" class="required">' . __('Login:') . '</label><br />' .
-                    '<input type="text" id="' . My::id() . '_widget_login" name="' . My::id() . 'login" value="" />' .
+                    '<input type="text"  autocomplete="username" id="' . My::id() . '_widget_login" name="' . My::id() . 'login" value="" />' .
                 '</p>' .
                 '<p>' .
                     '<label for="' . My::id() . 'password" class="required">' . __('Password:') . '</label><br />' .
-                    '<input type="password" id="' . My::id() . 'widget_password" name="' . My::id() . 'password" value="" />' .
+                    '<input type="password"  autocomplete="current-password" id="' . My::id() . 'widget_password" name="' . My::id() . 'password" value="" />' .
                 '</p>' .
                 '<p>' .
                 '<label><input type="checkbox" id="' . My::id() . 'widget_remember" name="' . My::id() . 'remember" value="1"> ' .
