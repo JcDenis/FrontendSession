@@ -159,7 +159,7 @@ class Backend extends Process
                 }
             },
             'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
-                $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING], true);
+                $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
                 if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED) {
                     Mail::sendActivationMail($user->user_email);
                 }
