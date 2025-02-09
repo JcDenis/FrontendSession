@@ -1,3 +1,9 @@
+FrontendSession 0.10 - 2025.02.09
+==========================================================
+* Require Dotclear 2.33-dev
+* Require PHP 8.3
+* Fix activation mail
+
 FrontendSession 0.9 - 2025.01.25
 ==========================================================
 * Require Dotclear 2.33-dev

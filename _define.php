@@ -17,7 +17,7 @@ $this->registerModule(
     'Frontend sessions',
     'Allow session on frontend.',
     'Jean-Christian Paul Denis and Contributors',
-    '0.9',
+    '0.10',
     [
         'requires'    => [['core', '2.33']],
         'settings'    => ['blog' => '#params.' . $this->id . '_params'],
