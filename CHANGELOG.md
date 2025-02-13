@@ -1,3 +1,9 @@
+FrontendSession 0.11 - 2025.02.14
+==========================================================
+* Require Dotclear 2.33
+* Require PHP 8.3
+* Separate Frontend sessions form Backend ones
+
 FrontendSession 0.10 - 2025.02.09
 ==========================================================
 * Require Dotclear 2.33-dev
