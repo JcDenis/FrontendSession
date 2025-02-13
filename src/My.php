@@ -16,6 +16,8 @@ use Dotclear\Module\MyPlugin;
  */
 class My extends MyPlugin
 {
+    public const SESSION_NAME = 'daxd';
+
     public const USER_PENDING = -201;
 
     public const STATE_CONNECTED    = 'connected';

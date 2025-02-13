@@ -85,7 +85,7 @@ class FrontendTemplate
      */
     public static function FrontendSessionUrl(ArrayObject $attr): string
     {
-        return self::filter($attr, 'App::blog()->url().App::url()->getURLFor(' . My::class . '::id())' . (!empty($attr['signout']) ? ".'/signout'" : ''));
+        return self::filter($attr, 'App::blog()->url().App::url()->getURLFor(' . My::class . '::id())' . (!empty($attr['signout']) ? ".'/'." . My::class . '::ACTION_SIGNOUT' : ''));
     }
 
     /**

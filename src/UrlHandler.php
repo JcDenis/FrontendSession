@@ -60,8 +60,8 @@ class UrlHandler extends Url
 
         switch ($action) {
             case My::ACTION_SIGNOUT:
-                Session::killSession();
-                Session::redirect(App::blog()->url());
+                App::frontend()->context()->frontend_session->kill();
+                App::frontend()->context()->frontend_session->redirect(App::blog()->url());
                 break;
 
             case My::ACTION_SIGNIN:
@@ -69,14 +69,15 @@ class UrlHandler extends Url
                     self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
                     self::serveTemplate(My::id() . '.html');
                 } else {
-                    Session::checkUser(
-                        $_POST[My::id() . 'login'] ?? null,
-                        $_POST[My::id() . 'password'] ?? null,
+                    App::frontend()->context()->frontend_session->check(
+                        $_POST[My::id() . 'login'] ?? '',
+                        $_POST[My::id() . 'password'] ?? '',
                         null,
                         $_REQUEST[My::id() . 'redir'] ?? null,
                         !empty($_POST[My::id() . 'remember'])
                     );
                 }
+                App::frontend()->context()->frontend_session->redirect($_POST[My::id() . 'redir'] ?? null);
                 break;
 
             case My::ACTION_SIGNUP:
@@ -224,7 +225,7 @@ class UrlHandler extends Url
                                 App::users()->updUser($user_id, $cur);
 
                                 // sign in user
-                                Session::checkUser($user_id, $user_pwd, null, null, $remember);
+                                App::frontend()->context()->frontend_session->check($user_id, $user_pwd, null, null, $remember);
                             } catch (Throwable $e) {
                                 self::$form_error[] = $e->getMessage();
                             }

@@ -50,11 +50,7 @@ class Frontend extends Process
             },
         ]);
 
-        // Check session
-        Session::startSession();
-
-        // Check cookie
-        Session::checkCookie();
+        App::frontend()->context()->frontend_session = new FrontendSession(My::SESSION_NAME);
 
         // Check nonce from POST requests
         if (!empty($_POST[My::id() . 'check']) && !App::nonce()->checkNonce($_POST[My::id() . 'check'])) {
