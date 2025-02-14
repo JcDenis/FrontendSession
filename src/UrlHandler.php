@@ -38,26 +38,16 @@ class UrlHandler extends Url
             self::p404();
         }
 
-        $action = $state = '';
+        // Parse request
+        $args   = explode('/', (string) $args);
+        $action = $_POST[My::id() . 'action'] ?? ($args[0] ?? '');
+        $state  = $_POST[My::id() . 'state'] ?? ($args[1] ?? '');
+        $redir  = $_REQUEST[My::id() . 'redir'] ?? null;
 
-        // action from URL
-        if (!is_null($args)) {
-            $args = substr($args, 1);
-            $args = explode('/', $args);
-            $action = $args[0];
-            $state = $args[1] ?? '';
-        }
-
-        // action from POST form
-        if (!empty($_POST[My::id() . 'action'])) {
-            $action = $_POST[My::id() . 'action'];
-        }
-        if (!empty($_POST[My::id() . 'state'])) {
-            $state = $_POST[My::id() . 'state'];
-        }
-
+        // Set user state
         App::frontend()->context()->session_state = App::auth()->userID() == '' ? My::STATE_DISCONNECTED : My::STATE_CONNECTED;
 
+        // Do action
         switch ($action) {
             case My::ACTION_SIGNOUT:
                 App::frontend()->context()->frontend_session->kill();
@@ -65,72 +55,74 @@ class UrlHandler extends Url
                 break;
 
             case My::ACTION_SIGNIN:
+                $signin_login    = $_POST[My::id() . 'signin_login'] ?? '';
+                $signin_password = $_POST[My::id() . 'signin_password'] ?? '';
+                $signin_remember = !empty($_POST[My::id() . 'signin_remember']);
+
                 if (App::auth()->userID() == '' && in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
                     self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
                     self::serveTemplate(My::id() . '.html');
                 } else {
                     App::frontend()->context()->frontend_session->check(
-                        $_POST[My::id() . 'login'] ?? '',
-                        $_POST[My::id() . 'password'] ?? '',
+                        $signin_login,
+                        $signin_password,
                         null,
-                        $_REQUEST[My::id() . 'redir'] ?? null,
-                        !empty($_POST[My::id() . 'remember'])
+                        $redir,
+                        $signin_remember
                     );
                 }
-                App::frontend()->context()->frontend_session->redirect($_POST[My::id() . 'redir'] ?? null);
+                App::frontend()->context()->frontend_session->redirect($redir);
                 break;
 
             case My::ACTION_SIGNUP:
-                if (!empty($_POST[My::id() . 'user_login'])) {
+                $signup_login     = $_POST[My::id() . 'signup_login'] ?? '';
+                $signup_firstname = $_POST[My::id() . 'signup_firstname'] ?? '';
+                $signup_name      = $_POST[My::id() . 'signup_name'] ?? '';
+                $signup_email     = $_POST[My::id() . 'signup_email'] ?? '';
+                $signup_vemail    = $_POST[My::id() . 'signup_vemail'] ?? '';
+                $signup_password  = $_POST[My::id() . 'signup_password'] ?? '';
+                $signup_vpassword = $_POST[My::id() . 'signup_vpassword'] ?? '';
+
+                if (!empty($signup_login)) {
                     $err = [];
-                    $r_user_id = $r_user_firstname = $r_user_name = $r_user_email = $r_user_pwd = '';
 
-                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', $_POST[My::id() . 'user_login'])) {
+                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_login)) {
                         $err[] = __('This username is not valid.');
-                    } elseif (App::users()->userExists($_POST[My::id() . 'user_login'])) {
+                    } elseif (App::users()->userExists($signup_login)) {
                         $err[] = __('This username is not available.');
-                    } else {
-                        $r_user_id = $_POST[My::id() . 'user_login'];
                     }
 
-                    $r_user_firstname = $_POST[My::id() . 'user_firstname'] ?? '';
-                    $r_user_name = $_POST[My::id() . 'user_name'] ?? '';
-
-                    if (($_POST[My::id() . 'user_email'] ?? '') != ($_POST[My::id() . 'user_esecond'] ?? '')) {
+                    if ($signup_email != $signup_vemail) {
                         $err[] = __('Emails missmatch.');
-                    } elseif (!Text::isEmail($_POST[My::id() . 'user_email'] ?? '')) {
+                    } elseif (!Text::isEmail($signup_email)) {
                         $err[] = __('Email is not valid.');
-                    } else {
-                        $r_user_email = $_POST[My::id() . 'user_email'];
                     }
 
-                    if (($_POST[My::id() . 'user_pwd'] ?? '') != ($_POST[My::id() . 'user_psecond'] ?? '')) {
+                    if ($signup_password != $signup_vpassword) {
                         $err[] = __('Passwords missmatch.');
-                    } elseif (strlen($_POST[My::id() . 'user_pwd'] ?? '') < 6) {
+                    } elseif (strlen($signup_password) < 6) {
                         $err[] = __('Password must be at lesat 6 characters long.');
-                    } else {
-                        $r_user_pwd = $_POST[My::id() . 'user_pwd'];
                     }
 
                     if (!count($err)) {
                         try {
                             $cur = App::auth()->openUserCursor();
-                            $cur->user_id        = $r_user_id;
-                            $cur->user_name      = $r_user_name;
-                            $cur->user_firstname = $r_user_firstname;
-                            $cur->user_email     = $r_user_email;
-                            $cur->user_pwd       = $r_user_pwd;
+                            $cur->user_id        = $signup_login;
+                            $cur->user_name      = $signup_name;
+                            $cur->user_firstname = $signup_firstname;
+                            $cur->user_email     = $signup_email;
+                            $cur->user_pwd       = $signup_password;
                             $cur->user_status    = My::USER_PENDING;
                             $cur->user_lang      = (string) App::blog()->settings()->system->lang;
 
-                            if ($r_user_id != App::auth()->sudo([App::users(), 'addUser'], $cur)) {
+                            if ($signup_login != App::auth()->sudo([App::users(), 'addUser'], $cur)) {
                                 self::$form_error[] = __('Something went wrong while trying to register user.');
                             } else {
-                                App::auth()->sudo([App::users(), 'setUserPermissions'], $r_user_id, [App::blog()->id() => [My::id() => true]]);
+                                App::auth()->sudo([App::users(), 'setUserPermissions'], $signup_login, [App::blog()->id() => [My::id() => true]]);
                                 self::$form_error[] = __('Thank you for your registration. An administrator will validate your request soon.');
                                 
                                 // send confirmation email
-                                Mail::sendRegistrationMail($r_user_id, $r_user_pwd, $r_user_email);
+                                Mail::sendRegistrationMail($signup_login, $signup_password, $signup_email);
                             }
                         } catch (Throwable) {
                             self::$form_error[] = __('Something went wrong while trying to register user.');
@@ -141,10 +133,10 @@ class UrlHandler extends Url
                 break;
 
             case My::ACTION_RECOVER:
-                if (My::settings()->get('enable_recovery')) {
-                    $user_id    = $_POST[My::id() . 'recover_login'] ?? '';
-                    $user_email = $_POST[My::id() . 'recover_email'] ?? '';
+                $recover_login = $_POST[My::id() . 'recover_login'] ?? '';
+                $recover_email = $_POST[My::id() . 'recover_email'] ?? '';
 
+                if (My::settings()->get('enable_recovery')) {
                     // change password from recovery email
                     if (!empty($state)) {
                         try {
@@ -155,16 +147,16 @@ class UrlHandler extends Url
                             self::$form_error[] = __('Unknow username or email.');
                         }
                     // send recovery email
-                    } elseif (App::auth()->userID() == '' && !empty($user_id) && !empty($user_email)) {
+                    } elseif (App::auth()->userID() == '' && !empty($recover_login) && !empty($recover_email)) {
                         // check if user is (super)admin
-                        $rs = App::users()->getUser($user_id);
+                        $rs = App::users()->getUser($recover_login);
                         if (!$rs->isEmpty() && $rs->admin() != '') {
                             self::$form_error[] = __('You are an admin, you must change password from backend.');
                         } else {
                             try {
-                                $user_key = App::auth()->setRecoverKey($user_id, $user_email);
-                                Mail::sendRecoveryMail($user_id, $user_key, $user_email);
-                                self::$form_error[] = sprintf(__('The e-mail was sent successfully to %s.'), $user_email);
+                                $recover_key = App::auth()->setRecoverKey($recover_login, $recover_email);
+                                Mail::sendRecoveryMail($recover_login, $recover_key, $recover_email);
+                                self::$form_error[] = sprintf(__('The e-mail was sent successfully to %s.'), $recover_email);
                             } catch(Throwable) {
                                 self::$form_error[] = __('Unknow username or email.');
                             }
@@ -175,24 +167,27 @@ class UrlHandler extends Url
                 break;
 
             case My::ACTION_PASSWORD:
+                $change_data      = $_POST[My::id() . 'change_data'] ?? '';
+                $change_password  = $_POST[My::id() . 'change_password'] ?? '';
+                $change_vpassword = $_POST[My::id() . 'change_vpassword'];
+
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
-                    if (!is_null($args) && count($args) == 4 && empty($_POST[My::id() . 'data'])) {
+                    if (count($args) == 4 && empty($change_data)) {
                         self::$form_error[] = __('You must set a new password.');
                         App::frontend()->context()->session_state = My::STATE_PASSWORD;
                         App::frontend()->context()->session_data  = $args[1] . '/' . $args[2] . '/' . $args[3];
-                    } elseif (!empty($_POST[My::id() . 'data'])) {
+                    } elseif (!empty($change_data)) {
                         App::frontend()->context()->session_state = My::STATE_PASSWORD;
-                        App::frontend()->context()->session_data  = $_POST[My::id() . 'data'];
+                        App::frontend()->context()->session_data  = $change_data;
 
                         // decode data
-                        $data     = explode('/', $_POST[My::id() . 'data']);
+                        $data     = explode('/', $change_data);
                         $user     = base64_decode($data[0] ?? '', true);
                         $cookie   = $data[1] ?? '';
                         $remember = ($args[2] ?? 0) === '1';
                         $check    = false;
                         $user_id  = '';
-                        $user_pwd = $_POST[My::id() . 'newpwd_pwd'] ?? '';
 
                         if ($user !== false && strlen($cookie) == 104) {
                             $user_id = substr($cookie, 40);
@@ -212,20 +207,20 @@ class UrlHandler extends Url
                             self::$form_error[] = __('You are an admin, you must change password from backend.');
                         } elseif (!$check) {
                             self::$form_error[] = __("Unable to retrieve user informations.");
-                        } elseif (empty($user_pwd) || $user_pwd != $_POST[My::id() . 'newpwd_psecond']) {
+                        } elseif (empty($change_password) || $change_password != $change_vpassword) {
                             self::$form_error[] = __("Passwords don't match");
-                        } elseif (App::auth()->checkUser($user_id, $user_pwd)) {
+                        } elseif (App::auth()->checkUser($user_id, $change_password)) {
                             self::$form_error[] = __("You didn't change your password.");
                         } else {
                             // change user password
                             try {
                                 $cur                  = App::auth()->openUserCursor();
                                 $cur->user_change_pwd = 0;
-                                $cur->user_pwd        = $user_pwd;
+                                $cur->user_pwd        = $change_password;
                                 App::users()->updUser($user_id, $cur);
 
                                 // sign in user
-                                App::frontend()->context()->frontend_session->check($user_id, $user_pwd, null, null, $remember);
+                                App::frontend()->context()->frontend_session->check($user_id, $change_password, null, null, $remember);
                             } catch (Throwable $e) {
                                 self::$form_error[] = $e->getMessage();
                             }
