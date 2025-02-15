@@ -140,7 +140,7 @@
 			</form>
 		</div>
 	</tpl:FrontendSessionIf>
-	<tpl:FrontendSessionIf recovery="1" state="newpwd">
+	<tpl:FrontendSessionIf recovery="1" state="change">
 		<div class="login">
 			<h3>{{tpl:lang Password change}}</h3>
 			<form method="post" name="{{tpl:FrontendSessionID}}change_form" id="{{tpl:FrontendSessionID}}change_form" action="{{tpl:FrontendSessionUrl}}">
@@ -158,7 +158,7 @@
         <div class="controlset">
 					<input type="hidden" name="{{tpl:FrontendSessionID}}change_data" id="{{tpl:FrontendSessionID}}change_data" value="{{tpl:FrontendSessionData}}" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}change_redir" value="{{tpl:SysSelfURI}}" />
-					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}change_action" value="newpwd" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}change_action" value="change" />
 					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}change_check" value="{{tpl:FrontendSessionNonce}}" />
 					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}change_submit" value="{{tpl:lang Change}}" />
 				</div>

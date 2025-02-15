@@ -151,10 +151,10 @@ class FrontendSession
      *
      * Using session on frontend reduce to zero cache system.
      */
-    public function redirect(?string $redir = null): void
+    public function redirect(string ...$args): void
     {
         App::blog()->triggerBLog(); // force no cache
-        Http::redirect($redir ?? Http::getSelfURI());
+        Http::redirect(empty($args) ? Http::getSelfURI() : implode('/', $args));
     }
 
     /**
@@ -170,11 +170,11 @@ class FrontendSession
     }
 
     /**
-     * Decode cookie data.
+     * Decode password change data.
      *
      * @return  array<string, string|bool>
      */
-    public function data(string $data): array
+    public function decode(string $data): array
     {
         $data     = explode('/', $data);
         $user     = base64_decode($data[0] ?? '', true);
@@ -197,6 +197,24 @@ class FrontendSession
     }
 
     /**
+     * Encode password change data.
+     *
+     * @param   array<int, string|bool>     $data
+     */
+    public function encode(array $data, bool $encode = false): string
+    {
+        if (count($data) == 2 && $encode) {
+            $data = [
+                base64_encode((string) $data[0]),
+                $this->uid((string) $data[0]),
+                (string) !empty($data[2]),
+            ];
+        }
+
+        return implode('/', $data);
+    }
+
+    /**
      * Check if user has rights.
      */
 	public function check(?string $user_id, ?string $user_pwd = null, ?string $user_key = null, ?string $redir = null, bool $remember = false): void
@@ -211,20 +229,15 @@ class FrontendSession
             // check if user is pending activation
             if ((int) App::auth()->getInfo('user_status') == My::USER_PENDING) {
                 $this->reset();
-                $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_SIGNIN . '/' . My::STATE_PENDING);
+                $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_SIGNIN, My::STATE_PENDING);
             // check if user is not enabled
             } elseif (App::status()->user()->isRestricted((int) App::auth()->getInfo('user_status'))) {
                 $this->reset();
-                $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_SIGNIN . '/' . My::STATE_DISABLED);
+                $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_SIGNIN, My::STATE_DISABLED);
             // check if user must change password
             } elseif (App::auth()->mustChangePassword()) {
-                $data = implode('/', [
-                    base64_encode($user_id),
-                    $this->uid($user_id),
-                    $remember ? '0' : '1',
-                ]);
                 $this->reset();
-                $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_PASSWORD . '/' . urlencode($data));
+                $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_CHANGE, $this->encode([$user_id, $remember], true));
             } else {
 		        $this->start();
                 $_SESSION[My::id() . '_user_id']     = $user_id;

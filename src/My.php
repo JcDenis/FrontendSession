@@ -24,11 +24,11 @@ class My extends MyPlugin
     public const STATE_DISCONNECTED = 'disconnected';
     public const STATE_PENDING      = 'pending';
     public const STATE_DISABLED     = 'disabled';
-    public const STATE_PASSWORD     = 'newpwd';
+    public const STATE_CHANGE       = 'change';
 
     public const ACTION_SIGNIN   = 'signin';
     public const ACTION_SIGNOUT  = 'signout';
     public const ACTION_SIGNUP   = 'signup';
     public const ACTION_RECOVER  = 'recover';
-    public const ACTION_PASSWORD = 'newpwd';
+    public const ACTION_CHANGE   = 'change';
 }

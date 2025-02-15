@@ -61,7 +61,7 @@ class FrontendUrl extends Url
 
                 if (App::auth()->userID() == '' && in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
                     self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
-                    self::serveTemplate(My::id() . '.html');
+                    self::serveTemplate();
                 } else {
                     App::frontend()->context()->frontend_session->check(
                         $signin_login,
@@ -129,7 +129,7 @@ class FrontendUrl extends Url
                         }
                     }
                 }
-                self::serveTemplate(My::id() . '.html');
+                self::serveTemplate();
                 break;
 
             case My::ACTION_RECOVER:
@@ -163,10 +163,10 @@ class FrontendUrl extends Url
                         }
                     }
                 }
-                self::serveTemplate(My::id() . '.html');
+                self::serveTemplate();
                 break;
 
-            case My::ACTION_PASSWORD:
+            case My::ACTION_CHANGE:
                 $change_data      = $_POST[My::id() . 'change_data'] ?? '';
                 $change_password  = $_POST[My::id() . 'change_password'] ?? '';
                 $change_vpassword = $_POST[My::id() . 'change_vpassword'] ?? '';
@@ -175,19 +175,19 @@ class FrontendUrl extends Url
                     // set data for post from
                     if (count($args) == 5 && empty($change_data)) {
                         self::$form_error[] = __('You must set a new password.');
-                        App::frontend()->context()->session_state = My::STATE_PASSWORD;
-                        App::frontend()->context()->session_data  = $args[2] . '/' . $args[3] . '/' . $args[4];
+                        App::frontend()->context()->session_state = My::STATE_CHANGE;
+                        App::frontend()->context()->session_data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
                     } elseif (!empty($change_data)) {
-                        App::frontend()->context()->session_state = My::STATE_PASSWORD;
+                        App::frontend()->context()->session_state = My::STATE_CHANGE;
                         App::frontend()->context()->session_data  = $change_data;
 
                         // decode data
-                        $data = App::frontend()->context()->frontend_session->data($change_data);
+                        $data = App::frontend()->context()->frontend_session->decode($change_data);
                         $rs   = App::users()->getUser($data['user_id']);
 
-                        if (empty($data['user_id'])) {
+                        if ($rs->isEmpty()) {
                             self::$form_error[] = __("Unable to retrieve user informations.");
-                        } elseif (!$rs->isEmpty() && $rs->admin() != '') {
+                        } elseif ($rs->admin() != '') {
                             self::$form_error[] = __('You are an admin, you must change password from backend.');
                         } elseif (empty($change_password) || $change_password != $change_vpassword) {
                             self::$form_error[] = __("Passwords don't match");
@@ -211,11 +211,11 @@ class FrontendUrl extends Url
                         }
                     }
                 }
-                self::serveTemplate(My::id() . '.html');
+                self::serveTemplate();
                 break;
 
             default:
-                self::serveTemplate(My::id() . '.html');
+                self::serveTemplate();
                 break;
 
         }
@@ -224,7 +224,7 @@ class FrontendUrl extends Url
     /**
      * Serve template.
      */
-    private static function serveTemplate(string $tpl): void
+    private static function serveTemplate(): void
     {
         // use only dotty tplset
         $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
@@ -241,6 +241,6 @@ class FrontendUrl extends Url
             App::frontend()->template()->setPath(App::frontend()->template()->getPath(), $default_template . $tplset);
         }
 
-        self::serveDocument($tpl);
+        self::serveDocument(My::id() . '.html');
     }
 }
