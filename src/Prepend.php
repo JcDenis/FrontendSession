@@ -39,7 +39,7 @@ class Prepend extends Process
             My::id(),
             'session',
             '^session(/.+)?$',
-            [UrlHandler::class, 'sessionSign']
+            [FrontendUrl::class, 'sessionSign']
         );
 
         // Add user status

@@ -18,7 +18,7 @@ use Throwable;
  * @author      Jean-Christian Paul Denis
  * @copyright   AGPL-3.0
  */
-class UrlHandler extends Url
+class FrontendUrl extends Url
 {
     /**
      * Form errors.

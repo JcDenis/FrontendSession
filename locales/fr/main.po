@@ -43,7 +43,7 @@ msgstr "Identifiant :"
 #: src/Mail.php:77
 #: src/Widgets.php:70
 msgid "Password:"
-msgstr "Mot de passe :"
+msgstr "Mot de passe :"
 
 #: default-templates/dotty/FrontendSession.html:48
 msgid "Remember me:"
@@ -56,7 +56,7 @@ msgstr "S'inscrire"
 #: default-templates/dotty/FrontendSession.html:68
 #: src/Mail.php:76
 msgid "Username:"
-msgstr "Nom d'utilisatrice ou d'utilisateur :"
+msgstr "Nom d'utilisatrice ou d'utilisateur :"
 
 #: default-templates/dotty/FrontendSession.html:71
 msgid "Should be at least 3 characters long with only figures and letters."
@@ -64,11 +64,11 @@ msgstr "Doit contenir au moins 3 caractères avec uniquement des chiffres et des
 
 #: default-templates/dotty/FrontendSession.html:75
 msgid "First Name:"
-msgstr "Prénom :"
+msgstr "Prénom :"
 
 #: default-templates/dotty/FrontendSession.html:81
 msgid "Last Name:"
-msgstr "Nom :"
+msgstr "Nom :"
 
 #: default-templates/dotty/FrontendSession.html:87
 #: src/Mail.php:93
@@ -101,7 +101,7 @@ msgstr "Changement de mot de passe"
 
 #: default-templates/dotty/FrontendSession.html:150
 msgid "New password:"
-msgstr "Nouveau mot de passe :"
+msgstr "Nouveau mot de passe :"
 
 #: default-templates/dotty/FrontendSession.html:155
 msgid "Repeat new password:"
@@ -129,7 +129,7 @@ msgstr "Email des superviseurs des inscriptions :"
 
 #: src/Backend.php:85
 msgid "This is the comma separeted list of administrator mail address who receive new registration notification."
-msgstr "Ceci est la liste séparée par des virgules des adresses mails qui recevront les notification de nouvel inscription d'utilisateurs."
+msgstr "Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvel inscription d'utilisateur."
 
 #: src/Backend.php:87
 msgid "Registration no-reply email:"
@@ -227,75 +227,75 @@ msgstr "Votre nouveau mot de passe"
 msgid "To change this password visit the following address and sign in with these idents."
 msgstr "Pour changer le mot de passe, rendez-vous à l'adresse suivante et connectez vous avec ces identifiants."
 
-#: src/UrlHandler.php:69
+#: src/FrontendUrl.php:69
 msgid "This account is disabled."
 msgstr "Ce compte est désactivé."
 
-#: src/UrlHandler.php:69
+#: src/FrontendUrl.php:69
 msgid "Your account is not yet activated. An administrator will review your account and validate it soon."
 msgstr "Votre compte n'est pas encore activé. Un administrateur vérifiera votre inscription dès que possible."
 
-#: src/UrlHandler.php:88
+#: src/FrontendUrl.php:88
 msgid "This username is not valid."
 msgstr "L'identifiant n'est pas valide."
 
-#: src/UrlHandler.php:90
+#: src/FrontendUrl.php:90
 msgid "This username is not available."
 msgstr "Cet identifiant n'est pas disponible."
 
-#: src/UrlHandler.php:99
+#: src/FrontendUrl.php:99
 msgid "Emails missmatch."
 msgstr "L'email ne correspondent pas."
 
-#: src/UrlHandler.php:101
+#: src/FrontendUrl.php:101
 msgid "Email is not valid."
 msgstr "L'email n'est pas valide."
 
-#: src/UrlHandler.php:107
+#: src/FrontendUrl.php:107
 msgid "Passwords missmatch."
 msgstr "Les mots de passe ne correspondent pas."
 
-#: src/UrlHandler.php:109
+#: src/FrontendUrl.php:109
 msgid "Password must be at lesat 6 characters long."
 msgstr "Le mot de passe n'est pas valide."
 
-#: src/UrlHandler.php:126
+#: src/FrontendUrl.php:126
 msgid "Something went wrong while trying to register user."
 msgstr "Quelques choses a mal tourné lors de votre enregistrement."
 
-#: src/UrlHandler.php:129
+#: src/FrontendUrl.php:129
 msgid "Thank you for your registration. An administrator will validate your request soon."
 msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
 
-#: src/UrlHandler.php:152
+#: src/FrontendUrl.php:152
 msgid "Your new password is in your mailbox."
 msgstr "Votre nouveau mot de passe est dans votre boîte à lettres."
 
-#: src/UrlHandler.php:154
+#: src/FrontendUrl.php:154
 msgid "Unknow username or email."
 msgstr "identifiant ou adresse email inconnu."
 
-#: src/UrlHandler.php:161
+#: src/FrontendUrl.php:161
 msgid "You are an admin, you must change password from backend."
 msgstr "Vous êtes administrateur, vous devez changer votre mot de passe depuis l'interface d'administration."
 
-#: src/UrlHandler.php:166
+#: src/FrontendUrl.php:166
 msgid "The e-mail was sent successfully to %s."
 msgstr "Le message a été envoyé à %s."
 
-#: src/UrlHandler.php:180
+#: src/FrontendUrl.php:180
 msgid "You must set a new password."
 msgstr "Vous devez changer votre mot de passe."
 
-#: src/UrlHandler.php:213
+#: src/FrontendUrl.php:213
 msgid "Unable to retrieve user informations."
 msgstr "Impossible de retrouver les informations de l'utilisateur."
 
-#: src/UrlHandler.php:215
+#: src/FrontendUrl.php:215
 msgid "Passwords don't match"
 msgstr "Les mots de passe ne correspondent pas"
 
-#: src/UrlHandler.php:217
+#: src/FrontendUrl.php:217
 msgid "You didn't change your password."
 msgstr "Vous n'avez pas changé votre mot de passe."
 
