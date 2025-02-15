@@ -1,3 +1,11 @@
+FrontendSession 0.12 - 2025.02.15
+==========================================================
+* Require Dotclear 2.33
+* Require PHP 8.3
+* Use Helper\Form for widget
+* Review password recovery process
+* Rename class
+
 FrontendSession 0.11 - 2025.02.14
 ==========================================================
 * Require Dotclear 2.33
