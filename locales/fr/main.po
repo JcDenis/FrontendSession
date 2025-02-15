@@ -141,11 +141,11 @@ msgstr "Ceci est l'adresse mail utilisée dans la confirmation d'inscription."
 
 #: src/Backend.php:96
 msgid "Text to display on login page when user is connected:"
-msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est connecté."
+msgstr "Texte à afficher sur la page de connexion lorsque l'utilisateur est connecté."
 
 #: src/Backend.php:103
 msgid "Text to display on login page when user is disconnected:"
-msgstr "Text à afficher sur la page de connexion lorsque l'utilisateur est déconnecté."
+msgstr "Texte à afficher sur la page de connexion lorsque l'utilisateur est déconnecté."
 
 #: src/Backend.php:133
 msgid "Public login page"
