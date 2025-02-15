@@ -40,8 +40,8 @@ class FrontendUrl extends Url
 
         // Parse request
         $args   = explode('/', (string) $args);
-        $action = $_POST[My::id() . 'action'] ?? ($args[0] ?? '');
-        $state  = $_POST[My::id() . 'state'] ?? ($args[1] ?? '');
+        $action = $_POST[My::id() . 'action'] ?? ($args[1] ?? '');
+        $state  = $_POST[My::id() . 'state'] ?? ($args[2] ?? '');
         $redir  = $_REQUEST[My::id() . 'redir'] ?? null;
 
         // Set user state
@@ -169,47 +169,29 @@ class FrontendUrl extends Url
             case My::ACTION_PASSWORD:
                 $change_data      = $_POST[My::id() . 'change_data'] ?? '';
                 $change_password  = $_POST[My::id() . 'change_password'] ?? '';
-                $change_vpassword = $_POST[My::id() . 'change_vpassword'];
+                $change_vpassword = $_POST[My::id() . 'change_vpassword'] ?? '';
 
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
-                    if (count($args) == 4 && empty($change_data)) {
+                    if (count($args) == 5 && empty($change_data)) {
                         self::$form_error[] = __('You must set a new password.');
                         App::frontend()->context()->session_state = My::STATE_PASSWORD;
-                        App::frontend()->context()->session_data  = $args[1] . '/' . $args[2] . '/' . $args[3];
+                        App::frontend()->context()->session_data  = $args[2] . '/' . $args[3] . '/' . $args[4];
                     } elseif (!empty($change_data)) {
                         App::frontend()->context()->session_state = My::STATE_PASSWORD;
                         App::frontend()->context()->session_data  = $change_data;
 
                         // decode data
-                        $data     = explode('/', $change_data);
-                        $user     = base64_decode($data[0] ?? '', true);
-                        $cookie   = $data[1] ?? '';
-                        $remember = ($args[2] ?? 0) === '1';
-                        $check    = false;
-                        $user_id  = '';
+                        $data = App::frontend()->context()->frontend_session->data($change_data);
+                        $rs   = App::users()->getUser($data['user_id']);
 
-                        if ($user !== false && strlen($cookie) == 104) {
-                            $user_id = substr($cookie, 40);
-                            $user_id = @unpack('a32', @pack('H*', $user_id));
-                            if (is_array($user_id)) {
-                                $user_id  = trim($user);
-                                $user_key = substr($cookie, 0, 40);
-                                $check    = App::auth()->checkUser($user_id, null, $user_key);
-                            } else {
-                                $user_id = trim((string) $user_id);
-                            }
-                        }
-
-                        // check if user is (super)admin 
-                        $rs = App::users()->getUser($user_id);
-                        if (!$rs->isEmpty() && $rs->admin() != '') {
-                            self::$form_error[] = __('You are an admin, you must change password from backend.');
-                        } elseif (!$check) {
+                        if (empty($data['user_id'])) {
                             self::$form_error[] = __("Unable to retrieve user informations.");
+                        } elseif (!$rs->isEmpty() && $rs->admin() != '') {
+                            self::$form_error[] = __('You are an admin, you must change password from backend.');
                         } elseif (empty($change_password) || $change_password != $change_vpassword) {
                             self::$form_error[] = __("Passwords don't match");
-                        } elseif (App::auth()->checkUser($user_id, $change_password)) {
+                        } elseif (App::auth()->checkUser($data['user_id'], $change_password)) {
                             self::$form_error[] = __("You didn't change your password.");
                         } else {
                             // change user password
@@ -217,10 +199,12 @@ class FrontendUrl extends Url
                                 $cur                  = App::auth()->openUserCursor();
                                 $cur->user_change_pwd = 0;
                                 $cur->user_pwd        = $change_password;
-                                App::users()->updUser($user_id, $cur);
+                                App::users()->updUser($data['user_id'], $cur);
 
                                 // sign in user
-                                App::frontend()->context()->frontend_session->check($user_id, $change_password, null, null, $remember);
+                                App::frontend()->context()->frontend_session->check($data['user_id'], $change_password, null, null, $data['remember']);
+                                App::frontend()->context()->session_state = My::STATE_CONNECTED;
+                                App::frontend()->context()->session_data  = '';
                             } catch (Throwable $e) {
                                 self::$form_error[] = $e->getMessage();
                             }

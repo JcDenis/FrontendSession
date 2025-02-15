@@ -39,9 +39,8 @@ class FrontendSession
 		        } else {
 		            // Check here for user and IP address
 		            $this->check($_SESSION[My::id() . '_user_id']);
-		            $uid = Http::browserUID(App::config()->masterKey());
 
-		            if (!App::auth()->userID() || ($uid !== $_SESSION[My::id() . '_browser_uid'])) {
+		            if (!App::auth()->userID() || ($this->uid() !== $_SESSION[My::id() . '_browser_uid'])) {
 		                $welcome = false;
 		            }
 		        }
@@ -111,11 +110,21 @@ class FrontendSession
     {
         $bits = parse_url(App::blog()->url());
 
-        if (empty($bits['scheme']) || !preg_match('%^http[s]?$%', $bits['scheme'])) {
-            return false;
-        }
+        return empty($bits['scheme']) || !preg_match('%^http[s]?$%', $bits['scheme']) ? false : $bits['scheme'] == 'https';
+    }
 
-        return $bits['scheme'] == 'https';
+    /**
+     * Get browser UID.
+     */
+    private function uid(string $user_id = ''): string
+    {
+
+        return empty($user_id) ? Http::browserUID(App::config()->masterKey()) : 
+            Http::browserUID(
+                App::config()->masterKey() . 
+                $user_id . 
+                App::auth()->cryptLegacy($user_id)
+            ) . bin2hex(pack('a32', $user_id));
     }
 
     /**
@@ -161,6 +170,33 @@ class FrontendSession
     }
 
     /**
+     * Decode cookie data.
+     *
+     * @return  array<string, string|bool>
+     */
+    public function data(string $data): array
+    {
+        $data     = explode('/', $data);
+        $user     = base64_decode($data[0] ?? '', true);
+        $cookie   = $data[1] ?? '';
+        $user_id  = '';
+
+        if ($user !== false && strlen($cookie) == 104) {
+            $user_id = @unpack('a32', @pack('H*', substr($cookie, 40)));
+            if (is_array($user_id)) {
+                $user_id = App::auth()->checkUser(trim($user), null, substr($cookie, 0, 40)) ? trim($user) : '';
+            } else {
+                $user_id = trim((string) $user_id);
+            }
+        }
+
+        return [
+            'user_id'  => $user_id,
+            'remember' => ($data[2] ?? 0) === '1',
+        ];
+    }
+
+    /**
      * Check if user has rights.
      */
 	public function check(?string $user_id, ?string $user_pwd = null, ?string $user_key = null, ?string $redir = null, bool $remember = false): void
@@ -184,35 +220,21 @@ class FrontendSession
             } elseif (App::auth()->mustChangePassword()) {
                 $data = implode('/', [
                     base64_encode($user_id),
-                    Http::browserUID(
-                        App::config()->masterKey() . 
-                        $user_id . 
-                        App::auth()->cryptLegacy($user_id)
-                    ) . bin2hex(pack('a32', $user_id)),
+                    $this->uid($user_id),
                     $remember ? '0' : '1',
-            ]);
+                ]);
                 $this->reset();
                 $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_PASSWORD . '/' . urlencode($data));
             } else {
 		        $this->start();
                 $_SESSION[My::id() . '_user_id']     = $user_id;
-                $_SESSION[My::id() . '_browser_uid'] = Http::browserUID(App::config()->masterKey());
+                $_SESSION[My::id() . '_browser_uid'] = $this->uid();
                 $_SESSION[My::id() . '_blog_id']     = App::blog()->id();
 
                 if ($remember) {
-                    if ($user_key === null) {
-                        $cookie = Http::browserUID(
-                            App::config()->masterKey() .
-                            $user_id .
-                            App::auth()->cryptLegacy($user_id)
-                        ) . bin2hex(pack('a32', $user_id));
-                    } else {
-                        $cookie = $_COOKIE[My::id()];
-                    }
-
                     setcookie(
                         My::id(),
-                        $cookie,
+                        $user_key === null ? $this->uid($user_id) : $_COOKIE[My::id()],
                         ['expires' => strtotime('+15 days'), 'path' => '/', 'domain' => '', 'secure' => $this->ssl()]
                     );
                 }
@@ -220,8 +242,5 @@ class FrontendSession
         } else {
             $this->reset();
         }
-
-        // Must redirect for changes to take effect
-        //$this->redirect($redir ?? Http::getSelfURI());
     }
 }
