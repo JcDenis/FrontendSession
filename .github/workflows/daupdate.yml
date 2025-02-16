@@ -7,7 +7,7 @@ on:
 
 env:
   DC_TYPE: plugin
-  DA_URL: https://repo.dotclear.watch/api/v1
+  DA_URL: https://repo.dotclear.watch/console/api/v1
 
 # required to set secrets in
 # https://github.com/xxx/xxx/settings/secrets/actions
