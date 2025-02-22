@@ -1,10 +1,10 @@
 # README
 
-[![Release](https://img.shields.io/github/v/release/jcdenis/FrontendSession?color=lightblue)](https://git.dotclear.watch/JcDenis/FrontendSession/releases)
+[![Release](https://img.shields.io/github/v/release/jcdenis/FrontendSession?color=lightblue)](https://github.com/JcDenis/FrontendSession/releases)
 ![Date](https://img.shields.io/github/release-date/jcdenis/FrontendSession?color=red)
 [![Dotclear](https://img.shields.io/badge/dotclear-v2.33-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/FrontendSession)
-[![License](https://img.shields.io/github/license/jcdenis/FrontendSession?color=white)](https://git.dotclear.watch/JcDenis/FrontendSession/src/branch/master/LICENSE)
+[![License](https://img.shields.io/github/license/jcdenis/FrontendSession?color=white)](https://github.com/JcDenis/FrontendSession/src/branch/master/LICENSE)
 
 ## ABOUT
 
@@ -39,10 +39,10 @@ to your theme tpl path and adapt them.
 
 ## LINKS
 
-* [License](https://git.dotclear.watch/JcDenis/FrontendSession/src/branch/master/LICENSE)
-* [Packages & details](https://git.dotclear.watch/JcDenis/FrontendSession/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/FrontendSession))
-* [Sources & contributions](https://git.dotclear.watch/JcDenis/FrontendSession) (or on [GitHub](https://github.com/JcDenis/FrontendSession))
-* [Issues & security](https://git.dotclear.watch/JcDenis/FrontendSession/issues) (or on [GitHub](https://github.com/JcDenis/FrontendSession/issues))
+* [License](https://github.com/JcDenis/FrontendSession/src/branch/master/LICENSE)
+* [Packages & details](https://github.com/JcDenis/FrontendSession/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/FrontendSession))
+* [Sources & contributions](https://github.com/JcDenis/FrontendSession)
+* [Issues & security](https://github.com/JcDenis/FrontendSession/issues)
 
 ## CONTRIBUTORS
 
