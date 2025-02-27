@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Html\Form\{
     Checkbox,
     Div,
@@ -40,7 +39,7 @@ class Widgets
             ->create(
                 'FrontendSession',
                 __('Frontend session'),
-                [self::class, 'FrontendSessionWidget'],
+                self::FrontendSessionWidget(...),
                 null,
                 'Public login form'
             )
@@ -60,7 +59,7 @@ class Widgets
             return '';
         }
 
-        $url   = App::blog()->url() . App::url()->getURLFor(My::id());
+        $url = App::blog()->url() . App::url()->getURLFor(My::id());
 
         if (App::auth()->userID() != '') {
             // signout
@@ -103,7 +102,7 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Checkbox([My::id() . 'signin_remember', My::id() . 'widget_singin_remember']))
-                                    ->label((new Label(__('Remenber me'), Label::INSIDE_LABEL_AFTER))->class('classic'))
+                                    ->label((new Label(__('Remenber me'), Label::INSIDE_LABEL_AFTER))->class('classic')),
                             ]),
                         (new Para())
                             ->items([

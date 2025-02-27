@@ -39,16 +39,17 @@ class Prepend extends Process
             My::id(),
             'session',
             '^session(/.+)?$',
-            [FrontendUrl::class, 'sessionSign']
+            FrontendUrl::sessionSign(...)
         );
 
         // Add user status
         App::status()->user()->set((new Status(
-            My::USER_PENDING , 
-            My::id(), 
-            'Pending registration', 
-            'pending registration (>1)', 
-            My::fileURL('icon.svg'))
+            My::USER_PENDING,
+            My::id(),
+            'Pending registration',
+            'pending registration (>1)',
+            My::fileURL('icon.svg')
+        )
         ));
 
         return true;

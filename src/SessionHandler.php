@@ -6,8 +6,6 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
 use Dotclear\Database\Session as DatabaseSession;
-use Dotclear\Interface\ConfigInterface;
-use Dotclear\Interface\Core\ConnectionInterface;
 use Throwable;
 
 /**
@@ -19,7 +17,8 @@ use Throwable;
  */
 class SessionHandler extends DatabaseSession
 {
-    public function __construct(string $session_name, bool $ssl) {
+    public function __construct(string $session_name, bool $ssl)
+    {
         parent::__construct(
             con: App::con(),
             table : App::con()->prefix() . self::SESSION_TABLE_NAME,
