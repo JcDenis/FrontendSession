@@ -35,25 +35,25 @@ class FrontendTemplate
      */
     public static function FrontendSessionIf(ArrayObject $attr, string $content): string
     {
-        $if = [];
+        $if   = [];
         $sign = fn ($a): string => (bool) $a ? '' : '!';
 
         $operator = isset($attr['operator']) ? Tpl::getOperator($attr['operator']) : '&&';
 
         // allow registration
         if (isset($attr['registration'])) {
-            $if[] = $sign($attr['registration']) . My::CLASS . "::settings()->get('enable_registration')";
+            $if[] = $sign($attr['registration']) . My::class . "::settings()->get('enable_registration')";
         }
         // allow password recovery
         if (isset($attr['recovery'])) {
-            $if[] = $sign($attr['recovery']) . My::CLASS . "::settings()->get('enable_recovery')";
+            $if[] = $sign($attr['recovery']) . My::class . "::settings()->get('enable_recovery')";
         }
         // session state
         if (isset($attr['state'])) {
             $if[] = "App::frontend()->context()->session_state == '" . Html::escapeHTML($attr['state']) . "'";
         }
 
-        return empty($if) ?
+        return $if !== [] ?
             $content :
             '<?php if(' . implode(' ' . $operator . ' ', $if) . ') : ?>' . $content . '<?php endif; ?>';
     }
@@ -85,7 +85,7 @@ class FrontendTemplate
      */
     public static function FrontendSessionUrl(ArrayObject $attr): string
     {
-        return self::filter($attr, 'App::blog()->url().App::url()->getURLFor(' . My::class . '::id())' . (!empty($attr['signout']) ? ".'/'." . My::class . '::ACTION_SIGNOUT' : ''));
+        return self::filter($attr, 'App::blog()->url().App::url()->getURLFor(' . My::class . '::id())' . (empty($attr['signout']) ? '' : ".'/'." . My::class . '::ACTION_SIGNOUT'));
     }
 
     /**
@@ -95,7 +95,7 @@ class FrontendTemplate
      */
     public static function FrontendSessionMessage(ArrayObject $attr): string
     {
-        return self::filter($attr, My::CLASS . "::settings()->get(App::auth()->userID() == '' ? 'disconnected' : 'connected')");
+        return self::filter($attr, My::class . "::settings()->get(App::auth()->userID() == '' ? 'disconnected' : 'connected')");
     }
 
     /**

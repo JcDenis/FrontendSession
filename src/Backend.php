@@ -46,7 +46,7 @@ class Backend extends Process
 
         App::behavior()->addBehaviors([
             // widget
-            'initWidgets'                => Widgets::initWidgets(...),
+            'initWidgets' => Widgets::initWidgets(...),
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {
                 echo (new Div())
@@ -116,25 +116,23 @@ class Backend extends Process
                 $blog_settings->get(My::id())->put('disconnected', $_POST[My::id() . 'disconnected']);
             },
             // add js for test editor
-            'adminBlogPreferencesHeaders' => function (): string {
-                return My::jsLoad('backend');
-            },
+            'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend'),
             // add our textarea form ID to post editor
             'adminPostEditorTags' => function (string $editor, string $context, ArrayObject $alt_tags, string $format): void {
                 // there is an existsing postEditor on this page, so we add our textarea to it
-                if ($context == 'blog_desc') {
+                if ($context === 'blog_desc') {
                     $alt_tags->append('#' . My::id() . 'connected');
                     $alt_tags->append('#' . My::id() . 'disconnected');
                 }
             },
             // simple menu type
-            'adminSimpleMenuAddType' => function (ArrayObject $items) {
+            'adminSimpleMenuAddType' => function (ArrayObject $items): void {
                 if (My::settings()->get('active')) {
                     $items[My::id()] = new ArrayObject([__('Public login page'), false]);
                 }
             },
             // simple menu select
-            'adminSimpleMenuBeforeEdit' => function ($type, $select, &$attr) {
+            'adminSimpleMenuBeforeEdit' => function ($type, $select, &$attr): void {
                 if ($type == My::id()) {
                     $attr[0] = __('Connexion');
                     $attr[1] = __('Sign in to this blog');
@@ -163,7 +161,6 @@ class Backend extends Process
                 if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED) {
                     Mail::sendActivationMail($user->user_email);
                 }
-
             },
             'adminBeforeUserEnable' => function (string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);

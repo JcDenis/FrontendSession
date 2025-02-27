@@ -29,7 +29,7 @@ class FrontendUrl extends Url
 
     /**
      * Session login endpoint.
-     * 
+     *
      * User sign in, sign up, sign out.
      */
     public static function sessionSign(?string $args): void
@@ -40,8 +40,8 @@ class FrontendUrl extends Url
 
         // Parse request
         $args   = explode('/', (string) $args);
-        $action = $_POST[My::id() . 'action'] ?? ($args[1] ?? '');
-        $state  = $_POST[My::id() . 'state'] ?? ($args[2] ?? '');
+        $action = $_POST[My::id() . 'action']   ?? ($args[1] ?? '');
+        $state  = $_POST[My::id() . 'state']    ?? ($args[2] ?? '');
         $redir  = $_REQUEST[My::id() . 'redir'] ?? null;
 
         // Set user state
@@ -52,10 +52,11 @@ class FrontendUrl extends Url
             case My::ACTION_SIGNOUT:
                 App::frontend()->context()->frontend_session->kill();
                 App::frontend()->context()->frontend_session->redirect(App::blog()->url());
+
                 break;
 
             case My::ACTION_SIGNIN:
-                $signin_login    = $_POST[My::id() . 'signin_login'] ?? '';
+                $signin_login    = $_POST[My::id() . 'signin_login']    ?? '';
                 $signin_password = $_POST[My::id() . 'signin_password'] ?? '';
                 $signin_remember = !empty($_POST[My::id() . 'signin_remember']);
 
@@ -72,21 +73,22 @@ class FrontendUrl extends Url
                     );
                 }
                 App::frontend()->context()->frontend_session->redirect($redir);
+
                 break;
 
             case My::ACTION_SIGNUP:
-                $signup_login     = $_POST[My::id() . 'signup_login'] ?? '';
+                $signup_login     = $_POST[My::id() . 'signup_login']     ?? '';
                 $signup_firstname = $_POST[My::id() . 'signup_firstname'] ?? '';
-                $signup_name      = $_POST[My::id() . 'signup_name'] ?? '';
-                $signup_email     = $_POST[My::id() . 'signup_email'] ?? '';
-                $signup_vemail    = $_POST[My::id() . 'signup_vemail'] ?? '';
-                $signup_password  = $_POST[My::id() . 'signup_password'] ?? '';
+                $signup_name      = $_POST[My::id() . 'signup_name']      ?? '';
+                $signup_email     = $_POST[My::id() . 'signup_email']     ?? '';
+                $signup_vemail    = $_POST[My::id() . 'signup_vemail']    ?? '';
+                $signup_password  = $_POST[My::id() . 'signup_password']  ?? '';
                 $signup_vpassword = $_POST[My::id() . 'signup_vpassword'] ?? '';
 
                 if (!empty($signup_login)) {
                     $err = [];
 
-                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_login)) {
+                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
                         $err[] = __('This username is not valid.');
                     } elseif (App::users()->userExists($signup_login)) {
                         $err[] = __('This username is not available.');
@@ -100,13 +102,13 @@ class FrontendUrl extends Url
 
                     if ($signup_password != $signup_vpassword) {
                         $err[] = __('Passwords missmatch.');
-                    } elseif (strlen($signup_password) < 6) {
+                    } elseif (strlen((string) $signup_password) < 6) {
                         $err[] = __('Password must be at lesat 6 characters long.');
                     }
 
                     if (!count($err)) {
                         try {
-                            $cur = App::auth()->openUserCursor();
+                            $cur                 = App::auth()->openUserCursor();
                             $cur->user_id        = $signup_login;
                             $cur->user_name      = $signup_name;
                             $cur->user_firstname = $signup_firstname;
@@ -120,7 +122,7 @@ class FrontendUrl extends Url
                             } else {
                                 App::auth()->sudo([App::users(), 'setUserPermissions'], $signup_login, [App::blog()->id() => [My::id() => true]]);
                                 self::$form_error[] = __('Thank you for your registration. An administrator will validate your request soon.');
-                                
+
                                 // send confirmation email
                                 Mail::sendRegistrationMail($signup_login, $signup_password, $signup_email);
                             }
@@ -130,6 +132,7 @@ class FrontendUrl extends Url
                     }
                 }
                 self::serveTemplate();
+
                 break;
 
             case My::ACTION_RECOVER:
@@ -143,10 +146,10 @@ class FrontendUrl extends Url
                             $res = App::auth()->recoverUserPassword($state);
                             Mail::sendPasswordMail($res['user_id'], $res['new_pass'], $res['user_email']);
                             self::$form_error[] = __('Your new password is in your mailbox.');
-                        } catch(Throwable) {
+                        } catch (Throwable) {
                             self::$form_error[] = __('Unknow username or email.');
                         }
-                    // send recovery email
+                        // send recovery email
                     } elseif (App::auth()->userID() == '' && !empty($recover_login) && !empty($recover_email)) {
                         // check if user is (super)admin
                         $rs = App::users()->getUser($recover_login);
@@ -157,24 +160,25 @@ class FrontendUrl extends Url
                                 $recover_key = App::auth()->setRecoverKey($recover_login, $recover_email);
                                 Mail::sendRecoveryMail($recover_login, $recover_key, $recover_email);
                                 self::$form_error[] = sprintf(__('The e-mail was sent successfully to %s.'), $recover_email);
-                            } catch(Throwable) {
+                            } catch (Throwable) {
                                 self::$form_error[] = __('Unknow username or email.');
                             }
                         }
                     }
                 }
                 self::serveTemplate();
+
                 break;
 
             case My::ACTION_CHANGE:
-                $change_data      = $_POST[My::id() . 'change_data'] ?? '';
-                $change_password  = $_POST[My::id() . 'change_password'] ?? '';
+                $change_data      = $_POST[My::id() . 'change_data']      ?? '';
+                $change_password  = $_POST[My::id() . 'change_password']  ?? '';
                 $change_vpassword = $_POST[My::id() . 'change_vpassword'] ?? '';
 
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
                     if (count($args) == 5 && empty($change_data)) {
-                        self::$form_error[] = __('You must set a new password.');
+                        self::$form_error[]                       = __('You must set a new password.');
                         App::frontend()->context()->session_state = My::STATE_CHANGE;
                         App::frontend()->context()->session_data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
                     } elseif (!empty($change_data)) {
@@ -186,7 +190,7 @@ class FrontendUrl extends Url
                         $rs   = App::users()->getUser($data['user_id']);
 
                         if ($rs->isEmpty()) {
-                            self::$form_error[] = __("Unable to retrieve user informations.");
+                            self::$form_error[] = __('Unable to retrieve user informations.');
                         } elseif ($rs->admin() != '') {
                             self::$form_error[] = __('You are an admin, you must change password from backend.');
                         } elseif (empty($change_password) || $change_password != $change_vpassword) {
@@ -212,12 +216,13 @@ class FrontendUrl extends Url
                     }
                 }
                 self::serveTemplate();
+
                 break;
 
             default:
                 self::serveTemplate();
-                break;
 
+                break;
         }
     }
 

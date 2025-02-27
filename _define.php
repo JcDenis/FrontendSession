@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * @brief       The plugin FrontendSession definition

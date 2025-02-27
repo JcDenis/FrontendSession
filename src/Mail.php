@@ -27,7 +27,7 @@ class Mail
         }
 
         $headers = [
-            'From: ' . sprintf('%1$s <' . (string) My::settings()->get('email_from') . '>', RootMail::B64Header(App::blog()->name())),
+            'From: ' . sprintf('%1$s <' . My::settings()->get('email_from') . '>', RootMail::B64Header(App::blog()->name())),
             'MIME-Version: 1.0',
             'Content-Type: text/plain; charset=UTF-8;',
             'Content-Transfer-Encoding: 8bit',
@@ -82,8 +82,8 @@ class Mail
         );
 
         // admin email
-        foreach(explode(',', (string) My::settings()->get('email_registration')) as $mail) {
-            if (!empty(trim($mail))) {
+        foreach (explode(',', (string) My::settings()->get('email_registration')) as $mail) {
+            if (trim($mail) !== '') {
                 self::mailSender(
                     trim($mail),
                     __('New user registration'),
@@ -93,10 +93,10 @@ class Mail
                         __('Email:') . ' ' . $user_email . "\n" .
                         __('Administrators need to review user account and activate it.') . "\n" .
                         App::config()->adminUrl() . '?' . http_build_query([
-                            'process' => 'Users',
-                            'status' => My::USER_PENDING,
-                            'q' => $user_id,
-                            'switchblog' => App::blog()->id()
+                            'process'    => 'Users',
+                            'status'     => My::USER_PENDING,
+                            'q'          => $user_id,
+                            'switchblog' => App::blog()->id(),
                         ]) . "\n",
                         80
                     )
@@ -115,7 +115,7 @@ class Mail
             __('Password reset'),
             wordwrap(
                 __('Someone has requested to reset the password for the following site and username.') . "\n\n" .
-                __('Site:') . ' ' . App::blog()->name() . ' - ' . App::blog()->url() ."\n" .
+                __('Site:') . ' ' . App::blog()->name() . ' - ' . App::blog()->url() . "\n" .
                 __('Username:') . ' ' . $user_id . "\n\n" .
                 __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\n" .
                 App::blog()->url() . App::url()->getURLFor(My::id()) . '/' . My::ACTION_RECOVER . '/' . $user_key . "\n",
@@ -134,7 +134,7 @@ class Mail
             __('Your new password'),
             wordwrap(
                 __('Someone has requested to reset the password for the following site and username.') . "\n\n" .
-                __('Site:') . ' ' . App::blog()->name() . ' - ' . App::blog()->url() ."\n" .
+                __('Site:') . ' ' . App::blog()->name() . ' - ' . App::blog()->url() . "\n" .
                 __('Username:') . ' ' . $user_id . "\n" .
                 __('Password:') . ' ' . $user_pwd . "\n" .
                 __('To change this password visit the following address and sign in with these idents.') . "\n" .

@@ -33,18 +33,18 @@ class Frontend extends Process
         L10n::set(dirname(__DIR__) . '/locales/' . App::lang()->getLang() . '/public');
 
         // template values and block
-        App::frontend()->template()->addBlock('FrontendSessionIf', [FrontendTemplate::class, 'FrontendSessionIf']);
-        App::frontend()->template()->addValue('FrontendSessionNonce', [FrontendTemplate::class, 'FrontendSessionNonce']);
-        App::frontend()->template()->addValue('FrontendSessionID', [FrontendTemplate::class, 'FrontendSessionID']);
-        App::frontend()->template()->addValue('FrontendSessionUrl', [FrontendTemplate::class, 'FrontendSessionUrl']);
-        App::frontend()->template()->addValue('FrontendSessionMessage', [FrontendTemplate::class, 'FrontendSessionMessage']);
-        App::frontend()->template()->addValue('FrontendSessionDisplayName', [FrontendTemplate::class, 'FrontendSessionDisplayName']);
-        App::frontend()->template()->addValue('FrontendSessionData', [FrontendTemplate::class, 'FrontendSessionData']);
+        App::frontend()->template()->addBlock('FrontendSessionIf', FrontendTemplate::FrontendSessionIf(...));
+        App::frontend()->template()->addValue('FrontendSessionNonce', FrontendTemplate::FrontendSessionNonce(...));
+        App::frontend()->template()->addValue('FrontendSessionID', FrontendTemplate::FrontendSessionID(...));
+        App::frontend()->template()->addValue('FrontendSessionUrl', FrontendTemplate::FrontendSessionUrl(...));
+        App::frontend()->template()->addValue('FrontendSessionMessage', FrontendTemplate::FrontendSessionMessage(...));
+        App::frontend()->template()->addValue('FrontendSessionDisplayName', FrontendTemplate::FrontendSessionDisplayName(...));
+        App::frontend()->template()->addValue('FrontendSessionData', FrontendTemplate::FrontendSessionData(...));
 
         // behaviors
         App::behavior()->addBehaviors([
             // public widgets
-            'initWidgets'       => [Widgets::class, 'initWidgets'],
+            'initWidgets'       => Widgets::initWidgets(...),
             'publicHeadContent' => function (): void {
                 echo My::cssLoad('frontendsession-dotty');
             },
