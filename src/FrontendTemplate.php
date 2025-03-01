@@ -53,7 +53,7 @@ class FrontendTemplate
             $if[] = "App::frontend()->context()->session_state == '" . Html::escapeHTML($attr['state']) . "'";
         }
 
-        return $if !== [] ?
+        return $if === [] ?
             $content :
             '<?php if(' . implode(' ' . $operator . ' ', $if) . ') : ?>' . $content . '<?php endif; ?>';
     }
