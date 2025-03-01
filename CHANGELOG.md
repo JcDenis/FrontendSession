@@ -1,3 +1,9 @@
+FrontendSession 0.14 - 2025.03.01
+==========================================================
+* Require Dotclear 2.33
+* Require PHP 8.3
+* Use plugin TelegramNotifier
+
 FrontendSession 0.13 - 2025.03.01
 ==========================================================
 * Require Dotclear 2.33

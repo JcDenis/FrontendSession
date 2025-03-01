@@ -36,6 +36,7 @@ to your theme tpl path and adapt them.
 * The registration form create user with this permission and a __pending__ status.
 * Features enabled by session must be done by others plugins.
 * Using session on Frontend reduces cache system to near zero.
+* You can use plugin TelegramNotifier to get notification on new registration
 
 ## LINKS
 
