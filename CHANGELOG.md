@@ -1,3 +1,10 @@
+FrontendSession 0.13 - 2025.03.01
+==========================================================
+* Require Dotclear 2.33
+* Require PHP 8.3
+* Code review
+* Fix some URLs
+
 FrontendSession 0.12 - 2025.02.15
 ==========================================================
 * Require Dotclear 2.33
