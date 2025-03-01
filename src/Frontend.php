@@ -6,8 +6,10 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
 use Dotclear\Core\Process;
+use Dotclear\Database\Cursor;
 use Dotclear\Helper\L10n;
 use Dotclear\Exception\PreconditionException;
+use Dotclear\Plugin\TelegramNotifier\Telegram;
 
 /**
  * @brief       FrontendSession module frontend process.
@@ -47,6 +49,30 @@ class Frontend extends Process
             'initWidgets'       => Widgets::initWidgets(...),
             'publicHeadContent' => function (): void {
                 echo My::cssLoad('frontendsession-dotty');
+            },
+            // telegram notification
+            My::id() . 'AfterSignup' => function (Cursor $cur): void {
+                if (!App::plugins()->moduleExists('TelegramNotifier')) {
+                    return;
+                }
+
+                $message = 
+                    sprintf('*%s*', __('New user registration')) . "\n" .
+                    "-- \n" .
+                    sprintf(__('*Blog:* [%s](%s)'), App::blog()->name(), App::blog()->url()) . "\n" .
+                    sprintf(__('*User:* %s'), $cur->getField('user_id')) . "\n" .
+                    sprintf(__('*Email:* %s'), $cur->getField('user_email')) . "\n" .
+                    "-- \n" .
+                    __('Follow this link below to validate it:') . "\n" .
+                    // manual admin URL as we are in Frontend
+                    App::config()->adminUrl() . '?process=User&id=' . $cur->getField('user_id');
+
+                $telegram = new Telegram();
+                $telegram
+                    ->setAction(My::id() . 'AfterSignup')
+                    ->setContent($message)
+                    ->setFormat('markdown')
+                    ->send();
             },
         ]);
 

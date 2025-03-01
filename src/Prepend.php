@@ -7,6 +7,8 @@ namespace Dotclear\Plugin\FrontendSession;
 use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Helper\Stack\Status;
+use Dotclear\Plugin\TelegramNotifier\Telegram;
+use Dotclear\Plugin\TelegramNotifier\TelegramAction;
 
 /**
  * @brief       FrontendSession module prepend.
@@ -49,8 +51,23 @@ class Prepend extends Process
             'Pending registration',
             'pending registration (>1)',
             My::fileURL('icon.svg')
-        )
-        ));
+        )));
+
+        App::behavior()->addBehaviors([
+            // Telegram messages
+            'TelegramNotifierAddActions' => function (Telegram $telegram): void {
+                $telegram->addActions([
+                    // On frontend user registration
+                    new TelegramAction(
+                        id: My::id() . 'AfterSignup',
+                        type: 'message',
+                        name: __('New frontend registration'),
+                        description: __('Send message on new user frontend registration'),
+                        permissions: App::auth()->makePermissions([App::auth()::PERMISSION_ADMIN])
+                    ),
+                ]);
+            },
+        ]);
 
         return true;
     }

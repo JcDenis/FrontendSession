@@ -123,6 +123,9 @@ class FrontendUrl extends Url
                                 App::auth()->sudo([App::users(), 'setUserPermissions'], $signup_login, [App::blog()->id() => [My::id() => true]]);
                                 self::$form_error[] = __('Thank you for your registration. An administrator will validate your request soon.');
 
+                                # --BEHAVIOR-- FrontendSessionAfterSignup -- Cursor
+                                App::behavior()->callBehavior(My::id() . 'AfterSignup', $cur);
+
                                 // send confirmation email
                                 Mail::sendRegistrationMail($signup_login, $signup_password, $signup_email);
                             }
