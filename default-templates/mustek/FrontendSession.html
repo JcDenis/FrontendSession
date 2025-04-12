@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="{{tpl:BlogLanguage}}">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="ROBOTS" content="{{tpl:BlogMetaRobots robots=" NOINDEX,NOARCHIVE"}}">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="author" content="{{tpl:BlogEditor encode_html=" 1"}}">
+
+	<title>{{tpl:lang Login}} - {{tpl:BlogName encode_html="1"}}</title>
+	<meta name="description" content="{{tpl:FrontendSessionMessage remove_html="1"}}">
+	<link rel="contents" title="{{tpl:lang Archives}}" href="{{tpl:BlogArchiveURL}}">
+
+	{{tpl:include src="_head.html"}}
+</head>
+
+<body id="page-top" class="dc-contactme">
+
+	{{tpl:include src="_top.html"}}
+
+	<!-- Intro Header -->
+	<header class="masthead bg-primary text-white text-center">
+		<div class="container d-flex align-items-center flex-column">
+			<!-- Masthead Avatar Image-->
+			<img class="masthead-avatar mb-5 rounded-circle" src="{{tpl:freelancerUserImageSrc}}" alt="">
+			<!-- Masthead Heading-->
+			<h1 class="masthead-heading text-uppercase mb-0">{{tpl:lang Connexion}}</h1>
+			<!-- Icon Divider-->
+			<div class="divider-custom divider-light">
+				<div class="divider-custom-line"></div>
+				<div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+				<div class="divider-custom-line"></div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Content Section -->
+	<section id="content" class="container px-4 px-lg-5 content-section text-center" role="main">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			<div class="col-lg-10">
+				<h2 class="sr-only sr-only-focusable">{{tpl:lang Entry}}</h2>
+				<article class="post">
+					<div>{{tpl:FrontendSessionMessage}}<hr /></div>
+
+		<tpl:FrontendSessionIf state="connected">
+			<p>{{tpl:lang You are connected as:}} {{tpl:FrontendSessionDisplayName}}</p>
+			<p><a href="{{tpl:FrontendSessionUrl signout="1"}}">{{tpl:lang Logout}}</a></p>
+		</tpl:FrontendSessionIf>
+			<tpl:SysIfFormError>
+			<p class="error">{{tpl:SysFormError}}</p>
+			</tpl:SysIfFormError>
+	<tpl:FrontendSessionIf state="disconnected">
+		<div class="login">
+			<h3>{{tpl:lang Sign in}}</h3>
+			<form method="post" name="{{tpl:FrontendSessionID}}signin_form" id="{{tpl:FrontendSessionID}}signin_form" action="{{tpl:FrontendSessionUrl}}">
+	      <fieldset>
+	       <legend>{{tpl:lang Sign in}}</legend>
+	       <div class="inputfield">
+						<label for="{{tpl:FrontendSessionID}}signin_login">{{tpl:lang Login:}}</label>
+						<input type="text" name="{{tpl:FrontendSessionID}}signin_login" id="{{tpl:FrontendSessionID}}signin_login" value="" />
+				</div>
+	      <div class="inputfield">
+					<label for="{{tpl:FrontendSessionID}}signin_password">{{tpl:lang Password:}}</label>
+					<input type="password" name="{{tpl:FrontendSessionID}}signin_password" id="{{tpl:FrontendSessionID}}signin_password" value="" />
+				</div>
+	      <div class="inputfield">
+					<label for="{{tpl:FrontendSessionID}}signin_remember">{{tpl:lang Remember me:}}</label>
+					<input type="checkbox" name="{{tpl:FrontendSessionID}}signin_remember" id="{{tpl:FrontendSessionID}}signin_remember" value="1" />
+				</div>
+	      <div class="controlset">
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}signin_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}signin_action" value="signin" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}signin_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}signin_submit" value="{{tpl:lang Sign in}}" />
+				</div>
+			</form>
+		</div>
+	</tpl:FrontendSessionIf>
+	<tpl:FrontendSessionIf registration="1" state="disconnected">
+		<hr />
+		<div class="login">
+			<h3>{{tpl:lang Sign up}}</h3>
+			<form method="post" name="{{tpl:FrontendSessionID}}signup_form" id="{{tpl:FrontendSessionID}}signup_form" action="{{tpl:FrontendSessionUrl}}">
+      <fieldset>
+        <legend>{{tpl:lang Sign up}}</legend>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}signup_login">{{tpl:lang Username:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}signup_login" id="{{tpl:FrontendSessionID}}signup_login" maxlength="32"
+          value="" />
+          <p class="note">{{tpl:lang Should be at least 3 characters long with only figures and letters.}}</p>
+        </div>
+        
+        <div class="inputfield">
+          <label for="{{tpl:FrontendSessionID}}signup_firstname">{{tpl:lang First Name:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}signup_firstname" id="{{tpl:FrontendSessionID}}signup_firstname" maxlength="255"
+          value="" />
+        </div>
+        
+        <div class="inputfield">
+          <label for="{{tpl:FrontendSessionID}}signup_name">{{tpl:lang Last Name:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}signup_name" id="{{tpl:FrontendSessionID}}signup_name" maxlength="255"
+          value="" />
+        </div>
+        
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}signup_email">{{tpl:lang Email:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}signup_email" id="{{tpl:FrontendSessionID}}signup_email" maxlength="512"
+          value="" />
+        </div>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}signup_vemail">{{tpl:lang Repeat email:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}signup_vemail" id="{{tpl:FrontendSessionID}}signup_vemail" maxlength="512"
+          value="" />
+        </div>
+        
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}signup_password">{{tpl:lang Password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}signup_password" id="{{tpl:FrontendSessionID}}signup_password" maxlength="255" />
+          <p class="note">{{tpl:lang Should be at least 6 characters long.}}</p>
+        </div>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}signup_vpassword">{{tpl:lang Repeat password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}signup_vpassword" id="{{tpl:FrontendSessionID}}signup_vpassword" maxlength="255" />
+        </div>
+        <div class="controlset">
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}signup_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}signup_action" value="signup" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}signup_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}signup_submit" value="{{tpl:lang Sign up}}" />
+				</div>
+      </fieldset>
+			</form>
+		</div>
+	</tpl:FrontendSessionIf>
+	<tpl:FrontendSessionIf recovery="1" state="disconnected">
+		<hr />
+		<div class="login">
+			<h3>{{tpl:lang Password recovery}}</h3>
+			<form method="post" name="{{tpl:FrontendSessionID}recover_form" id="{{tpl:FrontendSessionID}}recover_form" action="{{tpl:FrontendSessionUrl}}">
+      <fieldset>
+        <legend>{{tpl:lang Password recovery}}</legend>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}recover_login">{{tpl:lang Username:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}recover_login" id="{{tpl:FrontendSessionID}}recover_login" maxlength="32"
+          value="" />
+        </div>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}recover_email">{{tpl:lang Email:}}</label>
+          <input type="text" size="30" name="{{tpl:FrontendSessionID}}recover_email" id="{{tpl:FrontendSessionID}}recover_email" maxlength="512"
+          value="" />
+        </div>
+        <div class="controlset">
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}recover_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}recover_action" value="recover" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}recover_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}recover_submit" value="{{tpl:lang Recover}}" />
+				</div>
+      </fieldset>
+			</form>
+		</div>
+	</tpl:FrontendSessionIf>
+	<tpl:FrontendSessionIf recovery="1" state="change">
+		<div class="login">
+			<h3>{{tpl:lang Password change}}</h3>
+			<form method="post" name="{{tpl:FrontendSessionID}}change_form" id="{{tpl:FrontendSessionID}}change_form" action="{{tpl:FrontendSessionUrl}}">
+      <fieldset>
+        <legend>{{tpl:lang Password change}}</legend>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}change_password">{{tpl:lang New password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}change_password" id="{{tpl:FrontendSessionID}}change_password" maxlength="255" />
+          <p class="note">{{tpl:lang Should be at least 6 characters long.}}</p>
+        </div>
+        <div class="required">
+          <label for="{{tpl:FrontendSessionID}}change_vpassword">{{tpl:lang Repeat new password:}}</label>
+          <input type="password" size="30" name="{{tpl:FrontendSessionID}}change_vpassword" id="{{tpl:FrontendSessionID}}change_vpassword" maxlength="255" />
+        </div>
+        <div class="controlset">
+					<input type="hidden" name="{{tpl:FrontendSessionID}}change_data" id="{{tpl:FrontendSessionID}}change_data" value="{{tpl:FrontendSessionData}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}redir" id="{{tpl:FrontendSessionID}}change_redir" value="{{tpl:SysSelfURI}}" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}action" id="{{tpl:FrontendSessionID}}change_action" value="change" />
+					<input type="hidden" name="{{tpl:FrontendSessionID}}check" id="{{tpl:FrontendSessionID}}change_check" value="{{tpl:FrontendSessionNonce}}" />
+					<input class="submit" type="submit" name="{{tpl:FrontendSessionID}}submit" id="{{tpl:FrontendSessionID}}change_submit" value="{{tpl:lang Change}}" />
+				</div>
+      </fieldset>
+			</form>
+		</div>
+	</tpl:FrontendSessionIf>
+
+				</article>
+				<p><a href="#page-top" class="btn btn-circle page-scroll up js-scroll-trigger"><i
+							class="fa fa-angle-double-up animated"></i></a></p>
+
+			</div>
+		</div>
+	</section>
+
+	<!-- Menubar Section -->
+	{{tpl:include src="_menubar.html"}}
+
+	<!-- Footer -->
+	{{tpl:include src="_footer.html"}}
+
+</body>
+
+</html>

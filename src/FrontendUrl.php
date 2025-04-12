@@ -236,7 +236,7 @@ class FrontendUrl extends Url
     {
         // use only dotty tplset
         $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
-        if ($tplset != 'dotty') {
+        if (!in_array($tplset, ['dotty', 'mustek'])) {
             self::p404();
         }
 
