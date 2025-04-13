@@ -1,3 +1,10 @@
+FrontendSession 0.15 - 2025.04.14
+==========================================================
+* Require Dotclear 2.33
+* Require PHP 8.3
+* Add widget links to registration and password recovery
+* Use less strict dotty template set
+
 FrontendSession 0.14 - 2025.03.01
 ==========================================================
 * Require Dotclear 2.33
