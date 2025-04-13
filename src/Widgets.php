@@ -12,10 +12,14 @@ use Dotclear\Helper\Html\Form\{
     Hidden,
     Input,
     Label,
+    Li,
+    Link,
+    None,
     Password,
     Para,
     Submit,
-    Text
+    Text,
+    Ul
 };
 use Dotclear\Helper\Network\Http;
 use Dotclear\Plugin\widgets\WidgetsElement;
@@ -77,6 +81,24 @@ class Widgets
                             ]),
                     ]);
         } else {
+            $more = [];
+            if (My::settings()->get('enable_recovery')) {
+                $more[] = (new Li())
+                    ->items([
+                        (new Link())
+                            ->href($url . '#FrontendSession_recover_form')
+                            ->text(__('Password recovery')),
+                    ]);
+            }
+            if (My::settings()->get('enable_registration')) {
+                $more[] = (new Li())
+                    ->items([
+                        (new Link())
+                            ->href($url . '#FrontendSession_signup_form')
+                            ->text(__('Sign up')),
+                    ]);
+            }
+
             // signin
             $form = (new Form())
                     ->method('post')
@@ -111,6 +133,7 @@ class Widgets
                                 (new Hidden([My::id() . 'action', My::id() . 'widget_signout_action'], My::ACTION_SIGNIN)),
                                 (new Submit([My::id() . 'submit', My::id() . 'widget_signout_submit'], __('Connect'))),
                             ]),
+                        $more !== [] ? (new Ul())->items($more) : new None(),
                     ]);
         }
 

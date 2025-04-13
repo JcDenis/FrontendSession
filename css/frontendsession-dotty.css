@@ -1,18 +1,5 @@
-.login fieldset {
-    margin: 1em 0;
-    padding: 0.5em;
-    display: block;
-    min-inline-size: min-content;
-    margin-inline: 2px;
-    padding-block: 0.35em 0.625em;
-    padding-inline: 0.75em;
-}
-.login fieldset legend {
-    display: none;
-}
-.login form fieldset div {
-    clear: left;
-    margin: 0.5em 0;
+.login .inputfield, .login .required, .login .controlset {
+    margin-top: 1.4em;
 }
 .login .required label,
 .login div.required span.label {
@@ -24,22 +11,12 @@
     color: #c00;
     font-weight: bold;
 }
-.login form fieldset div label,
-.login form fieldset div span.label {
+
+.login form label,
+.login form span.label {
     display: block;
-    position: relative;
-    float: left;
-    margin-right: 10px;
-    padding-right: 10px;
-    text-align: right;
-    width: 320px;
-}
-.login input {
-    display: inline-block;
 }
 .login p.note,
-.login form fieldset div.controlset {
+.login form div.controlset {
     clear: left;
-    margin: 0 0 0 330px;
-    font-style: italic;
 }
