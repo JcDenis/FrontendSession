@@ -1,3 +1,9 @@
+FrontendSession 0.16 - 2025.04.23
+==========================================================
+* Require Dotclear 2.33
+* Require PHP 8.3
+* Add frontend session page behavior
+
 FrontendSession 0.15 - 2025.04.14
 ==========================================================
 * Require Dotclear 2.33
