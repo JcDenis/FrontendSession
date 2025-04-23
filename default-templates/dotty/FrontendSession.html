@@ -25,11 +25,15 @@
   <div class="content-inner">
 		<tpl:FrontendSessionIf state="connected">
 			<p>{{tpl:lang You are connected as:}} {{tpl:FrontendSessionDisplayName}}</p>
-			<p><a href="{{tpl:FrontendSessionUrl signout="1"}}">{{tpl:lang Logout}}</a></p>
+			<p><a class="button" href="{{tpl:FrontendSessionUrl signout="1"}}">{{tpl:lang Logout}}</a></p>
 		</tpl:FrontendSessionIf>
 			<tpl:SysIfFormError>
 			<p class="error">{{tpl:SysFormError}}</p>
 			</tpl:SysIfFormError>
+		<tpl:FrontendSessionIf state="connected">
+			<!-- # --BEHAVIOR-- publicCommentAfterContent -->
+  		{{tpl:SysBehavior behavior="publicFrontendSessionConnected"}}
+		</tpl:FrontendSessionIf>
 	<tpl:FrontendSessionIf state="disconnected">
 		<div class="login" id="{{tpl:FrontendSessionID}}_signin_form">
 			<h3>{{tpl:lang Sign in}}</h3>

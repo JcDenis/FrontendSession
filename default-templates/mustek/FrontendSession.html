@@ -51,6 +51,10 @@
 			<tpl:SysIfFormError>
 			<p class="error">{{tpl:SysFormError}}</p>
 			</tpl:SysIfFormError>
+		<tpl:FrontendSessionIf state="connected">
+			<!-- # --BEHAVIOR-- publicCommentAfterContent -->
+  		{{tpl:SysBehavior behavior="publicFrontendSessionConnected"}}
+		</tpl:FrontendSessionIf>
 	<tpl:FrontendSessionIf state="disconnected">
 		<div class="login">
 			<h3>{{tpl:lang Sign in}}</h3>
