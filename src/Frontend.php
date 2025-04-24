@@ -47,6 +47,17 @@ class Frontend extends Process
         App::behavior()->addBehaviors([
             // public widgets
             'initWidgets'       => Widgets::initWidgets(...),
+            // comment form auto completion
+            'publicCommentFormBeforeContent'   => function (): void {
+                if (App::blog()->isDefined() 
+                    && App::auth()->check(My::id(), App::blog()->id())
+                    && App::frontend()->context()->comment_preview['content'] == ''
+                ) {
+                    App::frontend()->context()->comment_preview['name']       = App::auth()->getInfo('user_cn');
+                    App::frontend()->context()->comment_preview['mail']       = App::auth()->getInfo('user_email');
+                    App::frontend()->context()->comment_preview['site']       = App::auth()->getInfo('user_site');
+                }
+            },
             'publicHeadContent' => function (): void {
                 echo My::cssLoad('frontendsession-dotty');
             },
