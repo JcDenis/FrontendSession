@@ -14,7 +14,7 @@ _FrontendSession_ is a plugin for the open-source web publishing software called
 
 ## REQUIREMENTS
 
-* Dotclear 2.33
+* Dotclear 2.34
 * PHP 8.1+
 * Dotclear admin permission for configuration
 
@@ -25,9 +25,9 @@ Dotaddict repository. (See Dotclear's documentation to know how do this)
 
 Once it's done you can manage FrontendSession option from blog preferences.
 
-There are templates for public page. These template is adapted to 
-default Dotclear's theme. (based on dotty template set)
-If you want to create your own template for your theme, 
+There are templates for public page. 
+These template is adapted to default Dotclear's theme. 
+If you want to create your own template for your theme,  
 copy files from FrontendSession/default-templates 
 to your theme tpl path and adapt them.
 

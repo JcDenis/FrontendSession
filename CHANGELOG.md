@@ -1,3 +1,11 @@
+FrontendSession 0.17 - 2025.04.25
+==========================================================
+* Require Dotclear 2.34
+* Require PHP 8.3
+* Add option to disable plugin CSS
+* Add frontend session widget behavior
+* All forms are now out of templates
+
 FrontendSession 0.16 - 2025.04.23
 ==========================================================
 * Require Dotclear 2.33
