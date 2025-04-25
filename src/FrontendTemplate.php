@@ -75,6 +75,16 @@ class FrontendTemplate
     }
 
     /**
+     * Get session page URL.
+     *
+     * @param   ArrayObject<string, mixed>  $attr       The attributes
+     */
+    public static function FrontendSessionUrl(ArrayObject $attr): string
+    {
+        return self::filter($attr, 'App::blog()->url().App::url()->getURLFor(' . My::class . '::id())' . (empty($attr['signout']) ? '' : ".'/'." . My::class . '::ACTION_SIGNOUT'));
+    }
+
+    /**
      * Get user display name.
      *
      * @param   ArrayObject<string, mixed>  $attr       The attributes

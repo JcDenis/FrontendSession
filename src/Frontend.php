@@ -33,6 +33,7 @@ class Frontend extends Process
 
         // template values and block
         App::frontend()->template()->addBlock('FrontendSessionIf', FrontendTemplate::FrontendSessionIf(...));
+        App::frontend()->template()->addValue('FrontendSessionUrl', FrontendTemplate::FrontendSessionUrl(...));
         App::frontend()->template()->addValue('FrontendSessionNonce', FrontendTemplate::FrontendSessionNonce(...));
         App::frontend()->template()->addValue('FrontendSessionInfo', FrontendTemplate::FrontendSessionInfo(...));
         App::frontend()->template()->addValue('FrontendSessionContent', FrontendTemplate::FrontendSessionContent(...));
