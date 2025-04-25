@@ -135,7 +135,7 @@ class FrontendSession
     {
         if (isset($_COOKIE[My::id()])) {
             unset($_COOKIE[My::id()]);
-            setcookie(My::id(), '', ['expires' => time() - 3600, 'path' => '', 'domain' => '', 'secure' => $this->ssl()]);
+            setcookie(My::id(), '', ['expires' => time() - 3600, 'path' => '/', 'domain' => '', 'secure' => $this->ssl()]);
         }
     }
 
