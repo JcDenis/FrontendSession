@@ -18,6 +18,10 @@ use Throwable;
  */
 class FrontendSession
 {
+    public string $state   = My::STATE_DISCONNECTED;
+    public string $data    = '';
+    public string $success = '';
+
     private readonly SessionHandler $session;
     private bool $session_started = false;
 
@@ -214,10 +218,10 @@ class FrontendSession
     /**
      * Check if user has rights.
      */
-    public function check(?string $user_id, ?string $user_pwd = null, ?string $user_key = null, ?string $redir = null, bool $remember = false): void
+    public function check(?string $user_id, ?string $user_pwd = null, ?string $user_key = null, ?string $redir = null, bool $remember = false): bool
     {
         if ($user_id === null || is_string($user_pwd) && $user_pwd === '' || is_string($user_key) && $user_key === '') {
-            return;
+            return false;
         }
 
         if (App::auth()->checkUser($user_id, $user_pwd, $user_key, false) === true
@@ -248,9 +252,13 @@ class FrontendSession
                         ['expires' => strtotime('+15 days'), 'path' => '/', 'domain' => '', 'secure' => $this->ssl()]
                     );
                 }
+
+                return true;
             }
         } else {
             $this->reset();
         }
+
+        return false;
     }
 }

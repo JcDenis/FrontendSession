@@ -7,6 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use Dotclear\App;
 use Dotclear\Core\Frontend\Url;
 use Dotclear\Core\Frontend\Utility;
+use Dotclear\Exception\PreconditionException;
 use Dotclear\Helper\File\Path;
 use Dotclear\Helper\Text;
 use Throwable;
@@ -32,9 +33,11 @@ class FrontendUrl extends Url
      *
      * User sign in, sign up, sign out.
      */
-    public static function sessionSign(?string $args): void
+    public static function sessionAction(?string $args): void
     {
-        if (!My::settings()->get('active')) {
+        if (!My::settings()->get('active') 
+            || !is_a(App::frontend()->context()->frontend_session, FrontendSession::class)
+        ) {
             self::p404();
         }
 
@@ -45,7 +48,7 @@ class FrontendUrl extends Url
         $redir  = $_REQUEST[My::id() . 'redir'] ?? null;
 
         // Set user state
-        App::frontend()->context()->session_state = App::auth()->userID() == '' ? My::STATE_DISCONNECTED : My::STATE_CONNECTED;
+        App::frontend()->context()->frontend_session->state = App::auth()->userID() == '' ? My::STATE_DISCONNECTED : My::STATE_CONNECTED;
 
         // Do action
         switch ($action) {
@@ -56,57 +59,62 @@ class FrontendUrl extends Url
                 break;
 
             case My::ACTION_SIGNIN:
-                $signin_login    = $_POST[My::id() . 'signin_login']    ?? '';
-                $signin_password = $_POST[My::id() . 'signin_password'] ?? '';
-                $signin_remember = !empty($_POST[My::id() . 'signin_remember']);
+                self::checkForm();
+                $signin_login    = $_POST[My::id() . $action . '_login']    ?? '';
+                $signin_password = $_POST[My::id() . $action . '_password'] ?? '';
+                $signin_remember = !empty($_POST[My::id() . $action . '_remember']);
 
                 if (App::auth()->userID() == '' && in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
                     self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
-                    self::serveTemplate();
-                } else {
-                    App::frontend()->context()->frontend_session->check(
+                } elseif (!App::frontend()->context()->frontend_session->check(
                         $signin_login,
                         $signin_password,
                         null,
                         $redir,
                         $signin_remember
-                    );
+                    )) {
+                    self::$form_error[] = __('Wrong username or password.');
+                } else {
+                    App::frontend()->context()->frontend_session->redirect($redir);
                 }
-                App::frontend()->context()->frontend_session->redirect($redir);
 
                 break;
 
             case My::ACTION_SIGNUP:
-                $signup_login     = $_POST[My::id() . 'signup_login']     ?? '';
-                $signup_firstname = $_POST[My::id() . 'signup_firstname'] ?? '';
-                $signup_name      = $_POST[My::id() . 'signup_name']      ?? '';
-                $signup_email     = $_POST[My::id() . 'signup_email']     ?? '';
-                $signup_vemail    = $_POST[My::id() . 'signup_vemail']    ?? '';
-                $signup_password  = $_POST[My::id() . 'signup_password']  ?? '';
-                $signup_vpassword = $_POST[My::id() . 'signup_vpassword'] ?? '';
+                self::checkForm();
+                $signup_login     = $_POST[My::id() . $action . '_login']     ?? '';
+                $signup_firstname = $_POST[My::id() . $action . '_firstname'] ?? '';
+                $signup_name      = $_POST[My::id() . $action . '_name']      ?? '';
+                $signup_email     = $_POST[My::id() . $action . '_email']     ?? '';
+                $signup_vemail    = $_POST[My::id() . $action . '_vemail']    ?? '';
+                $signup_password  = $_POST[My::id() . $action . '_password']  ?? '';
+                $signup_vpassword = $_POST[My::id() . $action . '_vpassword'] ?? '';
 
                 if (!empty($signup_login)) {
-                    $err = [];
-
                     if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
-                        $err[] = __('This username is not valid.');
+                        self::$form_error[] = __('This username is not valid.');
                     } elseif (App::users()->userExists($signup_login)) {
-                        $err[] = __('This username is not available.');
+                        self::$form_error[] = __('This username is not available.');
                     }
 
                     if ($signup_email != $signup_vemail) {
-                        $err[] = __('Emails missmatch.');
+                        self::$form_error[] = __('Emails missmatch.');
                     } elseif (!Text::isEmail($signup_email)) {
-                        $err[] = __('Email is not valid.');
+                        self::$form_error[] = __('Email is not valid.');
                     }
 
                     if ($signup_password != $signup_vpassword) {
-                        $err[] = __('Passwords missmatch.');
+                        self::$form_error[] = __('Passwords missmatch.');
                     } elseif (strlen((string) $signup_password) < 6) {
-                        $err[] = __('Password must be at lesat 6 characters long.');
+                        self::$form_error[] = __('Password must be at lesat 6 characters long.');
                     }
 
-                    if (!count($err)) {
+                    $exists = App::users()->getUser($signup_login);
+                    if (!$exists->isEmpty()) {
+                        self::$form_error[] = __('Username already exists.');
+                    }
+
+                    if (self::$form_error !== []) {
                         try {
                             $cur                 = App::auth()->openUserCursor();
                             $cur->user_id        = $signup_login;
@@ -121,26 +129,27 @@ class FrontendUrl extends Url
                                 self::$form_error[] = __('Something went wrong while trying to register user.');
                             } else {
                                 App::auth()->sudo([App::users(), 'setUserPermissions'], $signup_login, [App::blog()->id() => [My::id() => true]]);
-                                self::$form_error[] = __('Thank you for your registration. An administrator will validate your request soon.');
 
                                 # --BEHAVIOR-- FrontendSessionAfterSignup -- Cursor
                                 App::behavior()->callBehavior(My::id() . 'AfterSignup', $cur);
 
                                 // send confirmation email
                                 Mail::sendRegistrationMail($signup_login, $signup_password, $signup_email);
+
+                                App::frontend()->context()->frontend_session->success  = __('Thank you for your registration. An administrator will validate your request soon.');
                             }
                         } catch (Throwable) {
                             self::$form_error[] = __('Something went wrong while trying to register user.');
                         }
                     }
                 }
-                self::serveTemplate();
 
                 break;
 
             case My::ACTION_RECOVER:
-                $recover_login = $_POST[My::id() . 'recover_login'] ?? '';
-                $recover_email = $_POST[My::id() . 'recover_email'] ?? '';
+                self::checkForm();
+                $recover_login = $_POST[My::id() . $action . '_login'] ?? '';
+                $recover_email = $_POST[My::id() . $action . '_email'] ?? '';
 
                 if (My::settings()->get('enable_recovery')) {
                     // change password from recovery email
@@ -148,7 +157,7 @@ class FrontendUrl extends Url
                         try {
                             $res = App::auth()->recoverUserPassword($state);
                             Mail::sendPasswordMail($res['user_id'], $res['new_pass'], $res['user_email']);
-                            self::$form_error[] = __('Your new password is in your mailbox.');
+                            App::frontend()->context()->frontend_session->success  = __('Your new password is in your mailbox.');
                         } catch (Throwable) {
                             self::$form_error[] = __('Unknow username or email.');
                         }
@@ -169,28 +178,28 @@ class FrontendUrl extends Url
                         }
                     }
                 }
-                self::serveTemplate();
 
                 break;
 
             case My::ACTION_CHANGE:
-                $change_data      = $_POST[My::id() . 'change_data']      ?? '';
-                $change_password  = $_POST[My::id() . 'change_password']  ?? '';
-                $change_vpassword = $_POST[My::id() . 'change_vpassword'] ?? '';
+                self::checkForm();
+                $change_data      = $_POST[My::id() . $action . '_data']      ?? '';
+                $change_password  = $_POST[My::id() . $action . '_password']  ?? '';
+                $change_vpassword = $_POST[My::id() . $action . '_vpassword'] ?? '';
 
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
                     if (count($args) == 5 && empty($change_data)) {
                         self::$form_error[]                       = __('You must set a new password.');
-                        App::frontend()->context()->session_state = My::STATE_CHANGE;
-                        App::frontend()->context()->session_data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
+                        App::frontend()->context()->frontend_session->state = My::STATE_CHANGE;
+                        App::frontend()->context()->frontend_session->data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
                     } elseif (!empty($change_data)) {
-                        App::frontend()->context()->session_state = My::STATE_CHANGE;
-                        App::frontend()->context()->session_data  = $change_data;
+                        App::frontend()->context()->frontend_session->state = My::STATE_CHANGE;
+                        App::frontend()->context()->frontend_session->data  = $change_data;
 
                         // decode data
                         $data = App::frontend()->context()->frontend_session->decode($change_data);
-                        $rs   = App::users()->getUser($data['user_id']);
+                        $rs   = App::users()->getUser((string) $data['user_id']);
 
                         if ($rs->isEmpty()) {
                             self::$form_error[] = __('Unable to retrieve user informations.');
@@ -198,7 +207,7 @@ class FrontendUrl extends Url
                             self::$form_error[] = __('You are an admin, you must change password from backend.');
                         } elseif (empty($change_password) || $change_password != $change_vpassword) {
                             self::$form_error[] = __("Passwords don't match");
-                        } elseif (App::auth()->checkUser($data['user_id'], $change_password)) {
+                        } elseif (App::auth()->checkUser((string) $data['user_id'], $change_password)) {
                             self::$form_error[] = __("You didn't change your password.");
                         } else {
                             // change user password
@@ -206,26 +215,94 @@ class FrontendUrl extends Url
                                 $cur                  = App::auth()->openUserCursor();
                                 $cur->user_change_pwd = 0;
                                 $cur->user_pwd        = $change_password;
-                                App::users()->updUser($data['user_id'], $cur);
+                                App::users()->updUser((string) $data['user_id'], $cur);
 
                                 // sign in user
-                                App::frontend()->context()->frontend_session->check($data['user_id'], $change_password, null, null, $data['remember']);
-                                App::frontend()->context()->session_state = My::STATE_CONNECTED;
-                                App::frontend()->context()->session_data  = '';
+                                App::frontend()->context()->frontend_session->check((string) $data['user_id'], $change_password, null, null, (bool) $data['remember']);
+                                App::frontend()->context()->frontend_session->state   = My::STATE_CONNECTED;
+                                App::frontend()->context()->frontend_session->data    = '';
+                                App::frontend()->context()->frontend_session->success = __('Password successfully updated.');
                             } catch (Throwable $e) {
                                 self::$form_error[] = $e->getMessage();
                             }
                         }
                     }
                 }
-                self::serveTemplate();
+
+                break;
+
+            case My::ACTION_UPDPREF:
+                self::checkForm();
+
+                $user_url = $_POST[My::id() . $action . '_url'];
+                if (!preg_match('|^https?://|', (string) $user_url)) {
+                    $user_url = 'http://' . $user_url;
+                }
+                $user_url = (string) filter_var($user_url, FILTER_VALIDATE_URL);
+                $user_id  = (string) App::auth()->userID();
+
+                try {
+                    // change user url
+                    $cur = App::auth()->openUserCursor();
+                    $cur->setField('user_url', $user_url);
+                    App::auth()->sudo(App::users()->updUser(...), $user_id, $cur);
+
+                    // reload user
+                    App::auth()->checkUser($user_id);
+
+                    App::frontend()->context()->frontend_session->success = __('Profil successfully updated.');
+                } catch (Throwable $e) {
+                    self::$form_error[] = $e->getMessage();
+                }
+
+                break;
+
+            case My::ACTION_UPDPASS:
+                self::checkForm();
+                $current = $_POST[My::id() . $action . '_current'] ?? '';
+                $newpass = $_POST[My::id() . $action . '_newpass'] ?? '';
+                $vrfpass = $_POST[My::id() . $action . '_vrfpass'] ?? '';
+                $user_id = (string) App::auth()->userID();
+
+                if (!App::auth()->checkPassword($current)) {
+                    self::$form_error[] = __('Password verification failed.');
+                } elseif (strlen(trim($newpass)) < 6) {
+                    self::$form_error[] = __('Password must be 6 or more chars length.');
+                } elseif ($newpass !== $vrfpass) {
+                    self::$form_error[] = __('Passwords mismatch.');
+                } else {
+                    try {
+                        // change user password
+                        $cur = App::auth()->openUserCursor();
+                        $cur->setField('user_pwd', $newpass);
+                        App::auth()->sudo(App::users()->updUser(...), $user_id, $cur);
+
+                        // reload user
+                        App::auth()->checkUser($user_id);
+
+                        App::frontend()->context()->frontend_session->success = __('Password successfully updated.');
+                    } catch (Throwable $e) {
+                        self::$form_error[] = $e->getMessage();
+                    }
+                }
 
                 break;
 
             default:
-                self::serveTemplate();
 
                 break;
+        }
+    
+        self::serveTemplate();
+    }
+
+    /**
+     * Check nonce from POST requests.
+     */
+    private static function checkForm(): void
+    {
+        if (!App::nonce()->checkNonce($_POST[My::id() . 'check'] ?? '-')) {
+            throw new PreconditionException();
         }
     }
 

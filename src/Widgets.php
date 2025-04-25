@@ -4,23 +4,9 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
+use ArrayObject;
 use Dotclear\App;
-use Dotclear\Helper\Html\Form\{
-    Checkbox,
-    Div,
-    Form,
-    Hidden,
-    Input,
-    Label,
-    Li,
-    Link,
-    None,
-    Password,
-    Para,
-    Submit,
-    Text,
-    Ul
-};
+use Dotclear\Helper\Html\Form\{ Checkbox, Div, Form, Hidden, Input, Label, Li, Link, Password, Para, Submit, Text, Ul };
 use Dotclear\Helper\Network\Http;
 use Dotclear\Plugin\widgets\WidgetsElement;
 use Dotclear\Plugin\widgets\WidgetsStack;
@@ -63,77 +49,86 @@ class Widgets
             return '';
         }
 
+        /**
+         * @var     ArrayObject<int, Li>    $lines
+         */
+        $lines = new ArrayObject();
+
         $url = App::blog()->url() . App::url()->getURLFor(My::id());
 
         if (App::auth()->userID() != '') {
+
+            # --BEHAVIOR-- publicFrontendSessionWidget -- ArrayObject
+            App::behavior()->callBehavior('publicFrontendSessionWidget', $lines);
+
             // signout
             $form = (new Form())
+                    ->class('session-form')
                     ->method('post')
                     ->action($url)
-                    ->id(My::id() . 'widget_signout_form')
+                    ->id(My::id() . My::ACTION_SIGNOUT . 'form_widget')
                     ->fields([
                         (new Text('p', __('You are connected as:') . '<br />' . App::auth()->getInfo('user_cn'))),
                         (new Para())
                             ->items([
-                                App::nonce()->formNonce(),
-                                (new Hidden([My::id() . 'action', My::id() . 'widget_signout_action'], My::ACTION_SIGNOUT)),
-                                (new Submit([My::id() . 'submit', My::id() . 'widget_signout_submit'], __('Disconnect'))),
+                                (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
+                                (new Hidden([My::id() . 'action', My::id() . My::ACTION_SIGNOUT . 'action_widget'], My::ACTION_SIGNOUT)),
+                                (new Submit([My::id() . 'submit', My::id() . My::ACTION_SIGNOUT . 'submit_widget'], __('Disconnect'))),
                             ]),
                     ]);
         } else {
-            $more = [];
             if (My::settings()->get('enable_recovery')) {
-                $more[] = (new Li())
+                $lines[] = (new Li())
                     ->items([
                         (new Link())
-                            ->href($url . '#FrontendSession_recover_form')
+                            ->href($url . '#' . My::id() . My::ACTION_RECOVER)
                             ->text(__('Password recovery')),
                     ]);
             }
             if (My::settings()->get('enable_registration')) {
-                $more[] = (new Li())
+                $lines[] = (new Li())
                     ->items([
                         (new Link())
-                            ->href($url . '#FrontendSession_signup_form')
+                            ->href($url . '#' . My::id() . My::ACTION_SIGNUP)
                             ->text(__('Sign up')),
                     ]);
             }
 
             // signin
             $form = (new Form())
+                    ->class('session-form')
                     ->method('post')
                     ->action($url)
-                    ->id(My::id() . 'widget_form')
+                    ->id(My::id() . My::ACTION_SIGNIN . 'form_widget')
                     ->fields([
                         (new Para())
                             ->items([
-                                (new Input([My::id() . 'signin_login', My::id() . 'widget_signin_login']))
+                                (new Input([My::id() . My::ACTION_SIGNIN . '_login', My::id() . My::ACTION_SIGNIN . '_login_widget']))
                                     ->class('maximal')
                                     ->maxlength(255)
                                     ->autocomplete('username')
-                                    ->label((new Label(__('Login:'), Label::INSIDE_TEXT_BEFORE))->class('required')),
+                                    ->label((new Label(__('Login:'), Label::OL_TF))->class('required')),
                             ]),
                         (new Para())
                             ->items([
-                                (new Password([My::id() . 'signin_password', My::id() . 'widget_signin_password']))
+                                (new Password([My::id() . My::ACTION_SIGNIN . '_password', My::id() . My::ACTION_SIGNIN . '_password_widget']))
                                     ->class('maximal')
                                     ->maxlength(255)
                                     ->autocomplete('current-password')
-                                    ->label((new Label(__('Password:'), Label::INSIDE_TEXT_BEFORE))->class('required')),
+                                    ->label((new Label(__('Password:'), Label::OL_TF))->class('required')),
                             ]),
                         (new Para())
                             ->items([
-                                (new Checkbox([My::id() . 'signin_remember', My::id() . 'widget_singin_remember']))
-                                    ->label((new Label(__('Remenber me'), Label::INSIDE_LABEL_AFTER))->class('classic')),
+                                (new Checkbox([My::id() . My::ACTION_SIGNIN . '_remember', My::id() . My::ACTION_SIGNIN . '_remember_widget']))
+                                    ->label(new Label(__('Remenber me'), Label::OL_FT)),
                             ]),
                         (new Para())
                             ->items([
-                                App::nonce()->formNonce(),
-                                (new Hidden([My::id() . 'redir', My::id() . 'widget_signin_redir'], Http::getSelfURI())),
-                                (new Hidden([My::id() . 'action', My::id() . 'widget_signout_action'], My::ACTION_SIGNIN)),
-                                (new Submit([My::id() . 'submit', My::id() . 'widget_signout_submit'], __('Connect'))),
+                                (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
+                                (new Hidden([My::id() . 'redir', My::id() . My::ACTION_SIGNIN . 'redir_widget'], Http::getSelfURI())),
+                                (new Hidden([My::id() . 'action', My::id() . My::ACTION_SIGNIN . 'action_widget'], My::ACTION_SIGNIN)),
+                                (new Submit([My::id() . 'submit', My::id() . My::ACTION_SIGNIN . 'submit_widget'], __('Connect'))),
                             ]),
-                        $more !== [] ? (new Ul())->items($more) : new None(),
                     ]);
         }
 
@@ -141,7 +136,7 @@ class Widgets
             (bool) $widget->get('content_only'),
             My::id() . ' ' . $widget->get('class'),
             '',
-            $widget->renderTitle($widget->get('title')) . (new Div())->items([$form])->render()
+            $widget->renderTitle($widget->get('title')) . $form->render() . (count($lines) === 0 ? '' : (new Ul())->items($lines)->render())
         );
     }
 }

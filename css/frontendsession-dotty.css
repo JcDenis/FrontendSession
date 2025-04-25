@@ -1,22 +1,28 @@
-.login .inputfield, .login .required, .login .controlset {
-    margin-top: 1.4em;
+.session-form input:not([type='checkbox']):not([type='radio']) {
+  display: block;
 }
-.login .required label,
-.login div.required span.label {
+.session-form .required label {
     font-weight: bold;
 }
-.login .required label:before,
-.login form div.required span.label:before {
+.session-form .required label:before {
     content: '* ';
     color: #c00;
     font-weight: bold;
 }
-
-.login form label,
-.login form span.label {
-    display: block;
+.session-form .inputfield {
+    margin: 1em 0;
 }
-.login p.note,
-.login form div.controlset {
-    clear: left;
+.session-form .note {
+    margin: 0em;
+    font-style: italic;
+}
+.content-inner .session-form {
+    padding-bottom: 2em;
+    border-bottom: 1px solid var(--main-color);
+
+}
+.content-inner p.success {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: var(--main-color);
 }

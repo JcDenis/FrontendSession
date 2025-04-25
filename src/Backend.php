@@ -9,16 +9,7 @@ use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Database\Cursor;
-use Dotclear\Helper\Html\Form\{
-    Checkbox,
-    Div,
-    Input,
-    Label,
-    Note,
-    Para,
-    Text,
-    Textarea
-};
+use Dotclear\Helper\Html\Form\{ Checkbox, Div, Input, Label, Note, Para, Text, Textarea };
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Interface\Core\BlogSettingsInterface;
@@ -58,7 +49,7 @@ class Backend extends Process
                             ->items([
                                 (new Checkbox(My::id() . 'active', (bool) $blog_settings->get(My::id())->get('active')))
                                     ->value(1),
-                                (new Label(__('Enable sessions on frontend'), Label::OUTSIDE_LABEL_AFTER))
+                                (new Label(__('Enable sessions on frontend'), Label::OL_TF))
                                     ->class('classic')
                                     ->for(My::id() . 'active'),
                             ]),
@@ -66,7 +57,7 @@ class Backend extends Process
                             ->items([
                                 (new Checkbox(My::id() . 'enable_registration', (bool) $blog_settings->get(My::id())->get('enable_registration')))
                                     ->value(1),
-                                (new Label(__('Enable user registration form on frontend'), Label::OUTSIDE_LABEL_AFTER))
+                                (new Label(__('Enable user registration form on frontend'), Label::OL_TF))
                                     ->class('classic')
                                     ->for(My::id() . 'enable_registration'),
                             ]),
@@ -74,9 +65,17 @@ class Backend extends Process
                             ->items([
                                 (new Checkbox(My::id() . 'enable_recovery', (bool) $blog_settings->get(My::id())->get('enable_recovery')))
                                     ->value(1),
-                                (new Label(__('Enable user password recovery form on frontend'), Label::OUTSIDE_LABEL_AFTER))
+                                (new Label(__('Enable user password recovery form on frontend'), Label::OL_TF))
                                     ->class('classic')
                                     ->for(My::id() . 'enable_recovery'),
+                            ]),
+                        (new Para())
+                            ->items([
+                                (new Checkbox(My::id() . 'disable_css', (bool) $blog_settings->get(My::id())->get('disable_css')))
+                                    ->value(1),
+                                (new Label(__('Disable default CSS'), Label::OL_TF))
+                                    ->class('classic')
+                                    ->for(My::id() . 'disable_css'),
                             ]),
                         (new Para())->items([
                             (new Label(__('Registration administrator email:')))->for(My::id() . 'email_registration'),
@@ -110,6 +109,7 @@ class Backend extends Process
                 $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']));
                 $blog_settings->get(My::id())->put('enable_registration', !empty($_POST[My::id() . 'enable_registration']));
                 $blog_settings->get(My::id())->put('enable_recovery', !empty($_POST[My::id() . 'enable_recovery']));
+                $blog_settings->get(My::id())->put('disable_css', !empty($_POST[My::id() . 'disable_css']));
                 $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration']);
                 $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from']);
                 $blog_settings->get(My::id())->put('connected', $_POST[My::id() . 'connected']);
