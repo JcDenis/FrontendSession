@@ -32,6 +32,8 @@ class Install extends Process
             My::settings()->put('active', false, 'boolean', 'Enable public sessions', false, true);
             My::settings()->put('enable_registration', false, 'boolean', 'Enable user registration form on frontend', false, true);
             My::settings()->put('enable_recovery', false, 'boolean', 'Enable user password recovery form on frontend', false, true);
+            My::settings()->put('limit_comment', false, 'boolean', 'Limit new comments to registered users', false, true);
+            My::settings()->put('disable_css', false, 'boolean', 'Disable default CSS', false, true);
             My::settings()->put('email_registration', '', 'text', 'Email to send registration confirmation to', false, true);
             My::settings()->put('email_from', '', 'text', 'No-reply email address for confirmation mail', false, true);
             My::settings()->put('connected', "You're now connected to the blog.", 'text', 'Connected display text', false, true);

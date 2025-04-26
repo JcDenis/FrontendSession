@@ -33,7 +33,7 @@ class Widgets
                 null,
                 'Public login form'
             )
-            ->addTitle(__('Login'))
+            ->addTitle(__('My account'))
             ->addHomeOnly()
             ->addContentOnly()
             ->addClass()

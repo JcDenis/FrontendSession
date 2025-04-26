@@ -48,45 +48,60 @@ class Backend extends Process
                         (new Para())
                             ->items([
                                 (new Checkbox(My::id() . 'active', (bool) $blog_settings->get(My::id())->get('active')))
-                                    ->value(1),
-                                (new Label(__('Enable sessions on frontend'), Label::OL_TF))
-                                    ->class('classic')
-                                    ->for(My::id() . 'active'),
+                                    ->value(1)
+                                    ->label(new Label(__('Enable sessions on frontend'), Label::IL_FT)),
                             ]),
                         (new Para())
                             ->items([
                                 (new Checkbox(My::id() . 'enable_registration', (bool) $blog_settings->get(My::id())->get('enable_registration')))
-                                    ->value(1),
-                                (new Label(__('Enable user registration form on frontend'), Label::OL_TF))
-                                    ->class('classic')
-                                    ->for(My::id() . 'enable_registration'),
+                                    ->value(1)
+                                    ->label(new Label(__('Enable user registration form on frontend'), Label::IL_FT)),
                             ]),
                         (new Para())
                             ->items([
                                 (new Checkbox(My::id() . 'enable_recovery', (bool) $blog_settings->get(My::id())->get('enable_recovery')))
-                                    ->value(1),
-                                (new Label(__('Enable user password recovery form on frontend'), Label::OL_TF))
-                                    ->class('classic')
-                                    ->for(My::id() . 'enable_recovery'),
+                                    ->value(1)
+                                    ->label(new Label(__('Enable user password recovery form on frontend'), Label::IL_FT)),
                             ]),
                         (new Para())
                             ->items([
-                                (new Checkbox(My::id() . 'disable_css', (bool) $blog_settings->get(My::id())->get('disable_css')))
-                                    ->value(1),
-                                (new Label(__('Disable default CSS'), Label::OL_TF))
-                                    ->class('classic')
-                                    ->for(My::id() . 'disable_css'),
+                                (new Checkbox(My::id() . 'limit_comment', (bool) $blog_settings->get(My::id())->get('limit_comment')))
+                                    ->value(1)
+                                    ->label(new Label(__('Limit new comments to registered users'), Label::IL_FT)),
                             ]),
-                        (new Para())->items([
-                            (new Label(__('Registration administrator email:')))->for(My::id() . 'email_registration'),
-                            (new Input(My::id() . 'email_registration'))->class('maximal')->size(65)->maxlength(255)->value($blog_settings->get(My::id())->get('email_registration')),
+                        (new Note())
+                            ->class('form-note')
+                            ->text(__('All themes are not necessarily compatible with this feature.')),
+                        (new Para())
+                            ->items([
+                                (new Checkbox(My::id() . 'disable_css', (bool) $blog_settings->get(My::id())->get('disable_css')))
+                                    ->value(1)
+                                    ->label(new Label(__('Disable default CSS'), Label::IL_FT)),
+                            ]),
+                        (new Para())
+                            ->items([
+                                (new Input(My::id() . 'email_registration'))
+                                    ->class('maximal')
+                                    ->size(65)
+                                    ->maxlength(255)
+                                    ->value($blog_settings->get(My::id())->get('email_registration'))
+                                    ->label(new Label(__('Registration administrator email:'), Label::OL_TF)),
                         ]),
-                        (new Note())->class('form-note')->text(__('This is the comma separeted list of administrator mail address who receive new registration notification.')),
-                        (new Para())->items([
-                            (new Label(__('Registration no-reply email:')))->for(My::id() . 'email_from'),
-                            (new Input(My::id() . 'email_from'))->class('maximal')->size(65)->maxlength(255)->value($blog_settings->get(My::id())->get('email_from')),
+                        (new Note())
+                            ->class('form-note')
+                            ->text(__('This is the comma separeted list of administrator mail address who receive new registration notification.')),
+                        (new Para())
+                            ->items([
+                                (new Input(My::id() . 'email_from'))
+                                    ->class('maximal')
+                                    ->size(65)
+                                    ->maxlength(255)
+                                    ->value($blog_settings->get(My::id())->get('email_from'))
+                                    ->label(new Label(__('Registration no-reply email:'), Label::OL_TF)),
                         ]),
-                        (new Note())->class('form-note')->text(__('This is mail address used on registration confirmation email.')),
+                        (new Note())
+                            ->class('form-note')
+                            ->text(__('This is mail address used on registration confirmation email.')),
                         (new Para())
                             ->items([
                                 (new Textarea(My::id() . 'connected', Html::escapeHTML((string) $blog_settings->get(My::id())->get('connected'))))
@@ -109,11 +124,12 @@ class Backend extends Process
                 $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']));
                 $blog_settings->get(My::id())->put('enable_registration', !empty($_POST[My::id() . 'enable_registration']));
                 $blog_settings->get(My::id())->put('enable_recovery', !empty($_POST[My::id() . 'enable_recovery']));
+                $blog_settings->get(My::id())->put('limit_comment', !empty($_POST[My::id() . 'limit_comment']));
                 $blog_settings->get(My::id())->put('disable_css', !empty($_POST[My::id() . 'disable_css']));
                 $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration']);
                 $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from']);
-                $blog_settings->get(My::id())->put('connected', $_POST[My::id() . 'connected']);
-                $blog_settings->get(My::id())->put('disconnected', $_POST[My::id() . 'disconnected']);
+                $blog_settings->get(My::id())->put('connected', (string) $_POST[My::id() . 'connected']);
+                $blog_settings->get(My::id())->put('disconnected', (string) $_POST[My::id() . 'disconnected']);
             },
             // add js for test editor
             'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend'),
@@ -134,7 +150,7 @@ class Backend extends Process
             // simple menu select
             'adminSimpleMenuBeforeEdit' => function ($type, $select, &$attr): void {
                 if ($type == My::id()) {
-                    $attr[0] = __('Connexion');
+                    $attr[0] = __('My account');
                     $attr[1] = __('Sign in to this blog');
                     $attr[2] = App::blog()->url() . App::url()->getURLFor(My::id());
                 }

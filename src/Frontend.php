@@ -29,7 +29,7 @@ class Frontend extends Process
         }
 
         // locales in public file
-        L10n::set(dirname(__DIR__) . '/locales/' . App::lang()->getLang() . '/public');
+        //L10n::set(dirname(__DIR__) . '/locales/' . App::lang()->getLang() . '/public');
 
         // template values and block
         App::frontend()->template()->addBlock('FrontendSessionIf', FrontendTemplate::FrontendSessionIf(...));
@@ -43,9 +43,12 @@ class Frontend extends Process
         // behaviors
         App::behavior()->addBehaviors([
             'initWidgets'                    => Widgets::initWidgets(...),
+            'coreBlogGetPosts'               => FrontendBehaviors::coreBlogGetPosts(...),
+            'coreBeforeCommentCreate'        => FrontendBehaviors::coreBeforeCommentCreate(...),
             'publicHeadContent'              => FrontendBehaviors::publicHeadContent(...),
             'publicCommentFormBeforeContent' => FrontendBehaviors::publicCommentFormBeforeContent(...),
             'FrontendSessionAfterSignup'     => FrontendBehaviors::FrontendSessionAfterSignup(...),
+            'publicCommentFormBeforeContent' => FrontendBehaviors::publicCommentFormBeforeContent(...),
         ]);
 
         App::frontend()->context()->frontend_session = new FrontendSession(My::SESSION_NAME);
