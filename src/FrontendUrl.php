@@ -114,7 +114,7 @@ class FrontendUrl extends Url
                         self::$form_error[] = __('Username already exists.');
                     }
 
-                    if (self::$form_error !== []) {
+                    if (self::$form_error === []) {
                         try {
                             $cur                 = App::auth()->openUserCursor();
                             $cur->user_id        = $signup_login;
@@ -128,7 +128,7 @@ class FrontendUrl extends Url
                             if ($signup_login != App::auth()->sudo([App::users(), 'addUser'], $cur)) {
                                 self::$form_error[] = __('Something went wrong while trying to register user.');
                             } else {
-                                App::auth()->sudo([App::users(), 'setUserPermissions'], $signup_login, [App::blog()->id() => [My::id() => true]]);
+                                App::auth()->sudo([App::users(), 'setUserBlogPermissions'], $signup_login, App::blog()->id(), [My::id() => true]);
 
                                 # --BEHAVIOR-- FrontendSessionAfterSignup -- Cursor
                                 App::behavior()->callBehavior(My::id() . 'AfterSignup', $cur);
