@@ -6,7 +6,6 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
 use Dotclear\Database\MetaRecord;
-use Dotclear\Schema\Extension\Post;
 
 /**
  * @brief       daRepo module record extension.
@@ -15,7 +14,7 @@ use Dotclear\Schema\Extension\Post;
  * @author      Dotclear team
  * @copyright   AGPL-3.0
  */
-class RecordExtendPost extends Post
+class RecordExtendPost
 {
     /**
      * Returns whether comments are enabled on post.
