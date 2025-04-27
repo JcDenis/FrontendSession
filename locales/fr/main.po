@@ -319,7 +319,7 @@ msgstr "Site :"
 
 #: src/Mail.php:78
 msgid "Administrators need to review before activate your account but they will do it as soon as possible."
-msgstr "Un administrateur doit vérifier votre inscription avant activation de votre compte. Ce sera fait aussi vite que posible."
+msgstr "Un administrateur doit vérifier votre inscription avant activation de votre compte. Ce sera fait aussi vite que possible."
 
 #: src/Mail.php:79
 msgid "You will receive an email when it will be ready."
