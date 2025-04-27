@@ -1,3 +1,10 @@
+FrontendSession 0.18 - 2025.04.27
+==========================================================
+* Require Dotclear 2.34
+* Require PHP 8.3
+* Add option to limit new comment to registered user only
+* Fix user registration
+
 FrontendSession 0.17 - 2025.04.25
 ==========================================================
 * Require Dotclear 2.34
