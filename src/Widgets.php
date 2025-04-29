@@ -6,7 +6,7 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use ArrayObject;
 use Dotclear\App;
-use Dotclear\Helper\Html\Form\{ Checkbox, Div, Form, Hidden, Input, Label, Li, Link, Password, Para, Submit, Text, Ul };
+use Dotclear\Helper\Html\Form\{ Checkbox, Form, Hidden, Input, Label, Li, Link, Password, Para, Submit, Text, Ul };
 use Dotclear\Helper\Network\Http;
 use Dotclear\Plugin\widgets\WidgetsElement;
 use Dotclear\Plugin\widgets\WidgetsStack;
@@ -57,7 +57,6 @@ class Widgets
         $url = App::blog()->url() . App::url()->getURLFor(My::id());
 
         if (App::auth()->userID() != '') {
-
             # --BEHAVIOR-- publicFrontendSessionWidget -- ArrayObject
             App::behavior()->callBehavior('publicFrontendSessionWidget', $lines);
 

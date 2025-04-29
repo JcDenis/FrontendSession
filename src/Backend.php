@@ -86,7 +86,7 @@ class Backend extends Process
                                     ->maxlength(255)
                                     ->value($blog_settings->get(My::id())->get('email_registration'))
                                     ->label(new Label(__('Registration administrator email:'), Label::OL_TF)),
-                        ]),
+                            ]),
                         (new Note())
                             ->class('form-note')
                             ->text(__('This is the comma separeted list of administrator mail address who receive new registration notification.')),
@@ -98,7 +98,7 @@ class Backend extends Process
                                     ->maxlength(255)
                                     ->value($blog_settings->get(My::id())->get('email_from'))
                                     ->label(new Label(__('Registration no-reply email:'), Label::OL_TF)),
-                        ]),
+                            ]),
                         (new Note())
                             ->class('form-note')
                             ->text(__('This is mail address used on registration confirmation email.')),

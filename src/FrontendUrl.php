@@ -35,7 +35,7 @@ class FrontendUrl extends Url
      */
     public static function sessionAction(?string $args): void
     {
-        if (!My::settings()->get('active') 
+        if (!My::settings()->get('active')
             || !is_a(App::frontend()->context()->frontend_session, FrontendSession::class)
         ) {
             self::p404();
@@ -67,12 +67,12 @@ class FrontendUrl extends Url
                 if (App::auth()->userID() == '' && in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
                     self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
                 } elseif (!App::frontend()->context()->frontend_session->check(
-                        $signin_login,
-                        $signin_password,
-                        null,
-                        $redir,
-                        $signin_remember
-                    )) {
+                    $signin_login,
+                    $signin_password,
+                    null,
+                    $redir,
+                    $signin_remember
+                )) {
                     self::$form_error[] = __('Wrong username or password.');
                 } else {
                     App::frontend()->context()->frontend_session->redirect($redir);
@@ -136,7 +136,7 @@ class FrontendUrl extends Url
                                 // send confirmation email
                                 Mail::sendRegistrationMail($signup_login, $signup_password, $signup_email);
 
-                                App::frontend()->context()->frontend_session->success  = __('Thank you for your registration. An administrator will validate your request soon.');
+                                App::frontend()->context()->frontend_session->success = __('Thank you for your registration. An administrator will validate your request soon.');
                             }
                         } catch (Throwable) {
                             self::$form_error[] = __('Something went wrong while trying to register user.');
@@ -157,7 +157,7 @@ class FrontendUrl extends Url
                         try {
                             $res = App::auth()->recoverUserPassword($state);
                             Mail::sendPasswordMail($res['user_id'], $res['new_pass'], $res['user_email']);
-                            App::frontend()->context()->frontend_session->success  = __('Your new password is in your mailbox.');
+                            App::frontend()->context()->frontend_session->success = __('Your new password is in your mailbox.');
                         } catch (Throwable) {
                             self::$form_error[] = __('Unknow username or email.');
                         }
@@ -190,7 +190,7 @@ class FrontendUrl extends Url
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
                     if (count($args) == 5 && empty($change_data)) {
-                        self::$form_error[]                       = __('You must set a new password.');
+                        self::$form_error[]                                 = __('You must set a new password.');
                         App::frontend()->context()->frontend_session->state = My::STATE_CHANGE;
                         App::frontend()->context()->frontend_session->data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
                     } elseif (!empty($change_data)) {
@@ -266,7 +266,7 @@ class FrontendUrl extends Url
 
                 if (!App::auth()->checkPassword($current)) {
                     self::$form_error[] = __('Password verification failed.');
-                } elseif (strlen(trim($newpass)) < 6) {
+                } elseif (strlen(trim((string) $newpass)) < 6) {
                     self::$form_error[] = __('Password must be 6 or more chars length.');
                 } elseif ($newpass !== $vrfpass) {
                     self::$form_error[] = __('Passwords mismatch.');
@@ -292,7 +292,7 @@ class FrontendUrl extends Url
 
                 break;
         }
-    
+
         self::serveTemplate();
     }
 

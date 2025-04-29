@@ -48,7 +48,6 @@ class Frontend extends Process
             'publicHeadContent'              => FrontendBehaviors::publicHeadContent(...),
             'publicCommentFormBeforeContent' => FrontendBehaviors::publicCommentFormBeforeContent(...),
             'FrontendSessionAfterSignup'     => FrontendBehaviors::FrontendSessionAfterSignup(...),
-            'publicCommentFormBeforeContent' => FrontendBehaviors::publicCommentFormBeforeContent(...),
         ]);
 
         App::frontend()->context()->frontend_session = new FrontendSession(My::SESSION_NAME);

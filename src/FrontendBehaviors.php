@@ -54,7 +54,7 @@ class FrontendBehaviors
     {
         $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
 
-        // Load post creation page CSS 
+        // Load post creation page CSS
         if (!My::settings()->get('disable_css') && $tplset == 'dotty') {
             echo My::cssLoad('frontend-dotty');
         }
@@ -103,8 +103,7 @@ class FrontendBehaviors
             return;
         }
 
-        $message = 
-            sprintf('*%s*', __('New user registration')) . "\n" .
+        $message = sprintf('*%s*', __('New user registration')) . "\n" .
             "-- \n" .
             sprintf(__('*Blog:* [%s](%s)'), App::blog()->name(), App::blog()->url()) . "\n" .
             sprintf(__('*User:* %s'), $cur->getField('user_id')) . "\n" .

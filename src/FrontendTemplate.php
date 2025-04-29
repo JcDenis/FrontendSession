@@ -141,8 +141,7 @@ class FrontendTemplate
             (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
             (new Hidden([My::id() . 'action'], $action)),
         ];
-        $form = fn (string $action, string $title, array $items): Div => 
-            (new Div(My::id() . $action))
+        $form = fn (string $action, string $title, array $items): Div => (new Div(My::id() . $action))
                 ->items([
                     (new Text('h3', $title)),
                     (new Form(My::id() . $action . 'form'))
@@ -335,7 +334,7 @@ class FrontendTemplate
         }
 
         // password recovery change form
-        if (App::frontend()->context()->frontend_session->state == My::STATE_CHANGE && My::settings()->get('enable_recovery')) {
+        if (App::frontend()->context()->frontend_session->state === My::STATE_CHANGE && My::settings()->get('enable_recovery')) {
             $action  = My::ACTION_CHANGE;
             $forms[] = $form($action, __('Password change'), [
                 (new Div())
@@ -373,7 +372,7 @@ class FrontendTemplate
         }
 
         // Password change form
-        if ($connected && App::auth()->allowPassChange()){//} && !App::auth()->check(App::auth()::PERMISSION_ADMIN, App::blog()->id())) {
+        if ($connected && App::auth()->allowPassChange()) {//} && !App::auth()->check(App::auth()::PERMISSION_ADMIN, App::blog()->id())) {
             // admins MUST use backend methods to change password
             $action  = My::ACTION_UPDPASS;
             $forms[] = $form($action, __('Password change'), [
@@ -439,7 +438,7 @@ class FrontendTemplate
             ]);
         }
 
-        echo (new Para)
+        echo (new Para())
             ->items($forms)
             ->render();
     }
