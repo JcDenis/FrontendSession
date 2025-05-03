@@ -89,6 +89,7 @@ class FrontendUrl extends Url
                 $signup_vemail    = $_POST[My::id() . $action . '_vemail']    ?? '';
                 $signup_password  = $_POST[My::id() . $action . '_password']  ?? '';
                 $signup_vpassword = $_POST[My::id() . $action . '_vpassword'] ?? '';
+                $signup_condition = !empty($_POST[My::id() . $action . '_condition']);
 
                 if (!empty($signup_login)) {
                     if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
@@ -112,6 +113,9 @@ class FrontendUrl extends Url
                     $exists = App::users()->getUser($signup_login);
                     if (!$exists->isEmpty()) {
                         self::$form_error[] = __('Username already exists.');
+                    }
+                    if (My::settings()->get('condition_page') != '' && !$signup_condition) {
+                        self::$form_error[] = sprintf(__('You must be agree with "%s".'), __('Terms and Conditions'));
                     }
 
                     if (self::$form_error === []) {

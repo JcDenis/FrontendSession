@@ -1,7 +1,7 @@
 <?php
 // Language: Français
-// Module: FrontendSession - 0.17.1
-// Date: 2025-04-26 22:34:17
+// Module: FrontendSession - 0.19
+// Date: 2025-05-03 06:50:20
 // Author: , contact@jcdenis.fr
 // Translated with Translater - 2025.03.03
 
@@ -18,6 +18,9 @@ L10n::$locales['Enable user password recovery form on frontend'] = 'Autoriser la
 L10n::$locales['Limit new comments to registered users'] = 'Limiter les nouveaux commentaires aux utilisateurs enregistrés';
 L10n::$locales['All themes are not necessarily compatible with this feature.'] = 'Tous les thèmes ne sont pas forcément compatibles avec cette option.';
 L10n::$locales['Disable default CSS'] = 'Désactiver la feuille de style additionnelle.';
+L10n::$locales['Link to the "%s" page or entry:'] = 'Lien vers la page ou le billet des "%s" :';
+L10n::$locales['Terms and Conditions'] = 'Conditions Générales d\'Utilisation';
+L10n::$locales['Leave this field empty if you do not have a "%s" page.'] = 'Laisser ce champs vide si vous n\'avez pas de page pour les "%s".';
 L10n::$locales['Registration administrator email:'] = 'Email des superviseurs des inscriptions :';
 L10n::$locales['This is the comma separeted list of administrator mail address who receive new registration notification.'] = 'Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvel inscription d\'utilisateur.';
 L10n::$locales['Registration no-reply email:'] = 'Email sans-réponse des inscriptions :';
@@ -42,6 +45,7 @@ L10n::$locales['Email:'] = 'Email :';
 L10n::$locales['Repeat email:'] = 'Répéter l\'email :';
 L10n::$locales['Should be at least 6 characters long.'] = 'Doit contenir au moins 6 caractères.';
 L10n::$locales['Repeat password:'] = 'Répéter le mot de passe :';
+L10n::$locales['I have read and accept the %s.'] = 'J\'ai lu et j\'accepte les %s.';
 L10n::$locales['Password recovery'] = 'Mot de passe oublié';
 L10n::$locales['Recover'] = 'Récupérer';
 L10n::$locales['You are connected as: %s'] = 'Vous êtes connecté en tant que "%s"';
@@ -63,6 +67,7 @@ L10n::$locales['Email is not valid.'] = 'L\'email n\'est pas valide.';
 L10n::$locales['Passwords missmatch.'] = 'Les mots de passe ne correspondent pas.';
 L10n::$locales['Password must be at lesat 6 characters long.'] = 'Le mot de passe n\'est pas valide.';
 L10n::$locales['Username already exists.'] = 'Cet identifiant n\'es pas disponible.';
+L10n::$locales['You must be agree with "%s".'] = 'Vous devez accepter les "%s".';
 L10n::$locales['Something went wrong while trying to register user.'] = 'Quelques choses a mal tourné lors de votre enregistrement.';
 L10n::$locales['Thank you for your registration. An administrator will validate your request soon.'] = 'Merci pour votre enregistrement. Un administrateur validera bientôt votre demande.';
 L10n::$locales['Your new password is in your mailbox.'] = 'Votre nouveau mot de passe est dans votre boîte à lettres.';

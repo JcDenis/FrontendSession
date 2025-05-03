@@ -103,7 +103,7 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Input([My::id() . My::ACTION_SIGNIN . '_login', My::id() . My::ACTION_SIGNIN . '_login_widget']))
-                                    ->class('maximal')
+                                    //->class('maximal')
                                     ->maxlength(255)
                                     ->autocomplete('username')
                                     ->label((new Label(__('Login:'), Label::OL_TF))->class('required')),
@@ -111,7 +111,7 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Password([My::id() . My::ACTION_SIGNIN . '_password', My::id() . My::ACTION_SIGNIN . '_password_widget']))
-                                    ->class('maximal')
+                                    //->class('maximal')
                                     ->maxlength(255)
                                     ->autocomplete('current-password')
                                     ->label((new Label(__('Password:'), Label::OL_TF))->class('required')),

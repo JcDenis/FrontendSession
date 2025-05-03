@@ -7,7 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Frontend\Tpl;
-use Dotclear\Helper\Html\Form\{ Checkbox, Div, Form, Hidden, Input, Label, Note, Para, Password, Submit, Text };
+use Dotclear\Helper\Html\Form\{ Checkbox, Div, Form, Hidden, Input, Label, Link, None, Note, Para, Password, Submit, Text };
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 
@@ -49,6 +49,10 @@ class FrontendTemplate
         // allow password recovery
         if (isset($attr['recovery'])) {
             $if[] = $sign($attr['recovery']) . My::class . "::settings()->get('enable_recovery')";
+        }
+        // has a condition page link
+        if (isset($attr['condition'])) {
+            $if[] = $sign($attr['condition']) . My::class . "::settings()->get('condition_page')";
         }
         // session state
         if (isset($attr['state'])) {
@@ -274,6 +278,19 @@ class FrontendTemplate
                             ->required(true)
                             ->label(new Label(__('Repeat password:'), Label::OL_TF)),
                     ]),
+                My::settings()->get('condition_page') != '' ? (new Div())
+                    ->class(['inputfield'])
+                    ->items([
+                        (new Checkbox(My::id() . $action . '_condition'))
+                            ->label(new Label(sprintf(
+                                __('I have read and accept the %s.'),
+                                (new Link())
+                                    ->class('outgoing')
+                                    ->href(My::settings()->get('condition_page'))
+                                    ->text(__('Terms and Conditions'))
+                                    ->render()),
+                            Label::OL_FT)),
+                    ]) : (new None()),
                 (new Div())
                     ->class('controlset')
                     ->items([
@@ -372,7 +389,7 @@ class FrontendTemplate
         }
 
         // Password change form
-        if ($connected && App::auth()->allowPassChange()) {//} && !App::auth()->check(App::auth()::PERMISSION_ADMIN, App::blog()->id())) {
+        if ($connected && App::auth()->allowPassChange() && !App::auth()->check(App::auth()::PERMISSION_ADMIN, App::blog()->id())) {
             // admins MUST use backend methods to change password
             $action  = My::ACTION_UPDPASS;
             $forms[] = $form($action, __('Password change'), [

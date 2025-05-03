@@ -7,9 +7,9 @@ namespace Dotclear\Plugin\FrontendSession;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Process;
-use Dotclear\Core\Backend\Notices;
+use Dotclear\Core\Backend\{Notices, Page };
 use Dotclear\Database\Cursor;
-use Dotclear\Helper\Html\Form\{ Checkbox, Div, Input, Label, Note, Para, Text, Textarea };
+use Dotclear\Helper\Html\Form\{ Button, Checkbox, Div, Input, Label, Note, Para, Text, Textarea };
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Interface\Core\BlogSettingsInterface;
@@ -80,6 +80,18 @@ class Backend extends Process
                             ]),
                         (new Para())
                             ->items([
+                                (new Input(My::id() . 'condition_page'))
+                                    ->size(65)
+                                    ->maxlength(255)
+                                    ->value($blog_settings->get(My::id())->get('condition_page'))
+                                    ->label(new Label(sprintf(__('Link to the "%s" page or entry:'), __('Terms and Conditions')), Label::OL_TF)),
+                                (new Button('condition_page_selector', __('Choose an entry'))),
+                            ]),
+                        (new Note())
+                            ->class(['form-note', 'info'])
+                            ->text(sprintf(__('Leave this field empty if you do not have a "%s" page.'), __('Terms and Conditions'))),
+                        (new Para())
+                            ->items([
                                 (new Input(My::id() . 'email_registration'))
                                     ->class('maximal')
                                     ->size(65)
@@ -126,13 +138,28 @@ class Backend extends Process
                 $blog_settings->get(My::id())->put('enable_recovery', !empty($_POST[My::id() . 'enable_recovery']));
                 $blog_settings->get(My::id())->put('limit_comment', !empty($_POST[My::id() . 'limit_comment']));
                 $blog_settings->get(My::id())->put('disable_css', !empty($_POST[My::id() . 'disable_css']));
+                $blog_settings->get(My::id())->put('condition_page', (string) $_POST[My::id() . 'condition_page']);
                 $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration']);
                 $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from']);
                 $blog_settings->get(My::id())->put('connected', (string) $_POST[My::id() . 'connected']);
                 $blog_settings->get(My::id())->put('disconnected', (string) $_POST[My::id() . 'disconnected']);
             },
             // add js for test editor
-            'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend'),
+            'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend') . Page::jsJson(My::id(), [
+                'popup_posts' => App::backend()->url()->get('admin.posts.popup', [
+                    'popup'     => 1,
+                    'plugin_id' => My::id(),
+                    'type'      => 'page',
+                ], '&'),
+            ]),
+            'adminPopupPosts' => function (string $plugin_id): string {
+                return $plugin_id !== My::id() ? '' : 
+                    Page::jsJson('admin.blog_pref', [
+                        'base_url' => App::blog()->url(),
+                        'sibling'  => My::id() . 'condition_page',
+                    ]) .
+                    Page::jsLoad('js/_blog_pref_popup_posts.js');;
+            },
             // add our textarea form ID to post editor
             'adminPostEditorTags' => function (string $editor, string $context, ArrayObject $alt_tags, string $format): void {
                 // there is an existsing postEditor on this page, so we add our textarea to it
