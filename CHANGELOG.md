@@ -1,3 +1,9 @@
+FrontendSession 0.19 - 2025.05.02
+==========================================================
+* Require Dotclear 2.34
+* Require PHP 8.3
+* Add option for a link to Terms and Conditions
+
 FrontendSession 0.18 - 2025.04.27
 ==========================================================
 * Require Dotclear 2.34
