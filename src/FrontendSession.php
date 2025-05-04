@@ -202,7 +202,7 @@ class FrontendSession
                     ->distinct()
                     ->column('blog_id')
                     ->from(App::con()->prefix() . App::blog()::POST_TABLE_NAME)
-                    ->where('user_id = ' . $sql->quote(App::auth()->userID()))
+                    ->where('user_id = ' . $sql->quote((string) App::auth()->userID()))
                     ->select();
 
                 if (!is_null($rs)) {
