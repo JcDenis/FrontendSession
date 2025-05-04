@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
+use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Exception\SessionException;
 use Dotclear\Helper\Network\Http;
 use Throwable;
@@ -54,6 +55,7 @@ class FrontendSession
                     // Avoid loop caused by old cookie
                     $p    = $this->session()->getCookieParameters(false, -600);
                     $p[3] = '/';
+                    $p[4] = $this->domain();
                     setcookie(...$p);   // @phpstan-ignore-line
                 }
             } catch (Throwable) {
@@ -116,6 +118,16 @@ class FrontendSession
     }
 
     /**
+     * Cookie domain.
+     *
+     * User session can be share between subdomain of a multiblog.
+     */
+    public static function domain(): string
+    {
+        return defined('FRONTENDSESSION_COOKIE_DOMAIN') ? FRONTENDSESSION_COOKIE_DOMAIN : '';
+    }
+
+    /**
      * Get browser UID.
      */
     private function uid(string $user_id = ''): string
@@ -135,7 +147,7 @@ class FrontendSession
     {
         if (isset($_COOKIE[My::id()])) {
             unset($_COOKIE[My::id()]);
-            setcookie(My::id(), '', ['expires' => time() - 3600, 'path' => '/', 'domain' => '', 'secure' => $this->ssl()]);
+            setcookie(My::id(), '', ['expires' => time() - 3600, 'path' => '/', 'domain' => $this->domain(), 'secure' => $this->ssl()]);
         }
     }
 
@@ -163,11 +175,53 @@ class FrontendSession
      */
     public function kill(): void
     {
+        // Ping user's blogs
+        $this->triggerBlogs();
+
         // Kill session
         $this->session()->destroy();
 
         // Unset cookie if necessary
         $this->reset();
+    }
+
+    /**
+     * Ping others user blogs on signin/signout.
+     * 
+     * This reduces to near zero cache and is time consuming.
+     */
+    private function triggerBlogs(): void
+    {
+        if (App::auth()->userID() != '' && $this->domain() != '') {
+
+            $old_blog = App::blog()->id();
+            if (App::auth()->isSuperAdmin()) {
+                // taken from App::users()->updUser()
+                $sql = new SelectStatement();
+                $rs = $sql
+                    ->distinct()
+                    ->column('blog_id')
+                    ->from(App::con()->prefix() . App::blog()::POST_TABLE_NAME)
+                    ->where('user_id = ' . $sql->quote(App::auth()->userID()))
+                    ->select();
+
+                if (!is_null($rs)) {
+                    while ($rs->fetch()) {
+                        App::blog()->loadFromBlog($rs->f('blog_id'));
+                        App::blog()->triggerBlog();
+                    }
+                }
+            } else {
+                $res = App::users()->getUserPermissions((string) App::auth()->userID());
+                foreach ($res as $blog_id => $perms) {
+                    if (isset($perms['p'][My::id()]) || isset($perms['p'][App::auth()::PERMISSION_ADMIN])) {
+                        App::blog()->loadFromBlog($blog_id);
+                        App::blog()->triggerBlog();
+                    }
+                }
+            }
+            App::blog()->loadFromBlog($old_blog);
+        }
     }
 
     /**
@@ -249,8 +303,10 @@ class FrontendSession
                     setcookie(
                         My::id(),
                         $user_key === null ? $this->uid($user_id) : $_COOKIE[My::id()],
-                        ['expires' => strtotime('+15 days'), 'path' => '/', 'domain' => '', 'secure' => $this->ssl()]
+                        ['expires' => strtotime('+15 days'), 'path' => '/', 'domain' => $this->domain(), 'secure' => $this->ssl()]
                     );
+
+                    $this->triggerBlogs();
                 }
 
                 return true;

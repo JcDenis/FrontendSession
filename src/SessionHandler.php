@@ -24,6 +24,7 @@ class SessionHandler extends DatabaseSession
             table : App::con()->prefix() . self::SESSION_TABLE_NAME,
             cookie_name: $session_name,
             cookie_secure: $ssl,
+            cookie_domain: FrontendSession::domain(),
             ttl: App::config()->sessionTtl()
         );
 
