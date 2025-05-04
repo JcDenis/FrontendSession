@@ -1,3 +1,10 @@
+FrontendSession 0.20 - 2025.05.04
+==========================================================
+* Require Dotclear 2.34
+* Require PHP 8.3
+* Add behavior for third party session page action
+* Add link to session page on widget
+
 FrontendSession 0.19 - 2025.05.02
 ==========================================================
 * Require Dotclear 2.34
