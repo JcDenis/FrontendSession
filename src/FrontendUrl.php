@@ -293,6 +293,12 @@ class FrontendUrl extends Url
                 break;
 
             default:
+                if ($action != '') {
+                    self::checkForm();
+
+                    # --BEHAVIOR-- publicFrontendSessionAction -- string
+                    App::behavior()->callBehavior('publicFrontendSessionAction', $action);
+                }
 
                 break;
         }
