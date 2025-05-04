@@ -60,6 +60,14 @@ class Widgets
             # --BEHAVIOR-- publicFrontendSessionWidget -- ArrayObject
             App::behavior()->callBehavior('publicFrontendSessionWidget', $lines);
 
+
+            $lines[] = (new Li())
+                ->items([
+                    (new Link())
+                        ->href($url . '#' . My::id() . My::ACTION_UPDPREF)
+                        ->text(__('My account')),
+                ]);
+
             // signout
             $form = (new Form())
                     ->class('session-form')
