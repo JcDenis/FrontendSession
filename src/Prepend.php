@@ -7,8 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Helper\Stack\Status;
-use Dotclear\Plugin\TelegramNotifier\Telegram;
-use Dotclear\Plugin\TelegramNotifier\TelegramAction;
+use Dotclear\Plugin\TelegramNotifier\{Telegram, TelegramAction };
 
 /**
  * @brief       FrontendSession module prepend.

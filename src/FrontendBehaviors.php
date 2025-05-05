@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Database\Cursor;
-use Dotclear\Database\MetaRecord;
+use Dotclear\Database\{Cursor, MetaRecord };
 use Dotclear\Interface\Core\BlogInterface;
 use Dotclear\Plugin\TelegramNotifier\Telegram;
 use Exception;
