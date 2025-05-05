@@ -292,6 +292,13 @@ class FrontendTemplate
                             Label::OL_FT)),
                     ]) : (new None()),
                 (new Div())
+                    ->class(['inputfield'])
+                    ->items([
+                        (new Checkbox(My::id() . $action . '_nologin', false))
+                            ->value('1')
+                            ->label(new Label(__('Do not check this box'), Label::OL_FT)),
+                    ]),
+                (new Div())
                     ->class('controlset')
                     ->items([
                         (new Submit(My::id() . $action . 'save', __('Sign up')))

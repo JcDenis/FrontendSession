@@ -90,6 +90,7 @@ class FrontendUrl extends Url
                 $signup_password  = $_POST[My::id() . $action . '_password']  ?? '';
                 $signup_vpassword = $_POST[My::id() . $action . '_vpassword'] ?? '';
                 $signup_condition = !empty($_POST[My::id() . $action . '_condition']);
+                $signup_spamtrap  = !empty($_POST[My::id() . $action . '_nologin']);
 
                 if (!empty($signup_login)) {
                     if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
@@ -116,6 +117,9 @@ class FrontendUrl extends Url
                     }
                     if (My::settings()->get('condition_page') != '' && !$signup_condition) {
                         self::$form_error[] = sprintf(__('You must be agree with "%s".'), __('Terms and Conditions'));
+                    }
+                    if ($signup_spamtrap) {
+                        self::$form_error[] = __('You must must not check last box.');
                     }
 
                     if (self::$form_error === []) {
