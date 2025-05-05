@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Core\Frontend\Url;
-use Dotclear\Core\Frontend\Utility;
+use Dotclear\Core\Frontend\{Url, Utility };
 use Dotclear\Exception\PreconditionException;
 use Dotclear\Helper\File\Path;
+use Dotclear\Helper\Network\Http;
 use Dotclear\Helper\Text;
 use Throwable;
 
@@ -35,6 +35,15 @@ class FrontendUrl extends Url
      */
     public static function sessionAction(?string $args): void
     {
+        // Honeypot
+        if (!empty($_POST['email']) || !empty($_POST['agree'])) {
+            Http::head(412, 'Precondition Failed');
+            header('Content-Type: text/plain');
+            echo 'So Long, and Thanks For All the Fish';
+            // Exits immediately the application to preserve the server.
+            exit;
+        }
+
         if (!My::settings()->get('active')
             || !is_a(App::frontend()->context()->frontend_session, FrontendSession::class)
         ) {
@@ -90,7 +99,6 @@ class FrontendUrl extends Url
                 $signup_password  = $_POST[My::id() . $action . '_password']  ?? '';
                 $signup_vpassword = $_POST[My::id() . $action . '_vpassword'] ?? '';
                 $signup_condition = !empty($_POST[My::id() . $action . '_condition']);
-                $signup_spamtrap  = !empty($_POST[My::id() . $action . '_nologin']);
 
                 if (!empty($signup_login)) {
                     if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
@@ -117,9 +125,6 @@ class FrontendUrl extends Url
                     }
                     if (My::settings()->get('condition_page') != '' && !$signup_condition) {
                         self::$form_error[] = sprintf(__('You must be agree with "%s".'), __('Terms and Conditions'));
-                    }
-                    if ($signup_spamtrap) {
-                        self::$form_error[] = __('You must must not check last box.');
                     }
 
                     if (self::$form_error === []) {
@@ -305,6 +310,17 @@ class FrontendUrl extends Url
                 }
 
                 break;
+        }
+
+        if (My::settings()->get('log_form_error') && self::$form_error !== []) {
+            // remove passwords from logs
+            $_post = array_combine(array_keys($_POST), array_map(fn ($k, $v): string => str_contains($k, 'pass') ? '****' : $v, array_keys($_POST), array_values($_POST)));
+
+            $cur = App::log()->openLogCursor();
+            $cur->setField('log_table', My::id());
+            $cur->setField('log_msg', json_encode(['action' => $action, 'post' => $_post, 'error' => self::$form_error]));
+
+            App::log()->addLog($cur);
         }
 
         self::serveTemplate();

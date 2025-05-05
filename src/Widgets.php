@@ -6,10 +6,9 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use ArrayObject;
 use Dotclear\App;
-use Dotclear\Helper\Html\Form\{ Checkbox, Form, Hidden, Input, Label, Li, Link, Password, Para, Submit, Text, Ul };
+use Dotclear\Helper\Html\Form\{ Checkbox, Email, Form, Hidden, Input, Label, Li, Link, Password, Para, Submit, Text, Ul };
 use Dotclear\Helper\Network\Http;
-use Dotclear\Plugin\widgets\WidgetsElement;
-use Dotclear\Plugin\widgets\WidgetsStack;
+use Dotclear\Plugin\widgets\{WidgetsElement, WidgetsStack };
 
 /**
  * @brief       FrontendSession module widgets helper.
@@ -111,7 +110,6 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Input([My::id() . My::ACTION_SIGNIN . '_login', My::id() . My::ACTION_SIGNIN . '_login_widget']))
-                                    //->class('maximal')
                                     ->maxlength(255)
                                     ->autocomplete('username')
                                     ->label((new Label(__('Login:'), Label::OL_TF))->class('required')),
@@ -119,10 +117,16 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Password([My::id() . My::ACTION_SIGNIN . '_password', My::id() . My::ACTION_SIGNIN . '_password_widget']))
-                                    //->class('maximal')
                                     ->maxlength(255)
                                     ->autocomplete('current-password')
                                     ->label((new Label(__('Password:'), Label::OL_TF))->class('required')),
+                            ]),
+                        // Honeypot
+                        (new Para())
+                            ->extra('style="display:none;"')
+                            ->items([
+                                (new Email(['email']))
+                                    ->value(''),
                             ]),
                         (new Para())
                             ->items([

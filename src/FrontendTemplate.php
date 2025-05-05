@@ -7,7 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Frontend\Tpl;
-use Dotclear\Helper\Html\Form\{ Checkbox, Div, Form, Hidden, Input, Label, Link, None, Note, Para, Password, Submit, Text };
+use Dotclear\Helper\Html\Form\{ Checkbox, Div, Email, Form, Hidden, Input, Label, Link, None, Note, Para, Password, Submit, Text };
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 
@@ -235,24 +235,33 @@ class FrontendTemplate
                             ->required(true)
                             ->label(new Label(__('Last Name:'), Label::OL_TF)),
                     ]),
+                // Honeypot
+                (new Div())
+                    ->extra('style="display:none;"')
+                    ->items([
+                        (new Email('email'))
+                            ->value(''),
+                    ]),
                 (new Div())
                     ->class(['inputfield', 'required'])
                     ->items([
-                        (new Input(My::id() . $action . '_email'))
+                        (new Email(My::id() . $action . '_email'))
                             ->size(30)
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('username')
                             ->label(new Label(__('Email:'), Label::OL_TF)),
                     ]),
                 (new Div())
                     ->class(['inputfield', 'required'])
                     ->items([
-                        (new Input(My::id() . $action . '_vemail'))
+                        (new Email(My::id() . $action . '_vemail'))
                             ->size(30)
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('username')
                             ->label(new Label(__('Repeat email:'), Label::OL_TF)),
                     ]),
                 (new Div())
@@ -263,6 +272,7 @@ class FrontendTemplate
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('new-password')
                             ->label(new Label(__('Password:'), Label::OL_TF)),
                         (new Note())
                             ->class('note')
@@ -276,6 +286,7 @@ class FrontendTemplate
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('new-password')
                             ->label(new Label(__('Repeat password:'), Label::OL_TF)),
                     ]),
                 My::settings()->get('condition_page') != '' ? (new Div())
@@ -291,10 +302,11 @@ class FrontendTemplate
                                     ->render()),
                             Label::OL_FT)),
                     ]) : (new None()),
+                // Honeypot
                 (new Div())
                     ->class(['inputfield'])
                     ->items([
-                        (new Checkbox(My::id() . $action . '_nologin', false))
+                        (new Checkbox('agree', false))
                             ->value('1')
                             ->label(new Label(__('Do not check this box'), Label::OL_FT)),
                     ]),
@@ -312,24 +324,33 @@ class FrontendTemplate
         if (!$connected && My::settings()->get('enable_recovery')) {
             $action  = My::ACTION_RECOVER;
             $forms[] = $form($action, __('Password recovery'), [
+                // Honeypot
+                (new Div())
+                    ->extra('style="display:none;"')
+                    ->items([
+                        (new Email('email'))
+                            ->value(''),
+                    ]),
                 (new Div())
                     ->class(['inputfield', 'required'])
                     ->items([
-                        (new Input(My::id() . $action . '_usermail'))
+                        (new Email(My::id() . $action . '_usermail'))
                             ->size(30)
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('username')
                             ->label(new Label(__('Username:'), Label::OL_TF)),
                     ]),
                 (new Div())
                     ->class(['inputfield', 'required'])
                     ->items([
-                        (new Input(My::id() . $action . '_email'))
+                        (new Email(My::id() . $action . '_email'))
                             ->size(30)
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('username')
                             ->label(new Label(__('Email:'), Label::OL_TF)),
                     ]),
                 (new Div())
@@ -369,6 +390,7 @@ class FrontendTemplate
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('new-password')
                             ->label(new Label(__('New password:'), Label::OL_TF)),
                         (new Note())
                             ->class('note')
@@ -382,6 +404,7 @@ class FrontendTemplate
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('new-password')
                             ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
                     ]),
                 (new Div())
@@ -408,6 +431,7 @@ class FrontendTemplate
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('current-password')
                             ->label(new Label(__('Current password:'), Label::OL_TF)),
                     ]),
                 (new Div())
@@ -418,6 +442,7 @@ class FrontendTemplate
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('new-password')
                             ->label(new Label(__('New password:'), Label::OL_TF)),
                     ]),
                 (new Div())
@@ -428,6 +453,7 @@ class FrontendTemplate
                             ->maxlength(255)
                             ->value('')
                             ->required(true)
+                            ->autocomplete('new-password')
                             ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
                     ]),
                 (new Div())
