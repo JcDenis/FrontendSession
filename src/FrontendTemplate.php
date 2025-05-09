@@ -141,7 +141,8 @@ class FrontendTemplate
         $forms     = [];
 
         $hidden = fn (string $action): array => [
-            (new Hidden([My::id() . 'redir'], Http::getSelfURI())),
+            (new Hidden([My::id() . 'redir'], App::blog()->url() . App::url()->getBase(My::id()))),
+            (new Hidden([My::id() . 'state'], '')),
             (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
             (new Hidden([My::id() . 'action'], $action)),
         ];

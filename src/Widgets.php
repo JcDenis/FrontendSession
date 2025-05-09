@@ -78,6 +78,7 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
+                                (new Hidden([My::id() . 'state'], '')),
                                 (new Hidden([My::id() . 'action', My::id() . My::ACTION_SIGNOUT . 'action_widget'], My::ACTION_SIGNOUT)),
                                 (new Submit([My::id() . 'submit', My::id() . My::ACTION_SIGNOUT . 'submit_widget'], __('Disconnect'))),
                             ]),
@@ -136,6 +137,7 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
+                                (new Hidden([My::id() . 'state'], '')),
                                 (new Hidden([My::id() . 'redir', My::id() . My::ACTION_SIGNIN . 'redir_widget'], Http::getSelfURI())),
                                 (new Hidden([My::id() . 'action', My::id() . My::ACTION_SIGNIN . 'action_widget'], My::ACTION_SIGNIN)),
                                 (new Submit([My::id() . 'submit', My::id() . My::ACTION_SIGNIN . 'submit_widget'], __('Connect'))),

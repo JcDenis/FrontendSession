@@ -68,14 +68,18 @@ class FrontendUrl extends Url
                 break;
 
             case My::ACTION_SIGNIN:
+                if (in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
+                    self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
+
+                    break;
+                }
+
                 self::checkForm();
                 $signin_login    = $_POST[My::id() . $action . '_login']    ?? '';
                 $signin_password = $_POST[My::id() . $action . '_password'] ?? '';
                 $signin_remember = !empty($_POST[My::id() . $action . '_remember']);
 
-                if (App::auth()->userID() == '' && in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
-                    self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
-                } elseif (!App::frontend()->context()->frontend_session->check(
+                if (!App::frontend()->context()->frontend_session->check(
                     $signin_login,
                     $signin_password,
                     null,
