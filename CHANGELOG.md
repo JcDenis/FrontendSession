@@ -1,3 +1,7 @@
+FrontendSession 0.23 - 2025.05.09
+==========================================================
+* Manage comments activation and moderation for third party plugins
+
 FrontendSession 0.22 - 2025.05.09
 ==========================================================
 * Fix pending registration login
