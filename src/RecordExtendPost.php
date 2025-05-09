@@ -6,6 +6,7 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
 use Dotclear\Database\MetaRecord;
+use Dotclear\Schema\Extension\PostPublic;
 
 /**
  * @brief       daRepo module record extension.
@@ -25,9 +26,18 @@ class RecordExtendPost
      */
     public static function commentsActive(MetaRecord $rs): bool
     {
-        return (!My::settings()->get('limit_comment') || App::auth()->check(My::id(), App::blog()->id()))
-            && App::blog()->settings()->system->allow_comments
-            && $rs->post_open_comment
-            && (App::blog()->settings()->system->comments_ttl == 0 || time() - (App::blog()->settings()->system->comments_ttl * 86400) < $rs->getTS());
+        $option = new CommentOptions($rs);
+
+        # --BEHAVIOR-- FrontendSessionCommentsActive -- CommentOptions
+        App::behavior()->callBehavior('FrontendSessionCommentsActive', $option);
+
+        // check third party plugins
+        if (is_bool($option->isActive())) {
+
+            return $option->isActive();
+        }
+
+        // at least check frontent session settings, then Doclear settings
+        return (!My::settings()->get('limit_comment') || App::auth()->check(My::id(), App::blog()->id())) && PostPublic::commentsActive($rs);
     }
 }

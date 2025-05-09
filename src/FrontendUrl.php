@@ -309,8 +309,8 @@ class FrontendUrl extends Url
                 if ($action != '') {
                     self::checkForm();
 
-                    # --BEHAVIOR-- publicFrontendSessionAction -- string
-                    App::behavior()->callBehavior('publicFrontendSessionAction', $action);
+                    # --BEHAVIOR-- FrontendSessionAction -- string
+                    App::behavior()->callBehavior('FrontendSessionAction', $action);
                 }
 
                 break;

@@ -56,8 +56,8 @@ class Widgets
         $url = App::blog()->url() . App::url()->getURLFor(My::id());
 
         if (App::auth()->userID() != '') {
-            # --BEHAVIOR-- publicFrontendSessionWidget -- ArrayObject
-            App::behavior()->callBehavior('publicFrontendSessionWidget', $lines);
+            # --BEHAVIOR-- FrontendSessionWidget -- ArrayObject
+            App::behavior()->callBehavior('FrontendSessionWidget', $lines);
 
 
             $lines[] = (new Li())

@@ -33,8 +33,19 @@ class FrontendBehaviors
      */
     public static function coreBeforeCommentCreate(BlogInterface $blog, Cursor $cur): void
     {
-        // Only loggued in user
-        if (My::settings()->get('limit_comment') && App::auth()->userID() == '') {
+        $rs = $cur->post_id ? App::blog()->getPosts(['post_id' => $cur->post_id]) : null;
+        $option = new CommentOptions($rs, $cur);
+
+        # --BEHAVIOR-- FrontendSessionCommentsActive -- CommentOptions
+        App::behavior()->callBehavior('FrontendSessionCommentsActive', $option);
+
+        // check third party plugins
+        if (is_bool($option->isModerate())) {
+            $cur->setField('comment_status', $option->isModerate() ? App::status()->comment()::UNPUBLISHED : App::status()->comment()::PUBLISHED);
+        }
+
+        // recheck comment active, should never happened. if no option and limit and user not auth = stop
+        if ($option->isActive() === null && My::settings()->get('limit_comment') && App::auth()->userID() == '') {
             throw new Exception(__('Comments creation are limited to registered users.'));
         }
 
