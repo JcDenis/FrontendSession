@@ -33,7 +33,11 @@ class FrontendBehaviors
      */
     public static function coreBeforeCommentCreate(BlogInterface $blog, Cursor $cur): void
     {
+        // Don't know why but lock table is required ?!
+        App::con()->writeLock(App::blog()::POST_TABLE_NAME);
         $rs = $cur->post_id ? App::blog()->getPosts(['post_id' => $cur->post_id]) : null;
+        App::con()->unlock();
+
         $option = new CommentOptions($rs, $cur);
 
         # --BEHAVIOR-- FrontendSessionCommentsActive -- CommentOptions
