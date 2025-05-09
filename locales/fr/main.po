@@ -1,20 +1,27 @@
 # Language: Français
-# Module: FrontendSession - 0.20.4
-# Date: 2025-05-05 16:52:02
+# Module: FrontendSession - 0.21.2
+# Date: 2025-05-09 09:36:09
 # Author: , contact@jcdenis.fr
 # Translated with translater 2025.03.03
 
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: FrontendSession 0.20.4\n"
+"Project-Id-Version: FrontendSession 0.21.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-05-05T16:52:02+00:00\n"
+"PO-Revision-Date: 2025-05-09T09:36:09+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: default-templates/dotty/FrontendSession.html:3
+#: default-templates/mustek/FrontendSession.html:12
+#: src/Backend.php:180
+#: src/Widgets.php:35
+msgid "My account"
+msgstr "Mon compte"
 
 #: src/Backend.php:52
 msgid "Enable sessions on frontend"
@@ -45,8 +52,8 @@ msgid "Link to the \"%s\" page or entry:"
 msgstr "Lien vers la page ou le billet des \"%s\" :"
 
 #: src/Backend.php:87
-#: src/FrontendTemplate.php:290
-#: src/FrontendUrl.php:119
+#: src/FrontendTemplate.php:302
+#: src/FrontendUrl.php:131
 msgid "Terms and Conditions"
 msgstr "Conditions Générales d'Utilisation"
 
@@ -90,232 +97,232 @@ msgstr "Se connecter au blog"
 msgid "User has been successfully marked as pending."
 msgstr "L'utilisateur est été marqué en attente avec succès."
 
-#: src/FrontendBehaviors.php:39
+#: src/FrontendBehaviors.php:38
 msgid "Comments creation are limited to registered users."
 msgstr "La création de commentaire est limité aux utilisateurs enregistrés."
 
-#: src/FrontendBehaviors.php:106
+#: src/FrontendBehaviors.php:105
 #: src/Mail.php:89
 msgid "New user registration"
 msgstr "Nouvelle inscription"
 
-#: src/FrontendTemplate.php:161
+#: src/FrontendBehaviors.php:111
+msgid "Follow this link below to validate it:"
+msgstr "Suivez le lien ci-dessous pour le valider :"
+
+#: src/FrontendTemplate.php:162
 msgid "Sign in"
 msgstr "Se connecter"
 
-#: src/FrontendTemplate.php:171
-#: src/Widgets.php:117
+#: src/FrontendTemplate.php:172
+#: src/Widgets.php:116
 msgid "Login:"
 msgstr "Identifiant :"
 
-#: src/FrontendTemplate.php:182
+#: src/FrontendTemplate.php:183
 #: src/Mail.php:77
-#: src/Widgets.php:125
+#: src/Widgets.php:123
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: src/FrontendTemplate.php:188
-#: src/Widgets.php:130
+#: src/FrontendTemplate.php:189
+#: src/Widgets.php:135
 msgid "Remenber me"
 msgstr "Se souvenir de moi"
 
-#: src/FrontendTemplate.php:203
+#: src/FrontendTemplate.php:204
 #: src/Widgets.php:100
 msgid "Sign up"
 msgstr "S'inscrire"
 
-#: src/FrontendTemplate.php:213
+#: src/FrontendTemplate.php:214
 #: src/Mail.php:76
 msgid "Username:"
 msgstr "Nom d'utilisatrice ou d'utilisateur :"
 
-#: src/FrontendTemplate.php:216
+#: src/FrontendTemplate.php:217
 msgid "Should be at least 3 characters long with only figures and letters."
 msgstr "Doit contenir au moins 3 caractères avec uniquement des chiffres et des lettres"
 
-#: src/FrontendTemplate.php:226
+#: src/FrontendTemplate.php:227
 msgid "First Name:"
 msgstr "Prénom :"
 
-#: src/FrontendTemplate.php:236
+#: src/FrontendTemplate.php:237
 msgid "Last Name:"
 msgstr "Nom :"
 
-#: src/FrontendTemplate.php:246
+#: src/FrontendTemplate.php:255
 #: src/Mail.php:93
 msgid "Email:"
 msgstr "Email :"
 
-#: src/FrontendTemplate.php:256
+#: src/FrontendTemplate.php:266
 msgid "Repeat email:"
 msgstr "Répéter l'email :"
 
-#: src/FrontendTemplate.php:269
+#: src/FrontendTemplate.php:280
 msgid "Should be at least 6 characters long."
 msgstr "Doit contenir au moins 6 caractères."
 
-#: src/FrontendTemplate.php:279
+#: src/FrontendTemplate.php:291
 msgid "Repeat password:"
 msgstr "Répéter le mot de passe :"
 
-#: src/FrontendTemplate.php:286
+#: src/FrontendTemplate.php:298
 msgid "I have read and accept the %s."
 msgstr "J'ai lu et j'accepte les %s."
 
-#: src/FrontendTemplate.php:299
+#: src/FrontendTemplate.php:312
 msgid "Do not check this box"
-msgstr "Ne pas cacher cette case"
+msgstr "Ne pas cocher cette case"
 
-#: src/FrontendTemplate.php:314
+#: src/FrontendTemplate.php:327
 #: src/Widgets.php:92
 msgid "Password recovery"
 msgstr "Mot de passe oublié"
 
-#: src/FrontendTemplate.php:338
+#: src/FrontendTemplate.php:360
 msgid "Recover"
 msgstr "Récupérer"
 
-#: src/FrontendTemplate.php:349
+#: src/FrontendTemplate.php:371
 msgid "You are connected as: %s"
 msgstr "Vous êtes connecté en tant que \"%s\""
 
-#: src/FrontendTemplate.php:353
+#: src/FrontendTemplate.php:375
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: src/FrontendTemplate.php:363
+#: src/FrontendTemplate.php:385
 msgid "Password change"
 msgstr "Changement de mot de passe"
 
-#: src/FrontendTemplate.php:372
+#: src/FrontendTemplate.php:395
 msgid "New password:"
 msgstr "Nouveau mot de passe :"
 
-#: src/FrontendTemplate.php:385
+#: src/FrontendTemplate.php:409
 msgid "Repeat new password:"
 msgstr "Répéter le nouveau mot de passe :"
 
-#: src/FrontendTemplate.php:390
+#: src/FrontendTemplate.php:414
 msgid "Change"
 msgstr "Changer"
 
-#: src/FrontendTemplate.php:411
+#: src/FrontendTemplate.php:436
 msgid "Current password:"
 msgstr "Mot de passe actuel :"
 
-#: src/FrontendTemplate.php:445
+#: src/FrontendTemplate.php:472
 msgid "Profil"
 msgstr "Profile"
 
-#: src/FrontendTemplate.php:454
+#: src/FrontendTemplate.php:481
 msgid "Your site URL:"
 msgstr "URL de votre site :"
 
-#: src/FrontendUrl.php:68
+#: src/FrontendUrl.php:72
 msgid "This account is disabled."
 msgstr "Ce compte est désactivé."
 
-#: src/FrontendUrl.php:68
+#: src/FrontendUrl.php:72
 msgid "Your account is not yet activated. An administrator will review your account and validate it soon."
 msgstr "Votre compte n'est pas encore activé. Un administrateur vérifiera votre inscription dès que possible."
 
-#: src/FrontendUrl.php:76
+#: src/FrontendUrl.php:89
 msgid "Wrong username or password."
 msgstr "Mauvais nom d'utilisateur ou de mot de passe."
 
-#: src/FrontendUrl.php:97
+#: src/FrontendUrl.php:109
 msgid "This username is not valid."
 msgstr "L'identifiant n'est pas valide."
 
-#: src/FrontendUrl.php:99
+#: src/FrontendUrl.php:111
 msgid "This username is not available."
 msgstr "Cet identifiant n'est pas disponible."
 
-#: src/FrontendUrl.php:103
+#: src/FrontendUrl.php:115
 msgid "Emails missmatch."
 msgstr "L'email ne correspondent pas."
 
-#: src/FrontendUrl.php:105
+#: src/FrontendUrl.php:117
 msgid "Email is not valid."
 msgstr "L'email n'est pas valide."
 
-#: src/FrontendUrl.php:109
+#: src/FrontendUrl.php:121
 msgid "Passwords missmatch."
 msgstr "Les mots de passe ne correspondent pas."
 
-#: src/FrontendUrl.php:111
+#: src/FrontendUrl.php:123
 msgid "Password must be at lesat 6 characters long."
 msgstr "Le mot de passe n'est pas valide."
 
-#: src/FrontendUrl.php:116
+#: src/FrontendUrl.php:128
 msgid "Username already exists."
 msgstr "Cet identifiant n'es pas disponible."
 
-#: src/FrontendUrl.php:119
+#: src/FrontendUrl.php:131
 msgid "You must be agree with \"%s\"."
 msgstr "Vous devez accepter les \"%s\"."
 
-#: src/FrontendUrl.php:122
-msgid "You must must not check last box."
-msgstr "Vous ne devez pas cocher la dernière case."
-
-#: src/FrontendUrl.php:137
+#: src/FrontendUrl.php:146
 msgid "Something went wrong while trying to register user."
 msgstr "Quelques choses a mal tourné lors de votre enregistrement."
 
-#: src/FrontendUrl.php:147
+#: src/FrontendUrl.php:156
 msgid "Thank you for your registration. An administrator will validate your request soon."
 msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt votre demande."
 
-#: src/FrontendUrl.php:168
+#: src/FrontendUrl.php:177
 msgid "Your new password is in your mailbox."
 msgstr "Votre nouveau mot de passe est dans votre boîte à lettres."
 
-#: src/FrontendUrl.php:170
+#: src/FrontendUrl.php:179
 msgid "Unknow username or email."
 msgstr "identifiant ou adresse email inconnu."
 
-#: src/FrontendUrl.php:177
+#: src/FrontendUrl.php:186
 msgid "You are an admin, you must change password from backend."
 msgstr "Vous êtes administrateur, vous devez changer votre mot de passe depuis l'interface d'administration."
 
-#: src/FrontendUrl.php:182
+#: src/FrontendUrl.php:191
 msgid "The e-mail was sent successfully to %s."
 msgstr "Le message a été envoyé à %s."
 
-#: src/FrontendUrl.php:201
+#: src/FrontendUrl.php:210
 msgid "You must set a new password."
 msgstr "Vous devez changer votre mot de passe."
 
-#: src/FrontendUrl.php:213
+#: src/FrontendUrl.php:222
 msgid "Unable to retrieve user informations."
 msgstr "Impossible de retrouver les informations de l'utilisateur."
 
-#: src/FrontendUrl.php:217
+#: src/FrontendUrl.php:226
 msgid "Passwords don't match"
 msgstr "Les mots de passe ne correspondent pas"
 
-#: src/FrontendUrl.php:219
+#: src/FrontendUrl.php:228
 msgid "You didn't change your password."
 msgstr "Vous n'avez pas changé votre mot de passe."
 
-#: src/FrontendUrl.php:232
+#: src/FrontendUrl.php:241
 msgid "Password successfully updated."
 msgstr "Mot de passe mis à jour avec succès."
 
-#: src/FrontendUrl.php:261
+#: src/FrontendUrl.php:270
 msgid "Profil successfully updated."
 msgstr "Profile mis à jour avec succés."
 
-#: src/FrontendUrl.php:276
+#: src/FrontendUrl.php:285
 msgid "Password verification failed."
 msgstr "Echec de la vérification du mot de passe."
 
-#: src/FrontendUrl.php:278
+#: src/FrontendUrl.php:287
 msgid "Password must be 6 or more chars length."
 msgstr "Le mot de passe doit contenir au mois si caractères."
 
-#: src/FrontendUrl.php:280
+#: src/FrontendUrl.php:289
 msgid "Passwords mismatch."
 msgstr "Les mots de passe ne correspondent pas."
 
@@ -383,19 +390,19 @@ msgstr "Votre nouveau mot de passe"
 msgid "To change this password visit the following address and sign in with these idents."
 msgstr "Pour changer le mot de passe, rendez-vous à l'adresse suivante et connectez vous avec ces identifiants."
 
-#: src/Prepend.php:64
+#: src/Prepend.php:63
 msgid "New frontend registration"
 msgstr "Nouvelle inscription public"
 
-#: src/Prepend.php:65
+#: src/Prepend.php:64
 msgid "Send message on new user frontend registration"
 msgstr "Envoyer un message lors d'une nouvelle inscription public"
 
-#: src/Widgets.php:31
+#: src/Widgets.php:30
 msgid "Frontend session"
 msgstr "Session publique"
 
-#: src/Widgets.php:78
+#: src/Widgets.php:77
 msgid "You are connected as:"
 msgstr "Vous êtes :"
 
@@ -403,7 +410,7 @@ msgstr "Vous êtes :"
 msgid "Disconnect"
 msgstr "Se déconnecter"
 
-#: src/Widgets.php:137
+#: src/Widgets.php:143
 msgid "Connect"
 msgstr "Se connecter"
 

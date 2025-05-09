@@ -1,7 +1,7 @@
 <?php
 // Language: Français
-// Module: FrontendSession - 0.20.4
-// Date: 2025-05-05 16:52:02
+// Module: FrontendSession - 0.21.2
+// Date: 2025-05-09 09:36:09
 // Author: , contact@jcdenis.fr
 // Translated with Translater - 2025.03.03
 
@@ -12,6 +12,7 @@
 
 use Dotclear\Helper\L10n;
 
+L10n::$locales['My account'] = 'Mon compte';
 L10n::$locales['Enable sessions on frontend'] = 'Autoriser les sessions publiques';
 L10n::$locales['Enable user registration form on frontend'] = 'Autoriser le formulaire publique d\'inscription';
 L10n::$locales['Enable user password recovery form on frontend'] = 'Autoriser la récupération publique de mot de passe';
@@ -32,6 +33,7 @@ L10n::$locales['Sign in to this blog'] = 'Se connecter au blog';
 L10n::$locales['User has been successfully marked as pending.'] = 'L\'utilisateur est été marqué en attente avec succès.';
 L10n::$locales['Comments creation are limited to registered users.'] = 'La création de commentaire est limité aux utilisateurs enregistrés.';
 L10n::$locales['New user registration'] = 'Nouvelle inscription';
+L10n::$locales['Follow this link below to validate it:'] = 'Suivez le lien ci-dessous pour le valider :';
 L10n::$locales['Sign in'] = 'Se connecter';
 L10n::$locales['Login:'] = 'Identifiant :';
 L10n::$locales['Password:'] = 'Mot de passe :';
@@ -46,7 +48,7 @@ L10n::$locales['Repeat email:'] = 'Répéter l\'email :';
 L10n::$locales['Should be at least 6 characters long.'] = 'Doit contenir au moins 6 caractères.';
 L10n::$locales['Repeat password:'] = 'Répéter le mot de passe :';
 L10n::$locales['I have read and accept the %s.'] = 'J\'ai lu et j\'accepte les %s.';
-L10n::$locales['Do not check this box'] = 'Ne pas cacher cette case';
+L10n::$locales['Do not check this box'] = 'Ne pas cocher cette case';
 L10n::$locales['Password recovery'] = 'Mot de passe oublié';
 L10n::$locales['Recover'] = 'Récupérer';
 L10n::$locales['You are connected as: %s'] = 'Vous êtes connecté en tant que "%s"';
@@ -69,7 +71,6 @@ L10n::$locales['Passwords missmatch.'] = 'Les mots de passe ne correspondent pas
 L10n::$locales['Password must be at lesat 6 characters long.'] = 'Le mot de passe n\'est pas valide.';
 L10n::$locales['Username already exists.'] = 'Cet identifiant n\'es pas disponible.';
 L10n::$locales['You must be agree with "%s".'] = 'Vous devez accepter les "%s".';
-L10n::$locales['You must must not check last box.'] = 'Vous ne devez pas cocher la dernière case.';
 L10n::$locales['Something went wrong while trying to register user.'] = 'Quelques choses a mal tourné lors de votre enregistrement.';
 L10n::$locales['Thank you for your registration. An administrator will validate your request soon.'] = 'Merci pour votre enregistrement. Un administrateur validera bientôt votre demande.';
 L10n::$locales['Your new password is in your mailbox.'] = 'Votre nouveau mot de passe est dans votre boîte à lettres.';
