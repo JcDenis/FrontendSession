@@ -133,16 +133,16 @@ class Backend extends Process
             },
             // blog settings update
             'adminBeforeBlogSettingsUpdate' => function (BlogSettingsInterface $blog_settings): void {
-                $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']));
-                $blog_settings->get(My::id())->put('enable_registration', !empty($_POST[My::id() . 'enable_registration']));
-                $blog_settings->get(My::id())->put('enable_recovery', !empty($_POST[My::id() . 'enable_recovery']));
-                $blog_settings->get(My::id())->put('limit_comment', !empty($_POST[My::id() . 'limit_comment']));
-                $blog_settings->get(My::id())->put('disable_css', !empty($_POST[My::id() . 'disable_css']));
-                $blog_settings->get(My::id())->put('condition_page', (string) $_POST[My::id() . 'condition_page']);
-                $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration']);
-                $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from']);
-                $blog_settings->get(My::id())->put('connected', (string) $_POST[My::id() . 'connected']);
-                $blog_settings->get(My::id())->put('disconnected', (string) $_POST[My::id() . 'disconnected']);
+                $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']), 'boolean');
+                $blog_settings->get(My::id())->put('enable_registration', !empty($_POST[My::id() . 'enable_registration']), 'boolean');
+                $blog_settings->get(My::id())->put('enable_recovery', !empty($_POST[My::id() . 'enable_recovery']), 'boolean');
+                $blog_settings->get(My::id())->put('limit_comment', !empty($_POST[My::id() . 'limit_comment']), 'boolean');
+                $blog_settings->get(My::id())->put('disable_css', !empty($_POST[My::id() . 'disable_css']), 'boolean');
+                $blog_settings->get(My::id())->put('condition_page', (string) $_POST[My::id() . 'condition_page'], 'text');
+                $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration'], 'text');
+                $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from'], 'text');
+                $blog_settings->get(My::id())->put('connected', (string) $_POST[My::id() . 'connected'], 'text');
+                $blog_settings->get(My::id())->put('disconnected', (string) $_POST[My::id() . 'disconnected'], 'text');
             },
             // add js for test editor
             'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend') . Page::jsJson(My::id(), [

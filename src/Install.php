@@ -33,7 +33,7 @@ class Install extends Process
             My::settings()->put('enable_registration', false, 'boolean', 'Enable user registration form on frontend', false, true);
             My::settings()->put('enable_recovery', false, 'boolean', 'Enable user password recovery form on frontend', false, true);
             My::settings()->put('limit_comment', false, 'boolean', 'Limit new comments to registered users', false, true);
-            My::settings()->put('condition_page', false, 'boolean', 'Use link to terms and conditions page on singup form', false, true);
+            My::settings()->put('condition_page', '', 'text', 'Use link to terms and conditions page on singup form', false, true);
             My::settings()->put('disable_css', false, 'boolean', 'Disable default CSS', false, true);
             My::settings()->put('log_form_error', false, 'boolean', 'Log frontend forms submissions errors', false, true);
             My::settings()->put('email_registration', '', 'text', 'Email to send registration confirmation to', false, true);
