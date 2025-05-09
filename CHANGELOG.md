@@ -1,3 +1,15 @@
+FrontendSession 0.22 - 2025.05.09
+==========================================================
+* Fix pending registration login
+* Fix settings type
+* Fix fr translation
+
+FrontendSession 0.21 - 2025.05.05
+==========================================================
+* Require Dotclear 2.34
+* Require PHP 8.3
+* Add honeypot on forms
+
 FrontendSession 0.20 - 2025.05.04
 ==========================================================
 * Require Dotclear 2.34
