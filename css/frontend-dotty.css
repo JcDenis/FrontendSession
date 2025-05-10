@@ -1,5 +1,6 @@
-.session-form input:not([type='checkbox']):not([type='radio']) {
+.session-form input:not([type='checkbox'], [type='radio'], [type='submit']) {
   display: block;
+  width: 75%;
 }
 .session-form .required label {
   font-weight: bold;
@@ -18,10 +19,10 @@
 }
 .content-inner .session-form {
   padding-bottom: 2em;
-  border-bottom: 1px solid var(--main-color);
+  border-bottom: 1px solid var(--main-color, #b4b4b4);
 }
 .content-inner p.success {
   font-size: 1.25em;
   font-weight: bold;
-  color: var(--main-color);
+  color: var(--main-color, green);
 }
