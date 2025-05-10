@@ -38,6 +38,12 @@ class FrontendBehaviors
         $rs = $cur->post_id ? App::blog()->getPosts(['post_id' => $cur->post_id]) : null;
         App::con()->unlock();
 
+        // recheck if post comment is closed, should never happened
+        if (!$rs->f('post_open_comment')) {
+
+            return;
+        }
+
         $option = new CommentOptions($rs, $cur);
 
         # --BEHAVIOR-- FrontendSessionCommentsActive -- CommentOptions

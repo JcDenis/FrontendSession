@@ -26,6 +26,12 @@ class RecordExtendPost
      */
     public static function commentsActive(MetaRecord $rs): bool
     {
+        // If post comment is closed, keep it closed
+        if (!$rs->f('post_open_comment')) {
+
+            return false;
+        }
+
         $option = new CommentOptions($rs);
 
         # --BEHAVIOR-- FrontendSessionCommentsActive -- CommentOptions
