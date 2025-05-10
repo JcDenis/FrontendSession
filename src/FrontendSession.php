@@ -55,7 +55,7 @@ class FrontendSession
                     // Avoid loop caused by old cookie
                     $p    = $this->session()->getCookieParameters(false, -600);
                     $p[3] = '/';
-                    $p[4] = $this->domain();
+                    $p[4] = static::domain();
                     setcookie(...$p);   // @phpstan-ignore-line
                 }
             } catch (Throwable) {
@@ -147,7 +147,7 @@ class FrontendSession
     {
         if (isset($_COOKIE[My::id()])) {
             unset($_COOKIE[My::id()]);
-            setcookie(My::id(), '', ['expires' => time() - 3600, 'path' => '/', 'domain' => $this->domain(), 'secure' => $this->ssl()]);
+            setcookie(My::id(), '', ['expires' => time() - 3600, 'path' => '/', 'domain' => static::domain(), 'secure' => $this->ssl()]);
         }
     }
 
@@ -187,18 +187,17 @@ class FrontendSession
 
     /**
      * Ping others user blogs on signin/signout.
-     * 
+     *
      * This reduces to near zero cache and is time consuming.
      */
     private function triggerBlogs(): void
     {
-        if (App::auth()->userID() != '' && $this->domain() != '') {
-
+        if (App::auth()->userID() != '' && static::domain() !== '') {
             $old_blog = App::blog()->id();
             if (App::auth()->isSuperAdmin()) {
                 // taken from App::users()->updUser()
                 $sql = new SelectStatement();
-                $rs = $sql
+                $rs  = $sql
                     ->distinct()
                     ->column('blog_id')
                     ->from(App::con()->prefix() . App::blog()::POST_TABLE_NAME)
@@ -303,7 +302,7 @@ class FrontendSession
                     setcookie(
                         My::id(),
                         $user_key === null ? $this->uid($user_id) : $_COOKIE[My::id()],
-                        ['expires' => strtotime('+15 days'), 'path' => '/', 'domain' => $this->domain(), 'secure' => $this->ssl()]
+                        ['expires' => strtotime('+15 days'), 'path' => '/', 'domain' => static::domain(), 'secure' => $this->ssl()]
                     );
 
                     $this->triggerBlogs();

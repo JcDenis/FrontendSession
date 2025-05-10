@@ -318,7 +318,7 @@ class FrontendUrl extends Url
 
         if (My::settings()->get('log_form_error') && self::$form_error !== []) {
             // remove passwords from logs
-            $_post = array_combine(array_keys($_POST), array_map(fn ($k, $v): string => str_contains($k, 'pass') ? '****' : $v, array_keys($_POST), array_values($_POST)));
+            $_post = array_combine(array_keys($_POST), array_map(fn ($k, $v): string => str_contains((string) $k, 'pass') ? '****' : $v, array_keys($_POST), array_values($_POST)));
 
             $cur = App::log()->openLogCursor();
             $cur->setField('log_table', My::id());

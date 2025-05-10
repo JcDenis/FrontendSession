@@ -59,7 +59,6 @@ class Widgets
             # --BEHAVIOR-- FrontendSessionWidget -- ArrayObject
             App::behavior()->callBehavior('FrontendSessionWidget', $lines);
 
-
             $lines[] = (new Li())
                 ->items([
                     (new Link())

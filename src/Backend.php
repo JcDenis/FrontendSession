@@ -152,14 +152,12 @@ class Backend extends Process
                     'type'      => 'page',
                 ], '&'),
             ]),
-            'adminPopupPosts' => function (string $plugin_id): string {
-                return $plugin_id !== My::id() ? '' : 
+            'adminPopupPosts' => fn (string $plugin_id): string => $plugin_id !== My::id() ? '' :
                     Page::jsJson('admin.blog_pref', [
                         'base_url' => App::blog()->url(),
                         'sibling'  => My::id() . 'condition_page',
                     ]) .
-                    Page::jsLoad('js/_blog_pref_popup_posts.js');;
-            },
+                    Page::jsLoad('js/_blog_pref_popup_posts.js'),
             // add our textarea form ID to post editor
             'adminPostEditorTags' => function (string $editor, string $context, ArrayObject $alt_tags, string $format): void {
                 // there is an existsing postEditor on this page, so we add our textarea to it

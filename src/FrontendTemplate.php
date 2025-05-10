@@ -9,7 +9,6 @@ use Dotclear\App;
 use Dotclear\Core\Frontend\Tpl;
 use Dotclear\Helper\Html\Form\{ Checkbox, Div, Email, Form, Hidden, Input, Label, Link, None, Note, Para, Password, Submit, Text };
 use Dotclear\Helper\Html\Html;
-use Dotclear\Helper\Network\Http;
 
 /**
  * @brief       FrontendSession module template specifics.
@@ -294,28 +293,31 @@ class FrontendTemplate
                     ->class(['inputfield'])
                     ->items([
                         (new Checkbox(My::id() . $action . '_condition'))
-                            ->label(new Label(sprintf(
-                                __('I have read and accept the %s.'),
-                                (new Link())
+                            ->label(new Label(
+                                sprintf(
+                                    __('I have read and accept the %s.'),
+                                    (new Link())
                                     ->class('outgoing')
                                     ->href(My::settings()->get('condition_page'))
                                     ->text(__('Terms and Conditions'))
-                                    ->render()),
-                            Label::OL_FT)),
+                                    ->render()
+                                ),
+                                Label::OL_FT
+                            )),
                     ]) : (new None()),
                 // Honeypot
                 (new Div())
                     ->class(['inputfield'])
                     ->items([
                         (new Checkbox('agree', false))
-                            ->value('1')
-                            ->label(new Label(__('Do not check this box'), Label::OL_FT)),
+                                ->value('1')
+                                ->label(new Label(__('Do not check this box'), Label::OL_FT)),
                     ]),
                 (new Div())
                     ->class('controlset')
                     ->items([
                         (new Submit(My::id() . $action . 'save', __('Sign up')))
-                            ->class('button'),
+                                ->class('button'),
                         ... $hidden($action),
                     ]),
             ]);

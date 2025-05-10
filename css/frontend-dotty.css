@@ -2,27 +2,26 @@
   display: block;
 }
 .session-form .required label {
-    font-weight: bold;
+  font-weight: bold;
 }
 .session-form .required label:before {
-    content: '* ';
-    color: #c00;
-    font-weight: bold;
+  content: '* ';
+  color: #c00;
+  font-weight: bold;
 }
 .session-form .inputfield {
-    margin: 1em 0;
+  margin: 1em 0;
 }
 .session-form .note {
-    margin: 0em;
-    font-style: italic;
+  margin: 0em;
+  font-style: italic;
 }
 .content-inner .session-form {
-    padding-bottom: 2em;
-    border-bottom: 1px solid var(--main-color);
-
+  padding-bottom: 2em;
+  border-bottom: 1px solid var(--main-color);
 }
 .content-inner p.success {
-    font-size: 1.25em;
-    font-weight: bold;
-    color: var(--main-color);
+  font-size: 1.25em;
+  font-weight: bold;
+  color: var(--main-color);
 }

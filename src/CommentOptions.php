@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
-use Dotclear\App;
 use Dotclear\Database\{ Cursor, MetaRecord };
 
 /**
@@ -18,29 +17,28 @@ use Dotclear\Database\{ Cursor, MetaRecord };
  */
 class CommentOptions
 {
-	private ?bool $active   = null;
-	private ?bool $moderate = null;
+    private ?bool $active   = null;
+    private ?bool $moderate = null;
 
     public function __construct(
         public readonly ?MetaRecord $rs = null,
-        public readonly ?Cursor $cur    = null
+        public readonly ?Cursor $cur = null
     ) {
-
     }
 
-	public function setActive(bool $value): self
-	{
-		$this->active = $value;
+    public function setActive(bool $value): self
+    {
+        $this->active = $value;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setModerate(bool $value): self
-	{
-		$this->moderate = $value;
+    public function setModerate(bool $value): self
+    {
+        $this->moderate = $value;
 
-		return $this;
-	}
+        return $this;
+    }
 
     public function isActive(): ?bool
     {

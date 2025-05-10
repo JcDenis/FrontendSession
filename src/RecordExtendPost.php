@@ -33,7 +33,6 @@ class RecordExtendPost
 
         // check third party plugins
         if (is_bool($option->isActive())) {
-
             return $option->isActive();
         }
 
