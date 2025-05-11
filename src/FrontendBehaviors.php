@@ -6,7 +6,6 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
 use Dotclear\Database\{Cursor, MetaRecord };
-use Dotclear\Interface\Core\BlogInterface;
 use Dotclear\Plugin\TelegramNotifier\Telegram;
 use Exception;
 
@@ -31,14 +30,10 @@ class FrontendBehaviors
     /**
      * Overload comment creation.
      */
-    public static function coreBeforeCommentCreate(BlogInterface $blog, Cursor $cur): void
+    public static function publicBeforeCommentCreate(Cursor $cur): void
     {
-        // Don't know why but lock table is required ?!
-        App::con()->writeLock(App::blog()::POST_TABLE_NAME);
-        $rs = $cur->post_id ? App::blog()->getPosts(['post_id' => $cur->post_id]) : null;
-        App::con()->unlock();
-
         // recheck if post comment is closed, should never happened
+        $rs = $cur->getField('post_id') ? App::blog()->getPosts(['post_id' => $cur->getField('post_id')]) : null;
         if (!$rs->f('post_open_comment')) {
 
             return;
