@@ -1,3 +1,7 @@
+FrontendSession 0.24 - 2025.05.11
+==========================================================
+* Various fixes
+
 FrontendSession 0.23 - 2025.05.09
 ==========================================================
 * Manage comments activation and moderation for third party plugins
