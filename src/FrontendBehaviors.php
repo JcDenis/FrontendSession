@@ -34,8 +34,7 @@ class FrontendBehaviors
     {
         // recheck if post comment is closed, should never happened
         $rs = $cur->getField('post_id') ? App::blog()->getPosts(['post_id' => $cur->getField('post_id')]) : null;
-        if (!$rs->f('post_open_comment')) {
-
+        if (!$rs instanceof MetaRecord || !$rs->f('post_open_comment')) {
             return;
         }
 
