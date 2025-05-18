@@ -152,6 +152,7 @@ class Backend extends Process
                     'type'      => 'page',
                 ], '&'),
             ]),
+            // add blog setting form input sibling
             'adminPopupPosts' => fn (string $plugin_id): string => $plugin_id !== My::id() ? '' :
                     Page::jsJson('admin.blog_pref', [
                         'base_url' => App::blog()->url(),
@@ -180,6 +181,7 @@ class Backend extends Process
                     $attr[2] = App::blog()->url() . App::url()->getURLFor(My::id());
                 }
             },
+            // user activation
             'adminUsersActions' => function (array $users, array $blogs, string $action, string $redir): void {
                 if ($action == My::id()) {
                     foreach ($users as $u) {
@@ -197,12 +199,14 @@ class Backend extends Process
                     }
                 }
             },
+            // send mail on user activation
             'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
                 if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED) {
                     Mail::sendActivationMail($user->user_email);
                 }
             },
+            // send mail on user activation
             'adminBeforeUserEnable' => function (string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
                 if (!$user->isEmpty()) {

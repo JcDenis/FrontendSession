@@ -39,10 +39,11 @@ class RecordExtendPost
 
         // check third party plugins
         if (is_bool($option->isActive())) {
+
             return $option->isActive();
         }
 
-        // at least check frontent session settings, then Doclear settings
+        // at least check frontend session settings, then Doclear settings
         return (!My::settings()->get('limit_comment') || App::auth()->check(My::id(), App::blog()->id())) && PostPublic::commentsActive($rs);
     }
 }
