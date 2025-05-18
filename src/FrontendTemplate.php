@@ -190,8 +190,7 @@ class FrontendTemplate
                 (new Div())
                     ->class('controlset')
                     ->items([
-                        (new Submit(My::id() . $action . 'save', __('Sign in')))
-                            ->class('button'),
+                        (new Submit(My::id() . $action . 'save', __('Sign in'))),
                         ... $hidden($action),
                     ]),
             ]);
@@ -316,8 +315,7 @@ class FrontendTemplate
                 (new Div())
                     ->class('controlset')
                     ->items([
-                        (new Submit(My::id() . $action . 'save', __('Sign up')))
-                                ->class('button'),
+                        (new Submit(My::id() . $action . 'save', __('Sign up'))),
                         ... $hidden($action),
                     ]),
             ]);
@@ -359,8 +357,7 @@ class FrontendTemplate
                 (new Div())
                     ->class('controlset')
                     ->items([
-                        (new Submit(My::id() . $action . 'save', __('Recover')))
-                            ->class('button'),
+                        (new Submit(My::id() . $action . 'save', __('Recover'))),
                         ... $hidden($action),
                     ]),
             ]);
@@ -374,8 +371,7 @@ class FrontendTemplate
                 (new Div())
                     ->class('controlset')
                     ->items([
-                        (new Submit(My::id() . $action . 'save', __('Logout')))
-                            ->class('button'),
+                        (new Submit(My::id() . $action . 'save', __('Logout'))),
                         ... $hidden($action),
                     ]),
             ]);
@@ -413,8 +409,7 @@ class FrontendTemplate
                 (new Div())
                     ->class('controlset')
                     ->items([
-                        (new Submit(My::id() . $action . 'save', __('Change')))
-                            ->class('button'),
+                        (new Submit(My::id() . $action . 'save', __('Change'))),
                         (new Hidden([My::id() . $action . '_data'], App::frontend()->context()->frontend_session->data ?? '')),
                         ... $hidden($action),
                     ]),

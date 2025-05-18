@@ -12,6 +12,12 @@ use Dotclear\Database\{ Cursor, MetaRecord };
  *
  * Comment options for frontend pages using session.
  *
+ * All third party plugins that play with public session and comments
+ * MUST use behavior FrontendSessionCommentsActive to open/close comments.
+ *
+ * @see     RecordExtendPost::commentsActive()
+ * @see     FrontendBehaviors::publicBeforeCommentCreate()
+ *
  * @author      Dotclear team
  * @copyright   AGPL-3.0
  */
@@ -26,6 +32,9 @@ class CommentOptions
     ) {
     }
 
+    /**
+     * Switch comments activation.
+     */
     public function setActive(bool $value): self
     {
         $this->active = $value;
@@ -33,6 +42,9 @@ class CommentOptions
         return $this;
     }
 
+    /**
+     * Switch comments moderation.
+     */
     public function setModerate(bool $value): self
     {
         $this->moderate = $value;
@@ -40,11 +52,17 @@ class CommentOptions
         return $this;
     }
 
+    /**
+     * Check comments activation.
+     */
     public function isActive(): ?bool
     {
         return $this->active;
     }
 
+    /**
+     * Check comments moderation.
+     */
     public function isModerate(): ?bool
     {
         return $this->moderate;

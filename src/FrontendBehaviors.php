@@ -6,7 +6,6 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
 use Dotclear\Database\{Cursor, MetaRecord };
-use Dotclear\Plugin\TelegramNotifier\Telegram;
 use Exception;
 
 /**
@@ -106,32 +105,5 @@ class FrontendBehaviors
             App::frontend()->context()->comment_preview['mail'] = App::auth()->getInfo('user_email');
             App::frontend()->context()->comment_preview['site'] = App::auth()->getInfo('user_url');
         }
-    }
-
-    /**
-     * Telegram notification
-     */
-    public static function FrontendSessionAfterSignup(Cursor $cur): void
-    {
-        if (!App::plugins()->moduleExists('TelegramNotifier')) {
-            return;
-        }
-
-        $message = sprintf('*%s*', __('New user registration')) . "\n" .
-            "-- \n" .
-            sprintf(__('*Blog:* [%s](%s)'), App::blog()->name(), App::blog()->url()) . "\n" .
-            sprintf(__('*User:* %s'), $cur->getField('user_id')) . "\n" .
-            sprintf(__('*Email:* %s'), $cur->getField('user_email')) . "\n" .
-            "-- \n" .
-            __('Follow this link below to validate it:') . "\n" .
-            // manual admin URL as we are in Frontend
-            App::config()->adminUrl() . '?process=User&id=' . $cur->getField('user_id');
-
-        $telegram = new Telegram();
-        $telegram
-            ->setAction(My::id() . 'AfterSignup')
-            ->setContent($message)
-            ->setFormat('markdown')
-            ->send();
     }
 }
