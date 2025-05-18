@@ -76,14 +76,14 @@ class FrontendBehaviors
         if (App::auth()->check(My::id(), App::blog()->id())) {
             if ($tplset == 'mustek') {
                 echo '<!-- FrontendSession special -->' . "\n" .
-                    '<style type"text/css">' .
+                    '<style>' .
                     '#comment-form .field:has(> #c_name), #comment-form .field:has(> #c_mail), #comment-form .field:has(> #c_site), #comment-form .remember {' .
                     'display:none;' .
                     '}' .
                     '</style>' . "\n";
             } else { // dotty
                 echo '<!-- FrontendSession special -->' . "\n" .
-                    '<style type"text/css">' .
+                    '<style>' .
                     '#comment-form .name-field, #comment-form .mail-field, #comment-form .site-field, #comment-form .remember {' .
                     'display:none;' .
                     '}' .
