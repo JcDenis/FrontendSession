@@ -59,7 +59,7 @@ msgstr "Conditions Générales d'Utilisation"
 
 #: src/Backend.php:92
 msgid "Leave this field empty if you do not have a \"%s\" page."
-msgstr "Laisser ce champs vide si vous n'avez pas de page pour les \"%s\"."
+msgstr "Laisser ce champ vide si vous n'avez pas de page pour les \"%s\"."
 
 #: src/Backend.php:100
 msgid "Registration administrator email:"
