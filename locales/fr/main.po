@@ -29,7 +29,7 @@ msgstr "Autoriser les sessions publiques"
 
 #: src/Backend.php:58
 msgid "Enable user registration form on frontend"
-msgstr "Autoriser le formulaire publique d'inscription"
+msgstr "Autoriser le formulaire public d'inscription"
 
 #: src/Backend.php:64
 msgid "Enable user password recovery form on frontend"
@@ -59,7 +59,7 @@ msgstr "Conditions Générales d'Utilisation"
 
 #: src/Backend.php:92
 msgid "Leave this field empty if you do not have a \"%s\" page."
-msgstr "Laisser ce champs vide si vous n'avez pas de page pour les \"%s\"."
+msgstr "Laisser ce champ vide si vous n'avez pas de page pour les \"%s\"."
 
 #: src/Backend.php:100
 msgid "Registration administrator email:"
@@ -67,7 +67,7 @@ msgstr "Email des superviseurs des inscriptions :"
 
 #: src/Backend.php:104
 msgid "This is the comma separeted list of administrator mail address who receive new registration notification."
-msgstr "Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvel inscription d'utilisateur."
+msgstr "Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvelle inscription d'utilisateur."
 
 #: src/Backend.php:112
 msgid "Registration no-reply email:"
@@ -99,7 +99,7 @@ msgstr "L'utilisateur est été marqué en attente avec succès."
 
 #: src/FrontendBehaviors.php:38
 msgid "Comments creation are limited to registered users."
-msgstr "La création de commentaire est limité aux utilisateurs enregistrés."
+msgstr "La création de commentaire est limitée aux utilisateurs enregistrés."
 
 #: src/FrontendBehaviors.php:105
 #: src/Mail.php:89
@@ -268,7 +268,7 @@ msgstr "Vous devez accepter les \"%s\"."
 
 #: src/FrontendUrl.php:146
 msgid "Something went wrong while trying to register user."
-msgstr "Quelques choses a mal tourné lors de votre enregistrement."
+msgstr "Quelque chose a mal tourné lors de votre enregistrement."
 
 #: src/FrontendUrl.php:156
 msgid "Thank you for your registration. An administrator will validate your request soon."
@@ -312,7 +312,7 @@ msgstr "Mot de passe mis à jour avec succès."
 
 #: src/FrontendUrl.php:270
 msgid "Profil successfully updated."
-msgstr "Profile mis à jour avec succés."
+msgstr "Profil mis à jour avec succés."
 
 #: src/FrontendUrl.php:285
 msgid "Password verification failed."
@@ -392,11 +392,11 @@ msgstr "Pour changer le mot de passe, rendez-vous à l'adresse suivante et conne
 
 #: src/Prepend.php:63
 msgid "New frontend registration"
-msgstr "Nouvelle inscription public"
+msgstr "Nouvelle inscription publique"
 
 #: src/Prepend.php:64
 msgid "Send message on new user frontend registration"
-msgstr "Envoyer un message lors d'une nouvelle inscription public"
+msgstr "Envoyer un message lors d'une nouvelle inscription publique"
 
 #: src/Widgets.php:30
 msgid "Frontend session"
