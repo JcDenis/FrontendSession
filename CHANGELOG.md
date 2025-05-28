@@ -1,3 +1,8 @@
+FrontendSession 0.25 - 2025.05.28
+==========================================================
+* Remove "button" class from templates
+* Code doc
+
 FrontendSession 0.24 - 2025.05.11
 ==========================================================
 * Various fixes
