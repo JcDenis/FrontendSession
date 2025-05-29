@@ -19,7 +19,6 @@
 }
 .content-inner .session-form {
   padding-bottom: 2em;
-  border-bottom: 1px solid var(--main-color, #b4b4b4);
 }
 .content-inner p.success {
   font-size: 1.25em;
