@@ -1,7 +1,7 @@
 <?php
 // Language: Français
-// Module: FrontendSession - 0.21.2
-// Date: 2025-05-09 09:36:09
+// Module: FrontendSession - 0.25
+// Date: 2025-05-31 06:33:07
 // Author: , contact@jcdenis.fr
 // Translated with Translater - 2025.03.03
 
@@ -14,16 +14,16 @@ use Dotclear\Helper\L10n;
 
 L10n::$locales['My account'] = 'Mon compte';
 L10n::$locales['Enable sessions on frontend'] = 'Autoriser les sessions publiques';
-L10n::$locales['Enable user registration form on frontend'] = 'Autoriser le formulaire publique d\'inscription';
+L10n::$locales['Enable user registration form on frontend'] = 'Autoriser le formulaire public d\'inscription';
 L10n::$locales['Enable user password recovery form on frontend'] = 'Autoriser la récupération publique de mot de passe';
 L10n::$locales['Limit new comments to registered users'] = 'Limiter les nouveaux commentaires aux utilisateurs enregistrés';
 L10n::$locales['All themes are not necessarily compatible with this feature.'] = 'Tous les thèmes ne sont pas forcément compatibles avec cette option.';
 L10n::$locales['Disable default CSS'] = 'Désactiver la feuille de style additionnelle.';
 L10n::$locales['Link to the "%s" page or entry:'] = 'Lien vers la page ou le billet des "%s" :';
 L10n::$locales['Terms and Conditions'] = 'Conditions Générales d\'Utilisation';
-L10n::$locales['Leave this field empty if you do not have a "%s" page.'] = 'Laisser ce champs vide si vous n\'avez pas de page pour les "%s".';
+L10n::$locales['Leave this field empty if you do not have a "%s" page.'] = 'Laisser ce champ vide si vous n\'avez pas de page pour les "%s".';
 L10n::$locales['Registration administrator email:'] = 'Email des superviseurs des inscriptions :';
-L10n::$locales['This is the comma separeted list of administrator mail address who receive new registration notification.'] = 'Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvel inscription d\'utilisateur.';
+L10n::$locales['This is the comma separeted list of administrator mail address who receive new registration notification.'] = 'Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvelle inscription d\'utilisateur.';
 L10n::$locales['Registration no-reply email:'] = 'Email sans-réponse des inscriptions :';
 L10n::$locales['This is mail address used on registration confirmation email.'] = 'Ceci est l\'adresse mail utilisée dans la confirmation d\'inscription.';
 L10n::$locales['Text to display on login page when user is connected:'] = 'Texte à afficher sur la page de connexion lorsque l\'utilisateur est connecté.';
@@ -31,9 +31,7 @@ L10n::$locales['Text to display on login page when user is disconnected:'] = 'Te
 L10n::$locales['Public login page'] = 'Page publique de connexion';
 L10n::$locales['Sign in to this blog'] = 'Se connecter au blog';
 L10n::$locales['User has been successfully marked as pending.'] = 'L\'utilisateur est été marqué en attente avec succès.';
-L10n::$locales['Comments creation are limited to registered users.'] = 'La création de commentaire est limité aux utilisateurs enregistrés.';
-L10n::$locales['New user registration'] = 'Nouvelle inscription';
-L10n::$locales['Follow this link below to validate it:'] = 'Suivez le lien ci-dessous pour le valider :';
+L10n::$locales['Comments creation are limited to registered users.'] = 'La création de commentaire est limitée aux utilisateurs enregistrés.';
 L10n::$locales['Sign in'] = 'Se connecter';
 L10n::$locales['Login:'] = 'Identifiant :';
 L10n::$locales['Password:'] = 'Mot de passe :';
@@ -71,7 +69,7 @@ L10n::$locales['Passwords missmatch.'] = 'Les mots de passe ne correspondent pas
 L10n::$locales['Password must be at lesat 6 characters long.'] = 'Le mot de passe n\'est pas valide.';
 L10n::$locales['Username already exists.'] = 'Cet identifiant n\'es pas disponible.';
 L10n::$locales['You must be agree with "%s".'] = 'Vous devez accepter les "%s".';
-L10n::$locales['Something went wrong while trying to register user.'] = 'Quelques choses a mal tourné lors de votre enregistrement.';
+L10n::$locales['Something went wrong while trying to register user.'] = 'Quelque chose a mal tourné lors de votre enregistrement.';
 L10n::$locales['Thank you for your registration. An administrator will validate your request soon.'] = 'Merci pour votre enregistrement. Un administrateur validera bientôt votre demande.';
 L10n::$locales['Your new password is in your mailbox.'] = 'Votre nouveau mot de passe est dans votre boîte à lettres.';
 L10n::$locales['Unknow username or email.'] = 'identifiant ou adresse email inconnu.';
@@ -82,7 +80,7 @@ L10n::$locales['Unable to retrieve user informations.'] = 'Impossible de retrouv
 L10n::$locales['Passwords don\'t match'] = 'Les mots de passe ne correspondent pas';
 L10n::$locales['You didn\'t change your password.'] = 'Vous n\'avez pas changé votre mot de passe.';
 L10n::$locales['Password successfully updated.'] = 'Mot de passe mis à jour avec succès.';
-L10n::$locales['Profil successfully updated.'] = 'Profile mis à jour avec succés.';
+L10n::$locales['Profil successfully updated.'] = 'Profil mis à jour avec succés.';
 L10n::$locales['Password verification failed.'] = 'Echec de la vérification du mot de passe.';
 L10n::$locales['Password must be 6 or more chars length.'] = 'Le mot de passe doit contenir au mois si caractères.';
 L10n::$locales['Passwords mismatch.'] = 'Les mots de passe ne correspondent pas.';
@@ -95,6 +93,7 @@ L10n::$locales['Thank you for your registration on blog "%s"!'] = 'Merci pour vo
 L10n::$locales['Site:'] = 'Site :';
 L10n::$locales['Administrators need to review before activate your account but they will do it as soon as possible.'] = 'Un administrateur doit vérifier votre inscription avant activation de votre compte. Ce sera fait aussi vite que possible.';
 L10n::$locales['You will receive an email when it will be ready.'] = 'Vous recevrez un email lorsque ce sera prêt.';
+L10n::$locales['New user registration'] = 'Nouvelle inscription';
 L10n::$locales['A new user registration has been made on blog "%s" (%s)!'] = 'Une nouvelle inscription d\'utilisateur a été faite sur le blog "%s" (%s) !';
 L10n::$locales['Administrators need to review user account and activate it.'] = 'Un administrateur doit vérifier et activer l\'utilisateur.';
 L10n::$locales['Password reset'] = 'Réinitialisation du mot de passe';
@@ -102,8 +101,13 @@ L10n::$locales['Someone has requested to reset the password for the following si
 L10n::$locales['To reset your password visit the following address, otherwise just ignore this email and nothing will happen.'] = 'Pour réinitialiser votre mot de passe, rendez-vous à l\'adresse suivante. Sinon ignorez simplement ce message et rien ne se passera.';
 L10n::$locales['Your new password'] = 'Votre nouveau mot de passe';
 L10n::$locales['To change this password visit the following address and sign in with these idents.'] = 'Pour changer le mot de passe, rendez-vous à l\'adresse suivante et connectez vous avec ces identifiants.';
-L10n::$locales['New frontend registration'] = 'Nouvelle inscription public';
-L10n::$locales['Send message on new user frontend registration'] = 'Envoyer un message lors d\'une nouvelle inscription public';
+L10n::$locales['New frontend registration'] = 'Nouvelle inscription publique';
+L10n::$locales['Send message on new user frontend registration'] = 'Envoyer un message lors d\'une nouvelle inscription publique';
+L10n::$locales['Follow this link below to validate it:'] = 'Suivez le lien ci-dessous pour le valider :';
+L10n::$locales['Pending registration'] = [
+	'Inscription en attente',
+	'Inscriptions en attente',
+];
 L10n::$locales['Frontend session'] = 'Session publique';
 L10n::$locales['You are connected as:'] = 'Vous êtes :';
 L10n::$locales['Disconnect'] = 'Se déconnecter';

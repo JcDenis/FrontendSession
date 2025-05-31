@@ -1,15 +1,15 @@
 # Language: Français
-# Module: FrontendSession - 0.21.2
-# Date: 2025-05-09 09:36:09
+# Module: FrontendSession - 0.25
+# Date: 2025-05-31 06:33:07
 # Author: , contact@jcdenis.fr
 # Translated with translater 2025.03.03
 
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: FrontendSession 0.21.2\n"
+"Project-Id-Version: FrontendSession 0.25\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-05-09T09:36:09+00:00\n"
+"PO-Revision-Date: 2025-05-31T06:33:07+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: default-templates/dotty/FrontendSession.html:3
 #: default-templates/mustek/FrontendSession.html:12
-#: src/Backend.php:180
+#: src/Backend.php:179
 #: src/Widgets.php:35
 msgid "My account"
 msgstr "Mon compte"
@@ -52,7 +52,7 @@ msgid "Link to the \"%s\" page or entry:"
 msgstr "Lien vers la page ou le billet des \"%s\" :"
 
 #: src/Backend.php:87
-#: src/FrontendTemplate.php:302
+#: src/FrontendTemplate.php:301
 #: src/FrontendUrl.php:131
 msgid "Terms and Conditions"
 msgstr "Conditions Générales d'Utilisation"
@@ -85,11 +85,11 @@ msgstr "Texte à afficher sur la page de connexion lorsque l'utilisateur est con
 msgid "Text to display on login page when user is disconnected:"
 msgstr "Texte à afficher sur la page de connexion lorsque l'utilisateur est déconnecté."
 
-#: src/Backend.php:174
+#: src/Backend.php:173
 msgid "Public login page"
 msgstr "Page publique de connexion"
 
-#: src/Backend.php:181
+#: src/Backend.php:180
 msgid "Sign in to this blog"
 msgstr "Se connecter au blog"
 
@@ -97,88 +97,79 @@ msgstr "Se connecter au blog"
 msgid "User has been successfully marked as pending."
 msgstr "L'utilisateur est été marqué en attente avec succès."
 
-#: src/FrontendBehaviors.php:38
+#: src/FrontendBehaviors.php:52
 msgid "Comments creation are limited to registered users."
 msgstr "La création de commentaire est limitée aux utilisateurs enregistrés."
 
-#: src/FrontendBehaviors.php:105
-#: src/Mail.php:89
-msgid "New user registration"
-msgstr "Nouvelle inscription"
-
-#: src/FrontendBehaviors.php:111
-msgid "Follow this link below to validate it:"
-msgstr "Suivez le lien ci-dessous pour le valider :"
-
-#: src/FrontendTemplate.php:162
+#: src/FrontendTemplate.php:161
 msgid "Sign in"
 msgstr "Se connecter"
 
-#: src/FrontendTemplate.php:172
-#: src/Widgets.php:116
+#: src/FrontendTemplate.php:171
+#: src/Widgets.php:115
 msgid "Login:"
 msgstr "Identifiant :"
 
-#: src/FrontendTemplate.php:183
+#: src/FrontendTemplate.php:182
 #: src/Mail.php:77
-#: src/Widgets.php:123
+#: src/Widgets.php:122
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: src/FrontendTemplate.php:189
-#: src/Widgets.php:135
+#: src/FrontendTemplate.php:188
+#: src/Widgets.php:134
 msgid "Remenber me"
 msgstr "Se souvenir de moi"
 
-#: src/FrontendTemplate.php:204
-#: src/Widgets.php:100
+#: src/FrontendTemplate.php:202
+#: src/Widgets.php:99
 msgid "Sign up"
 msgstr "S'inscrire"
 
-#: src/FrontendTemplate.php:214
+#: src/FrontendTemplate.php:212
 #: src/Mail.php:76
 msgid "Username:"
 msgstr "Nom d'utilisatrice ou d'utilisateur :"
 
-#: src/FrontendTemplate.php:217
+#: src/FrontendTemplate.php:215
 msgid "Should be at least 3 characters long with only figures and letters."
 msgstr "Doit contenir au moins 3 caractères avec uniquement des chiffres et des lettres"
 
-#: src/FrontendTemplate.php:227
+#: src/FrontendTemplate.php:225
 msgid "First Name:"
 msgstr "Prénom :"
 
-#: src/FrontendTemplate.php:237
+#: src/FrontendTemplate.php:235
 msgid "Last Name:"
 msgstr "Nom :"
 
-#: src/FrontendTemplate.php:255
+#: src/FrontendTemplate.php:253
 #: src/Mail.php:93
 msgid "Email:"
 msgstr "Email :"
 
-#: src/FrontendTemplate.php:266
+#: src/FrontendTemplate.php:264
 msgid "Repeat email:"
 msgstr "Répéter l'email :"
 
-#: src/FrontendTemplate.php:280
+#: src/FrontendTemplate.php:278
 msgid "Should be at least 6 characters long."
 msgstr "Doit contenir au moins 6 caractères."
 
-#: src/FrontendTemplate.php:291
+#: src/FrontendTemplate.php:289
 msgid "Repeat password:"
 msgstr "Répéter le mot de passe :"
 
-#: src/FrontendTemplate.php:298
+#: src/FrontendTemplate.php:297
 msgid "I have read and accept the %s."
 msgstr "J'ai lu et j'accepte les %s."
 
-#: src/FrontendTemplate.php:312
+#: src/FrontendTemplate.php:313
 msgid "Do not check this box"
 msgstr "Ne pas cocher cette case"
 
 #: src/FrontendTemplate.php:327
-#: src/Widgets.php:92
+#: src/Widgets.php:91
 msgid "Password recovery"
 msgstr "Mot de passe oublié"
 
@@ -186,39 +177,39 @@ msgstr "Mot de passe oublié"
 msgid "Recover"
 msgstr "Récupérer"
 
-#: src/FrontendTemplate.php:371
+#: src/FrontendTemplate.php:370
 msgid "You are connected as: %s"
 msgstr "Vous êtes connecté en tant que \"%s\""
 
-#: src/FrontendTemplate.php:375
+#: src/FrontendTemplate.php:374
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: src/FrontendTemplate.php:385
+#: src/FrontendTemplate.php:383
 msgid "Password change"
 msgstr "Changement de mot de passe"
 
-#: src/FrontendTemplate.php:395
+#: src/FrontendTemplate.php:393
 msgid "New password:"
 msgstr "Nouveau mot de passe :"
 
-#: src/FrontendTemplate.php:409
+#: src/FrontendTemplate.php:407
 msgid "Repeat new password:"
 msgstr "Répéter le nouveau mot de passe :"
 
-#: src/FrontendTemplate.php:414
+#: src/FrontendTemplate.php:412
 msgid "Change"
 msgstr "Changer"
 
-#: src/FrontendTemplate.php:436
+#: src/FrontendTemplate.php:433
 msgid "Current password:"
 msgstr "Mot de passe actuel :"
 
-#: src/FrontendTemplate.php:472
+#: src/FrontendTemplate.php:469
 msgid "Profil"
 msgstr "Profile"
 
-#: src/FrontendTemplate.php:481
+#: src/FrontendTemplate.php:478
 msgid "Your site URL:"
 msgstr "URL de votre site :"
 
@@ -362,6 +353,11 @@ msgstr "Un administrateur doit vérifier votre inscription avant activation de v
 msgid "You will receive an email when it will be ready."
 msgstr "Vous recevrez un email lorsque ce sera prêt."
 
+#: src/Mail.php:89
+#: src/PluginTelegramBehaviors.php:46
+msgid "New user registration"
+msgstr "Nouvelle inscription"
+
 #: src/Mail.php:91
 msgid "A new user registration has been made on blog \"%s\" (%s)!"
 msgstr "Une nouvelle inscription d'utilisateur a été faite sur le blog \"%s\" (%s) !"
@@ -390,27 +386,37 @@ msgstr "Votre nouveau mot de passe"
 msgid "To change this password visit the following address and sign in with these idents."
 msgstr "Pour changer le mot de passe, rendez-vous à l'adresse suivante et connectez vous avec ces identifiants."
 
-#: src/Prepend.php:63
+#: src/PluginTelegramBehaviors.php:30
 msgid "New frontend registration"
 msgstr "Nouvelle inscription publique"
 
-#: src/Prepend.php:64
+#: src/PluginTelegramBehaviors.php:31
 msgid "Send message on new user frontend registration"
 msgstr "Envoyer un message lors d'une nouvelle inscription publique"
+
+#: src/PluginTelegramBehaviors.php:52
+msgid "Follow this link below to validate it:"
+msgstr "Suivez le lien ci-dessous pour le valider :"
+
+#: src/Prepend.php:22
+msgid "Pending registration"
+msgid_plural "pending registration (>1)"
+msgstr[0] "Inscription en attente"
+msgstr[1] "Inscriptions en attente"
 
 #: src/Widgets.php:30
 msgid "Frontend session"
 msgstr "Session publique"
 
-#: src/Widgets.php:77
+#: src/Widgets.php:76
 msgid "You are connected as:"
 msgstr "Vous êtes :"
 
-#: src/Widgets.php:83
+#: src/Widgets.php:82
 msgid "Disconnect"
 msgstr "Se déconnecter"
 
-#: src/Widgets.php:143
+#: src/Widgets.php:142
 msgid "Connect"
 msgstr "Se connecter"
 

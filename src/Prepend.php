@@ -19,6 +19,8 @@ class Prepend extends Process
 {
     public static function init(): bool
     {
+        __('Pending registration', 'pending registration (>1)');
+
         return self::status(My::checkContext(My::PREPEND));
     }
 
