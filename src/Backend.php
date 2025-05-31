@@ -39,14 +39,12 @@ class Backend extends Process
             // widget
             'initWidgets' => Widgets::initWidgets(...),
             // add script for pending count on dashboard icon
-            'adminDashboardHeaders' => function (): string {
-                return
+            'adminDashboardHeaders' => fn (): string => 
                 Page::jsJson('FrontendSession', [
                     'interval' => 30,
                     'status'   => My::USER_PENDING,
                 ]) .
-                My::jsLoad('backend-dashboard');
-            },
+                My::jsLoad('backend-dashboard'),
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {
                 echo (new Div())
