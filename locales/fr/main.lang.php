@@ -1,7 +1,7 @@
 <?php
 // Language: Français
-// Module: FrontendSession - 0.25
-// Date: 2025-05-31 06:33:07
+// Module: FrontendSession - 0.26
+// Date: 2025-05-31 20:53:48
 // Author: , contact@jcdenis.fr
 // Translated with Translater - 2025.03.03
 
@@ -31,6 +31,10 @@ L10n::$locales['Text to display on login page when user is disconnected:'] = 'Te
 L10n::$locales['Public login page'] = 'Page publique de connexion';
 L10n::$locales['Sign in to this blog'] = 'Se connecter au blog';
 L10n::$locales['User has been successfully marked as pending.'] = 'L\'utilisateur est été marqué en attente avec succès.';
+L10n::$locales['One pending registration'] = [
+	'Une inscription en attente',
+	'%s inscriptions en attente',
+];
 L10n::$locales['Comments creation are limited to registered users.'] = 'La création de commentaire est limitée aux utilisateurs enregistrés.';
 L10n::$locales['Sign in'] = 'Se connecter';
 L10n::$locales['Login:'] = 'Identifiant :';

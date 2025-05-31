@@ -1,15 +1,15 @@
 # Language: Français
-# Module: FrontendSession - 0.25
-# Date: 2025-05-31 06:33:07
+# Module: FrontendSession - 0.26
+# Date: 2025-05-31 20:53:48
 # Author: , contact@jcdenis.fr
 # Translated with translater 2025.03.03
 
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: FrontendSession 0.25\n"
+"Project-Id-Version: FrontendSession 0.26\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-05-31T06:33:07+00:00\n"
+"PO-Revision-Date: 2025-05-31T20:53:48+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,84 +18,90 @@ msgstr ""
 
 #: default-templates/dotty/FrontendSession.html:3
 #: default-templates/mustek/FrontendSession.html:12
-#: src/Backend.php:179
+#: src/Backend.php:188
 #: src/Widgets.php:35
 msgid "My account"
 msgstr "Mon compte"
 
-#: src/Backend.php:52
+#: src/Backend.php:61
 msgid "Enable sessions on frontend"
 msgstr "Autoriser les sessions publiques"
 
-#: src/Backend.php:58
+#: src/Backend.php:67
 msgid "Enable user registration form on frontend"
 msgstr "Autoriser le formulaire public d'inscription"
 
-#: src/Backend.php:64
+#: src/Backend.php:73
 msgid "Enable user password recovery form on frontend"
 msgstr "Autoriser la récupération publique de mot de passe"
 
-#: src/Backend.php:70
+#: src/Backend.php:79
 msgid "Limit new comments to registered users"
 msgstr "Limiter les nouveaux commentaires aux utilisateurs enregistrés"
 
-#: src/Backend.php:74
+#: src/Backend.php:83
 msgid "All themes are not necessarily compatible with this feature."
 msgstr "Tous les thèmes ne sont pas forcément compatibles avec cette option."
 
-#: src/Backend.php:79
+#: src/Backend.php:88
 msgid "Disable default CSS"
 msgstr "Désactiver la feuille de style additionnelle."
 
-#: src/Backend.php:87
+#: src/Backend.php:96
 msgid "Link to the \"%s\" page or entry:"
 msgstr "Lien vers la page ou le billet des \"%s\" :"
 
-#: src/Backend.php:87
+#: src/Backend.php:96
 #: src/FrontendTemplate.php:301
 #: src/FrontendUrl.php:131
 msgid "Terms and Conditions"
 msgstr "Conditions Générales d'Utilisation"
 
-#: src/Backend.php:92
+#: src/Backend.php:101
 msgid "Leave this field empty if you do not have a \"%s\" page."
 msgstr "Laisser ce champ vide si vous n'avez pas de page pour les \"%s\"."
 
-#: src/Backend.php:100
+#: src/Backend.php:109
 msgid "Registration administrator email:"
 msgstr "Email des superviseurs des inscriptions :"
 
-#: src/Backend.php:104
+#: src/Backend.php:113
 msgid "This is the comma separeted list of administrator mail address who receive new registration notification."
 msgstr "Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvelle inscription d'utilisateur."
 
-#: src/Backend.php:112
+#: src/Backend.php:121
 msgid "Registration no-reply email:"
 msgstr "Email sans-réponse des inscriptions :"
 
-#: src/Backend.php:116
+#: src/Backend.php:125
 msgid "This is mail address used on registration confirmation email."
 msgstr "Ceci est l'adresse mail utilisée dans la confirmation d'inscription."
 
-#: src/Backend.php:122
+#: src/Backend.php:131
 msgid "Text to display on login page when user is connected:"
 msgstr "Texte à afficher sur la page de connexion lorsque l'utilisateur est connecté."
 
-#: src/Backend.php:129
+#: src/Backend.php:138
 msgid "Text to display on login page when user is disconnected:"
 msgstr "Texte à afficher sur la page de connexion lorsque l'utilisateur est déconnecté."
 
-#: src/Backend.php:173
+#: src/Backend.php:182
 msgid "Public login page"
 msgstr "Page publique de connexion"
 
-#: src/Backend.php:180
+#: src/Backend.php:189
 msgid "Sign in to this blog"
 msgstr "Se connecter au blog"
 
-#: src/Backend.php:197
+#: src/Backend.php:206
 msgid "User has been successfully marked as pending."
 msgstr "L'utilisateur est été marqué en attente avec succès."
+
+#: src/Backend.php:233
+msgid "One pending registration"
+msgid_plural "%s pending registrations"
+msgstr[0] "Une inscription en attente"
+msgstr[1] "%s inscriptions en attente"
 
 #: src/FrontendBehaviors.php:52
 msgid "Comments creation are limited to registered users."
@@ -106,23 +112,23 @@ msgid "Sign in"
 msgstr "Se connecter"
 
 #: src/FrontendTemplate.php:171
-#: src/Widgets.php:115
+#: src/Widgets.php:118
 msgid "Login:"
 msgstr "Identifiant :"
 
 #: src/FrontendTemplate.php:182
 #: src/Mail.php:77
-#: src/Widgets.php:122
+#: src/Widgets.php:125
 msgid "Password:"
 msgstr "Mot de passe :"
 
 #: src/FrontendTemplate.php:188
-#: src/Widgets.php:134
+#: src/Widgets.php:137
 msgid "Remenber me"
 msgstr "Se souvenir de moi"
 
 #: src/FrontendTemplate.php:202
-#: src/Widgets.php:99
+#: src/Widgets.php:102
 msgid "Sign up"
 msgstr "S'inscrire"
 
@@ -169,7 +175,7 @@ msgid "Do not check this box"
 msgstr "Ne pas cocher cette case"
 
 #: src/FrontendTemplate.php:327
-#: src/Widgets.php:91
+#: src/Widgets.php:94
 msgid "Password recovery"
 msgstr "Mot de passe oublié"
 
@@ -408,15 +414,15 @@ msgstr[1] "Inscriptions en attente"
 msgid "Frontend session"
 msgstr "Session publique"
 
-#: src/Widgets.php:76
+#: src/Widgets.php:79
 msgid "You are connected as:"
 msgstr "Vous êtes :"
 
-#: src/Widgets.php:82
+#: src/Widgets.php:85
 msgid "Disconnect"
 msgstr "Se déconnecter"
 
-#: src/Widgets.php:142
+#: src/Widgets.php:145
 msgid "Connect"
 msgstr "Se connecter"
 

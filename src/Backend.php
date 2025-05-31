@@ -38,6 +38,15 @@ class Backend extends Process
         App::behavior()->addBehaviors([
             // widget
             'initWidgets' => Widgets::initWidgets(...),
+            // add script for pending count on dashboard icon
+            'adminDashboardHeaders' => function (): string {
+                return
+                Page::jsJson('FrontendSession', [
+                    'interval' => 30,
+                    'status'   => My::USER_PENDING,
+                ]) .
+                My::jsLoad('backend-dashboard.js');
+            },
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {
                 echo (new Div())
@@ -214,6 +223,17 @@ class Backend extends Process
                 }
             },
         ]);
+
+        // add REST methods
+        App::rest()->addFunction('FrontendSessionPendingCount', function (): array {
+            $count = App::users()->getUsers(['user_status' => My::USER_PENDING], true)->f(0);
+
+            return [
+                'ret' => true,
+                'msg' => $count !== 0 ? sprintf(__('One pending registration', '%s pending registrations', (int) $count), $count) : '',
+                'nb'  => $count,
+            ];
+        });
 
         return true;
     }
