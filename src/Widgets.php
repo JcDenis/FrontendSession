@@ -44,7 +44,10 @@ class Widgets
      */
     public static function FrontendSessionWidget(WidgetsElement $widget): string
     {
-        if ($widget->isOffline() || !My::settings()->get('active')) {
+        if ($widget->isOffline()
+            || !$widget->checkHomeOnly(App::url()->getType())
+            || !My::settings()->get('active')
+        ) {
             return '';
         }
 
