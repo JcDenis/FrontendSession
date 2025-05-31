@@ -88,7 +88,7 @@ class Backend extends Process
                                 (new Button('condition_page_selector', __('Choose an entry'))),
                             ]),
                         (new Note())
-                            ->class(['form-note', 'info'])
+                            ->class('form-note')
                             ->text(sprintf(__('Leave this field empty if you do not have a "%s" page.'), __('Terms and Conditions'))),
                         (new Para())
                             ->items([
