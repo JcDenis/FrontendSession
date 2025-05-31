@@ -45,7 +45,7 @@ class Backend extends Process
                     'interval' => 30,
                     'status'   => My::USER_PENDING,
                 ]) .
-                My::jsLoad('backend-dashboard.js');
+                My::jsLoad('backend-dashboard');
             },
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {
@@ -154,7 +154,7 @@ class Backend extends Process
                 $blog_settings->get(My::id())->put('disconnected', (string) $_POST[My::id() . 'disconnected'], 'text');
             },
             // add js for test editor
-            'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend') . Page::jsJson(My::id(), [
+            'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend-blogpref') . Page::jsJson(My::id(), [
                 'popup_posts' => App::backend()->url()->get('admin.posts.popup', [
                     'popup'     => 1,
                     'plugin_id' => My::id(),
