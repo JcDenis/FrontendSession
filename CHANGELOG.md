@@ -1,3 +1,9 @@
+FrontendSession 0.26 - 2025.05.31
+==========================================================
+* Fix translation
+* Fix widget option
+* Fix frontend style
+
 FrontendSession 0.25 - 2025.05.28
 ==========================================================
 * Remove "button" class from templates
