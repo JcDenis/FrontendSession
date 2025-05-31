@@ -400,7 +400,7 @@ msgstr "Suivez le lien ci-dessous pour le valider :"
 
 #: src/Prepend.php:22
 msgid "Pending registration"
-msgid_plural "pending registration (>1)"
+msgid_plural "Pending registration (>1)"
 msgstr[0] "Inscription en attente"
 msgstr[1] "Inscriptions en attente"
 

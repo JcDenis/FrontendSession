@@ -19,7 +19,7 @@ class Prepend extends Process
 {
     public static function init(): bool
     {
-        __('Pending registration', 'pending registration (>1)');
+        __('Pending registration', 'Pending registration (>1)');
 
         return self::status(My::checkContext(My::PREPEND));
     }
@@ -49,7 +49,7 @@ class Prepend extends Process
             My::USER_PENDING,
             My::id(),
             'Pending registration',
-            'pending registration (>1)',
+            'Pending registration (>1)',
             My::fileURL('icon.svg')
         )));
 
