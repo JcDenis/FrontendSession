@@ -1,3 +1,7 @@
+FrontendSession 0.27 - 2025.05.31
+==========================================================
+* Add pending registration count on dashboard icon
+
 FrontendSession 0.26 - 2025.05.31
 ==========================================================
 * Fix translation
