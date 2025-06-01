@@ -1,3 +1,9 @@
+FrontendSession 0.28 - 2025.06.02
+==========================================================
+* Add widget option to select what to show
+* Remove behavior FrontendSessionPage
+* Add behavior FrontendSessionProfil
+
 FrontendSession 0.27 - 2025.05.31
 ==========================================================
 * Add pending registration count on dashboard icon
