@@ -7,7 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Frontend\Tpl;
-use Dotclear\Helper\Html\Form\{ Checkbox, Div, Email, Form, Hidden, Input, Label, Link, None, Note, Para, Password, Submit, Text };
+use Dotclear\Helper\Html\Form\{ Checkbox, Div, Email, Hidden, Input, Label, Link, None, Note, Password, Text };
 use Dotclear\Helper\Html\Html;
 
 /**
@@ -137,103 +137,70 @@ class FrontendTemplate
         }
 
         $connected = App::auth()->check(My::id(), App::blog()->id());
-        $forms     = [];
-
-        $hidden = fn (string $action): array => [
-            (new Hidden([My::id() . 'redir'], App::blog()->url() . App::url()->getBase(My::id()))),
-            (new Hidden([My::id() . 'state'], '')),
-            (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
-            (new Hidden([My::id() . 'action'], $action)),
-        ];
-        $form = fn (string $action, string $title, array $items): Div => (new Div(My::id() . $action))
-                ->items([
-                    (new Text('h3', $title)),
-                    (new Form(My::id() . $action . 'form'))
-                        ->class('session-form')
-                        ->action('')
-                        ->method('post')
-                        ->fields($items),
-                ]);
+        $profil    = new FrontendSessionProfil(My::id());
 
         // Sign in form
         if (!$connected) {
             $action  = My::ACTION_SIGNIN;
-            $forms[] = $form($action, __('Sign in'), [
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Input(My::id() . $action . '_login'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('username')
-                            ->label(new Label(__('Login:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_password'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('current-password')
-                            ->label(new Label(__('Password:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class('inputfield')
-                    ->items([
-                        (new Checkbox(My::id() . $action . '_remember'))
-                            ->label(new Label(__('Remenber me'), Label::OL_FT)),
-                    ]),
-                (new Div())
-                    ->class('controlset')
-                    ->items([
-                        (new Submit(My::id() . $action . 'save', __('Sign in'))),
-                        ... $hidden($action),
-                    ]),
+            $profil->addAction($action, __('Sign in'), [
+                $profil->getInputfield([
+                    (new Input(My::id() . $action . '_login'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('username')
+                        ->label(new Label(__('Login:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_password'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('current-password')
+                        ->label(new Label(__('Password:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Checkbox(My::id() . $action . '_remember'))
+                        ->label(new Label(__('Remenber me'), Label::OL_FT)),
+                ], true),
+                $profil->getControlset($action, __('Sign in')),
             ]);
         }
 
         // sign up form
         if (!$connected && My::settings()->get('enable_registration')) {
             $action  = My::ACTION_SIGNUP;
-            $forms[] = $form($action, __('Sign up'), [
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Input(My::id() . $action . '_login'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('username')
-                            ->label(new Label(__('Username:'), Label::OL_TF)),
-                        (new Note())
-                            ->class('note')
-                            ->text(__('Should be at least 3 characters long with only figures and letters.')),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Input(My::id() . $action . '_firstname'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->label(new Label(__('First Name:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Input(My::id() . $action . '_name'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->label(new Label(__('Last Name:'), Label::OL_TF)),
-                    ]),
+            $profil->addAction($action, __('Sign up'), [
+                $profil->getInputfield([
+                    (new Input(My::id() . $action . '_login'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('username')
+                        ->label(new Label(__('Username:'), Label::OL_TF)),
+                    (new Note())
+                        ->class('note')
+                        ->text(__('Should be at least 3 characters long with only figures and letters.')),
+                ], true),
+                $profil->getInputfield([
+                    (new Input(My::id() . $action . '_firstname'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->label(new Label(__('First Name:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Input(My::id() . $action . '_name'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->label(new Label(__('Last Name:'), Label::OL_TF)),
+                ], true),
                 // Honeypot
                 (new Div())
                     ->extra('style="display:none;"')
@@ -241,90 +208,73 @@ class FrontendTemplate
                         (new Email('email'))
                             ->value(''),
                     ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Email(My::id() . $action . '_email'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('username')
-                            ->label(new Label(__('Email:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Email(My::id() . $action . '_vemail'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('username')
-                            ->label(new Label(__('Repeat email:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_password'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('new-password')
-                            ->label(new Label(__('Password:'), Label::OL_TF)),
-                        (new Note())
-                            ->class('note')
-                            ->text(__('Should be at least 6 characters long.')),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_vpassword'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('new-password')
-                            ->label(new Label(__('Repeat password:'), Label::OL_TF)),
-                    ]),
-                My::settings()->get('condition_page') != '' ? (new Div())
-                    ->class(['inputfield'])
-                    ->items([
-                        (new Checkbox(My::id() . $action . '_condition'))
-                            ->label(new Label(
-                                sprintf(
-                                    __('I have read and accept the %s.'),
-                                    (new Link())
-                                    ->class('outgoing')
-                                    ->href(My::settings()->get('condition_page'))
-                                    ->text(__('Terms and Conditions'))
-                                    ->render()
-                                ),
-                                Label::OL_FT
-                            )),
-                    ]) : (new None()),
+                $profil->getInputfield([
+                    (new Email(My::id() . $action . '_email'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('username')
+                        ->label(new Label(__('Email:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Email(My::id() . $action . '_vemail'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('username')
+                        ->label(new Label(__('Repeat email:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_password'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('Password:'), Label::OL_TF)),
+                    (new Note())
+                        ->class('note')
+                        ->text(__('Should be at least 6 characters long.')),
+                ], true),
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_vpassword'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('Repeat password:'), Label::OL_TF)),
+                ], true),
+                My::settings()->get('condition_page') != '' ? $profil->getInputfield([
+                    (new Checkbox(My::id() . $action . '_condition'))
+                        ->label(new Label(
+                            sprintf(
+                                __('I have read and accept the %s.'),
+                                (new Link())
+                                ->class('outgoing')
+                                ->href(My::settings()->get('condition_page'))
+                                ->text(__('Terms and Conditions'))
+                                ->render()
+                            ),
+                            Label::OL_FT
+                        )),
+                ], true) : (new None()),
                 // Honeypot
-                (new Div())
-                    ->class(['inputfield'])
-                    ->items([
-                        (new Checkbox('agree', false))
-                                ->value('1')
-                                ->label(new Label(__('Do not check this box'), Label::OL_FT)),
-                    ]),
-                (new Div())
-                    ->class('controlset')
-                    ->items([
-                        (new Submit(My::id() . $action . 'save', __('Sign up'))),
-                        ... $hidden($action),
-                    ]),
+                $profil->getInputfield([
+                    (new Checkbox('agree', false))
+                            ->value('1')
+                            ->label(new Label(__('Do not check this box'), Label::OL_FT)),
+                ]),
+                $profil->getControlset($action, __('Sign up')),
             ]);
         }
 
         // password recovery form
         if (!$connected && My::settings()->get('enable_recovery')) {
             $action  = My::ACTION_RECOVER;
-            $forms[] = $form($action, __('Password recovery'), [
+            $profil->addAction($action, __('Password recovery'), [
                 // Honeypot
                 (new Div())
                     ->extra('style="display:none;"')
@@ -332,87 +282,65 @@ class FrontendTemplate
                         (new Email('email'))
                             ->value(''),
                     ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Email(My::id() . $action . '_usermail'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('username')
-                            ->label(new Label(__('Username:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Email(My::id() . $action . '_email'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('username')
-                            ->label(new Label(__('Email:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class('controlset')
-                    ->items([
-                        (new Submit(My::id() . $action . 'save', __('Recover'))),
-                        ... $hidden($action),
-                    ]),
+                $profil->getInputfield([
+                    (new Email(My::id() . $action . '_usermail'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('username')
+                        ->label(new Label(__('Username:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Email(My::id() . $action . '_email'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('username')
+                        ->label(new Label(__('Email:'), Label::OL_TF)),
+                ], true),
+                $profil->getControlset($action, __('Recover')),
             ]);
         }
 
         // signout form
         if ($connected) {
             $action  = My::ACTION_SIGNOUT;
-            $forms[] = $form($action, __('Sign in'), [
+            $profil->addAction($action, __('Sign in'), [
                 (new Text('p', sprintf(__('You are connected as: %s'), App::auth()->getInfo('user_cn')))),
-                (new Div())
-                    ->class('controlset')
-                    ->items([
-                        (new Submit(My::id() . $action . 'save', __('Logout'))),
-                        ... $hidden($action),
-                    ]),
+                $profil->getControlset($action, __('Logout')),
             ]);
         }
 
         // password recovery change form
         if (App::frontend()->context()->frontend_session->state === My::STATE_CHANGE && My::settings()->get('enable_recovery')) {
             $action  = My::ACTION_CHANGE;
-            $forms[] = $form($action, __('Password change'), [
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_password'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('new-password')
-                            ->label(new Label(__('New password:'), Label::OL_TF)),
-                        (new Note())
-                            ->class('note')
-                            ->text(__('Should be at least 6 characters long.')),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_vpassword'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('new-password')
-                            ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class('controlset')
-                    ->items([
-                        (new Submit(My::id() . $action . 'save', __('Change'))),
-                        (new Hidden([My::id() . $action . '_data'], App::frontend()->context()->frontend_session->data ?? '')),
-                        ... $hidden($action),
-                    ]),
+            $profil->addAction($action, __('Password change'), [
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_password'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('New password:'), Label::OL_TF)),
+                    (new Note())
+                        ->class('note')
+                        ->text(__('Should be at least 6 characters long.')),
+                ], true),
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_vpassword'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
+                ], true),
+                $profil->getControlset($action, __('Change'), [
+                    (new Hidden([My::id() . $action . '_data'], App::frontend()->context()->frontend_session->data ?? ''))
+                ]),
             ]);
         }
 
@@ -420,74 +348,56 @@ class FrontendTemplate
         if ($connected && App::auth()->allowPassChange() && !App::auth()->check(App::auth()::PERMISSION_ADMIN, App::blog()->id())) {
             // admins MUST use backend methods to change password
             $action  = My::ACTION_UPDPASS;
-            $forms[] = $form($action, __('Password change'), [
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_current'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('current-password')
-                            ->label(new Label(__('Current password:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_newpass'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('new-password')
-                            ->label(new Label(__('New password:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class(['inputfield', 'required'])
-                    ->items([
-                        (new Password(My::id() . $action . '_vrfpass'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value('')
-                            ->required(true)
-                            ->autocomplete('new-password')
-                            ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class('controlset')
-                    ->items([
-                        (new Submit(My::id() . $action . 'save', __('Save'))),
-                        ... $hidden($action),
-                    ]),
+            $profil->addAction($action, __('Password change'), [
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_current'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('current-password')
+                        ->label(new Label(__('Current password:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_newpass'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('New password:'), Label::OL_TF)),
+                ], true),
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_vrfpass'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
+                ], true),
+                $profil->getControlset($action, __('Save')),
             ]);
         }
 
         // User pref from
         if ($connected) {
             $action  = My::ACTION_UPDPREF;
-            $forms[] = $form($action, __('Profil'), [
+            $profil->addAction($action, __('Profil'), [
                 // user_site
-                (new Div())
-                    ->class('inputfield')
-                    ->items([
-                        (new Input(My::id() . $action . '_url'))
-                            ->size(30)
-                            ->maxlength(255)
-                            ->value(Html::escapeHTML(App::auth()->getInfo('user_url')))
-                            ->label(new Label(__('Your site URL:'), Label::OL_TF)),
-                    ]),
-                (new Div())
-                    ->class('controlset')
-                    ->items([
-                        (new Submit(My::id() . $action . 'save', __('Save'))),
-                        ... $hidden($action),
-                    ]),
+                $profil->getInputfield([
+                    (new Input(My::id() . $action . '_url'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value(Html::escapeHTML(App::auth()->getInfo('user_url')))
+                        ->label(new Label(__('Your site URL:'), Label::OL_TF)),
+                ]),
+                $profil->getControlset($action, __('Save')),
             ]);
+
+            App::behavior()->callBehavior('FrontendSessionProfil', $profil);
         }
 
-        echo (new Para())
-            ->items($forms)
-            ->render();
+        echo $profil->getActions()->render();
     }
 }
