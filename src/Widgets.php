@@ -33,6 +33,17 @@ class Widgets
                 'Public login form'
             )
             ->addTitle(__('My account'))
+            ->setting(
+                'show',
+                __('Content:'),
+                '*',
+                'combo',
+                [
+                    __('Form and menu') => '*',
+                    __('Only form')     => 'form',
+                    __('Only menu')     => 'menu',
+                ]
+            )
             ->addHomeOnly()
             ->addContentOnly()
             ->addClass()
@@ -56,21 +67,25 @@ class Widgets
          */
         $lines = new ArrayObject();
 
-        $url = App::blog()->url() . App::url()->getURLFor(My::id());
+        $form = false;
+        $url  = App::blog()->url() . App::url()->getURLFor(My::id());
 
         if (App::auth()->userID() != '') {
-            # --BEHAVIOR-- FrontendSessionWidget -- ArrayObject
-            App::behavior()->callBehavior('FrontendSessionWidget', $lines);
+            if ($widget->get('show') != 'form') {
+                # --BEHAVIOR-- FrontendSessionWidget -- ArrayObject
+                App::behavior()->callBehavior('FrontendSessionWidget', $lines);
 
-            $lines[] = (new Li())
-                ->items([
-                    (new Link())
-                        ->href($url . '#' . My::id() . My::ACTION_UPDPREF)
-                        ->text(__('My account')),
-                ]);
+                $lines[] = (new Li())
+                    ->items([
+                        (new Link())
+                            ->href($url . '#' . My::id() . My::ACTION_UPDPREF)
+                            ->text(__('My account')),
+                    ]);
+            }
 
             // signout
-            $form = (new Form())
+            if ($widget->get('show') != 'menu') {
+                $form = (new Form())
                     ->class('session-form')
                     ->method('post')
                     ->action($url)
@@ -85,7 +100,8 @@ class Widgets
                                 (new Submit([My::id() . 'submit', My::id() . My::ACTION_SIGNOUT . 'submit_widget'], __('Disconnect'))),
                             ]),
                     ]);
-        } else {
+                }
+        } elseif ($widget->get('show') != 'menu') {
             if (My::settings()->get('enable_recovery')) {
                 $lines[] = (new Li())
                     ->items([
@@ -147,11 +163,16 @@ class Widgets
                     ]);
         }
 
+        if ($form === false && count($lines) === 0) {
+
+            return '';
+        }
+
         return $widget->renderDiv(
             (bool) $widget->get('content_only'),
             My::id() . ' ' . $widget->get('class'),
             '',
-            $widget->renderTitle($widget->get('title')) . $form->render() . (count($lines) === 0 ? '' : (new Ul())->items($lines)->render())
+            $widget->renderTitle($widget->get('title')) . ($form === false ? '' : $form->render()) . (count($lines) === 0 ? '' : (new Ul())->items($lines)->render())
         );
     }
 }
