@@ -224,7 +224,7 @@ class Backend extends Process
 
         // add REST methods
         App::rest()->addFunction('FrontendSessionPendingCount', function (): array {
-            $count = App::users()->getUsers(['user_status' => My::USER_PENDING], true)->f(0);
+            $count = (int) App::users()->getUsers(['user_status' => My::USER_PENDING], true)->f(0);
 
             return [
                 'ret' => true,
