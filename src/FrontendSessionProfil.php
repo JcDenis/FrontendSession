@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Helper\Html\Form\{ Component, Div, Form, Hidden, None, Set, Submit, Text };
+use Dotclear\Helper\Html\Form\{ Component, Div, Form, Hidden, Set, Submit, Text };
 use Dotclear\Helper\Html\Html;
 
 /**
@@ -25,13 +25,12 @@ class FrontendSessionProfil
     public function __construct(
         public readonly string $id
     ) {
-
     }
 
     /**
      * @param   array<int, Component>   $items
      */
-    public function addAction(string $action, string $title, array $items)
+    public function addAction(string $action, string $title, array $items): void
     {
         $this->groups[$action] = (new Div($this->id . $action . 'group'))
             ->class('session-form')
@@ -77,7 +76,7 @@ class FrontendSessionProfil
                 (new Hidden([$this->id . 'state'], '')),
                 (new Hidden([$this->id . 'check'], App::nonce()->getNonce())),
                 (new Hidden([$this->id . 'action'], $action)),
-                $items === [] ? new None() : $items,
+                ... $items,
             ]);
     }
 }
