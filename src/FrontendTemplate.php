@@ -382,6 +382,7 @@ class FrontendTemplate
 
         // User pref from
         if ($connected) {
+/*//
             $action  = My::ACTION_UPDPREF;
             $profil->addAction($action, __('Profil'), [
                 // user_site
@@ -394,7 +395,7 @@ class FrontendTemplate
                 ]),
                 $profil->getControlset($action, __('Save')),
             ]);
-
+//*/
             App::behavior()->callBehavior('FrontendSessionProfil', $profil);
         }
 

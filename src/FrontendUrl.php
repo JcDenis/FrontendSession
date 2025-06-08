@@ -249,6 +249,7 @@ class FrontendUrl extends Url
                 break;
 
             case My::ACTION_UPDPREF:
+/*//
                 self::checkForm();
 
                 $user_url = $_POST[My::id() . $action . '_url'];
@@ -271,7 +272,7 @@ class FrontendUrl extends Url
                 } catch (Throwable $e) {
                     self::$form_error[] = $e->getMessage();
                 }
-
+//*/
                 break;
 
             case My::ACTION_UPDPASS:
