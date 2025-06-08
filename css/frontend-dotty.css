@@ -1,4 +1,4 @@
-.session-form input:not([type='checkbox'], [type='radio'], [type='submit']) {
+.session-form input:not([type='checkbox'], [type='radio'], [type='submit']), .session-form textarea {
   display: block;
   width: 75%;
 }
