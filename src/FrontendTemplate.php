@@ -382,20 +382,6 @@ class FrontendTemplate
 
         // User pref from
         if ($connected) {
-/*//
-            $action  = My::ACTION_UPDPREF;
-            $profil->addAction($action, __('Profil'), [
-                // user_site
-                $profil->getInputfield([
-                    (new Input(My::id() . $action . '_url'))
-                        ->size(30)
-                        ->maxlength(255)
-                        ->value(Html::escapeHTML(App::auth()->getInfo('user_url')))
-                        ->label(new Label(__('Your site URL:'), Label::OL_TF)),
-                ]),
-                $profil->getControlset($action, __('Save')),
-            ]);
-//*/
             App::behavior()->callBehavior('FrontendSessionProfil', $profil);
         }
 

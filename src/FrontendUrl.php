@@ -148,7 +148,7 @@ class FrontendUrl extends Url
                                 App::auth()->sudo([App::users(), 'setUserBlogPermissions'], $signup_login, App::blog()->id(), [My::id() => true]);
 
                                 # --BEHAVIOR-- FrontendSessionAfterSignup -- Cursor
-                                App::behavior()->callBehavior(My::id() . 'AfterSignup', $cur);
+                                App::behavior()->callBehavior('FrontendSessionAfterSignup', $cur);
 
                                 // send confirmation email
                                 Mail::sendRegistrationMail($signup_login, $signup_password, $signup_email);
@@ -246,33 +246,6 @@ class FrontendUrl extends Url
                     }
                 }
 
-                break;
-
-            case My::ACTION_UPDPREF:
-/*//
-                self::checkForm();
-
-                $user_url = $_POST[My::id() . $action . '_url'];
-                if (!preg_match('|^https?://|', (string) $user_url)) {
-                    $user_url = 'http://' . $user_url;
-                }
-                $user_url = (string) filter_var($user_url, FILTER_VALIDATE_URL);
-                $user_id  = (string) App::auth()->userID();
-
-                try {
-                    // change user url
-                    $cur = App::auth()->openUserCursor();
-                    $cur->setField('user_url', $user_url);
-                    App::auth()->sudo(App::users()->updUser(...), $user_id, $cur);
-
-                    // reload user
-                    App::auth()->checkUser($user_id);
-
-                    App::frontend()->context()->frontend_session->success = __('Profil successfully updated.');
-                } catch (Throwable $e) {
-                    self::$form_error[] = $e->getMessage();
-                }
-//*/
                 break;
 
             case My::ACTION_UPDPASS:

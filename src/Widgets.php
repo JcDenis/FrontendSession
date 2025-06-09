@@ -78,7 +78,7 @@ class Widgets
                 $lines[] = (new Li())
                     ->items([
                         (new Link())
-                            ->href($url . '#' . My::id() . My::ACTION_UPDPREF)
+                            ->href($url)
                             ->text(__('My account')),
                     ]);
             }

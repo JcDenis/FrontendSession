@@ -30,6 +30,5 @@ class My extends MyPlugin
     public const ACTION_SIGNUP  = 'signup';
     public const ACTION_RECOVER = 'recover';
     public const ACTION_CHANGE  = 'change';
-    public const ACTION_UPDPREF = 'updpref';
     public const ACTION_UPDPASS = 'updpass';
 }
