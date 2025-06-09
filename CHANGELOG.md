@@ -1,3 +1,8 @@
+FrontendSession 0.29 - 2025.06.09
+==========================================================
+* Add textarea CSS for third party plugins on session form
+* Remove "profil" part from session form (use plugin AboutTheAuthor2 instead)
+
 FrontendSession 0.28 - 2025.06.02
 ==========================================================
 * Add widget option to select what to show
