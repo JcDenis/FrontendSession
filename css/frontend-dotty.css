@@ -20,8 +20,11 @@
 .content-inner .session-form {
   padding-bottom: 2em;
 }
-.content-inner p.success {
+p.success {
   font-size: 1.25em;
   font-weight: bold;
   color: var(--main-color, green);
+}
+.post-action {
+  text-align: right;
 }

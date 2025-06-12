@@ -307,7 +307,7 @@ class FrontendUrl extends Url
     /**
      * Check nonce from POST requests.
      */
-    private static function checkForm(): void
+    public static function checkForm(): void
     {
         if (!App::nonce()->checkNonce($_POST[My::id() . 'check'] ?? '-')) {
             throw new PreconditionException();

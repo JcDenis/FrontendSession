@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
+use ArrayObject;
 use Dotclear\App;
 use Dotclear\Database\{Cursor, MetaRecord };
+use Dotclear\Helper\Html\Form\{ Div, Form, Hidden, Submit };
 use Exception;
 
 /**
@@ -24,6 +26,62 @@ class FrontendBehaviors
     {
         // Overload commentsActive()
         $rs->extend(RecordExtendPost::class);
+    }
+
+    /**
+     * Add a form after post content.
+     *
+     * Third party plugins dealing with session and form on post must use 
+     * behaviors FrontendSessionPostForm and FrontendSessionPostAction.
+     */
+    public static function publicEntryAfterContent(): void
+    {
+        if (App::auth()->check(My::id(), App::blog()->id())
+            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id')) != 0
+        ) {
+
+            // if from post form
+            if (!empty($_POST[My::id() . 'post']) && $_POST[My::id() . 'post'] == $post_id) {
+                FrontendUrl::checkForm();
+
+                # --BEHAVIOR-- FrontendSessionPostAction -- int
+                App::behavior()->callBehavior('FrontendSessionPostAction', App::frontend()->context()->posts);
+            }
+
+            /**
+             * @var     ArrayObject<int, Submit> $items
+             */
+            $buttons = new ArrayObject();
+
+            # --BEHAVIOR-- FrontendSessionPostForm -- int, ArrayObject<int, Submit>
+            App::behavior()->callBehavior('FrontendSessionPostForm', App::frontend()->context()->posts, $buttons);
+
+            $buttons = iterator_to_array($buttons);
+            foreach ($buttons as $k => $button) {
+                if (!is_a($button, Submit::class)) {
+                    unset($buttons[$k]);
+                }
+            }
+
+            if (empty($buttons)) {
+                return;
+            }
+
+            echo (new Div())
+                ->class('post-action')
+                ->items([
+                    (new Form([My::id(). 'post-action', 'pa' . $post_id]))
+                        ->method('post')
+                        ->action(App::frontend()->context()->posts->getURL() . '#p' . $post_id)
+                        ->separator(' ')
+                        ->items([
+                            ... $buttons,
+                            (new Hidden([My::id() .'check'], App::nonce()->getNonce())),
+                            (new Hidden([My::id() .'post'], (string) $post_id)),
+                        ]),
+                ])
+                ->render();
+        }
     }
 
     /**
