@@ -1,3 +1,7 @@
+FrontendSession 0.30 - 2025.06.12
+==========================================================
+* Add behaviors for post action on frontend for third party plugins
+
 FrontendSession 0.29 - 2025.06.09
 ==========================================================
 * Add textarea CSS for third party plugins on session form
