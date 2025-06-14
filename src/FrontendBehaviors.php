@@ -7,7 +7,7 @@ namespace Dotclear\Plugin\FrontendSession;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Database\{Cursor, MetaRecord };
-use Dotclear\Helper\Html\Form\{ Div, Form, Hidden, Submit };
+use Dotclear\Helper\Html\Form\{ Div, Form, Hidden, None, Submit };
 use Exception;
 
 /**
@@ -39,21 +39,20 @@ class FrontendBehaviors
         if (App::auth()->check(My::id(), App::blog()->id())
             && ($post_id = (int) App::frontend()->context()->posts?->f('post_id')) != 0
         ) {
-
             // if from post form
             if (!empty($_POST[My::id() . 'post']) && $_POST[My::id() . 'post'] == $post_id) {
                 FrontendUrl::checkForm();
 
-                # --BEHAVIOR-- FrontendSessionPostAction -- int
+                # --BEHAVIOR-- FrontendSessionPostAction -- MetaRecord
                 App::behavior()->callBehavior('FrontendSessionPostAction', App::frontend()->context()->posts);
             }
 
             /**
-             * @var     ArrayObject<int, Submit> $items
+             * @var     ArrayObject<int, Submit>    $buttons
              */
             $buttons = new ArrayObject();
 
-            # --BEHAVIOR-- FrontendSessionPostForm -- int, ArrayObject<int, Submit>
+            # --BEHAVIOR-- FrontendSessionPostForm -- MetaRecord, ArrayObject<int, Submit>
             App::behavior()->callBehavior('FrontendSessionPostForm', App::frontend()->context()->posts, $buttons);
 
             $buttons = iterator_to_array($buttons);
@@ -64,7 +63,7 @@ class FrontendBehaviors
             }
 
             if (empty($buttons)) {
-                return;
+                $buttons = [new None()];
             }
 
             echo (new Div())
@@ -78,6 +77,57 @@ class FrontendBehaviors
                             ... $buttons,
                             (new Hidden([My::id() .'check'], App::nonce()->getNonce())),
                             (new Hidden([My::id() .'post'], (string) $post_id)),
+                        ]),
+                ])
+                ->render();
+        }
+    }
+
+    public static function publicCommentAfterContent(): void
+    {
+        if (App::auth()->check(My::id(), App::blog()->id())
+            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id')) != 0
+            && ($comment_id = (int) App::frontend()->context()->comments?->f('comment_id')) != 0
+        ) {
+            // if from comment form
+            if (!empty($_POST[My::id() . 'comment']) && $_POST[My::id() . 'comment'] == $comment_id) {
+                FrontendUrl::checkForm();
+
+                # --BEHAVIOR-- FrontendSessionPostAction -- MetaRecord
+                App::behavior()->callBehavior('FrontendSessionCommentAction', App::frontend()->context()->posts, App::frontend()->context()->comments);
+            }
+
+            /**
+             * @var     ArrayObject<int, Submit>    $buttons
+             */
+            $buttons = new ArrayObject();
+
+            # --BEHAVIOR-- FrontendSessionCommentForm -- MetaRecord, MetaRecord, ArrayObject<int, Submit>
+            App::behavior()->callBehavior('FrontendSessionCommentForm', App::frontend()->context()->posts, App::frontend()->context()->comments, $buttons);
+
+            $buttons = iterator_to_array($buttons);
+            foreach ($buttons as $k => $button) {
+                if (!is_a($button, Submit::class)) {
+                    unset($buttons[$k]);
+                }
+            }
+
+            if (empty($buttons)) {
+                $buttons = [new None()];
+            }
+
+            echo (new Div())
+                ->class('comment-action')
+                ->items([
+                    (new Form([My::id(). 'comment-action', 'ca' . $comment_id]))
+                        ->method('post')
+                        ->action(App::frontend()->context()->posts->getURL() . '#c' . $comment_id)
+                        ->separator(' ')
+                        ->items([
+                            ... $buttons,
+                            (new Hidden([My::id() .'check'], App::nonce()->getNonce())),
+                            (new Hidden([My::id() .'post'], (string) $post_id)),
+                            (new Hidden([My::id() .'comment'], (string) $comment_id)),
                         ]),
                 ])
                 ->render();

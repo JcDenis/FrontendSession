@@ -25,6 +25,6 @@ p.success {
   font-weight: bold;
   color: var(--main-color, green);
 }
-.post-action {
+.post-action, .comment-action {
   text-align: right;
 }

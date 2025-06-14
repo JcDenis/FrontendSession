@@ -45,6 +45,7 @@ class Frontend extends Process
             'publicBeforeCommentCreate'      => FrontendBehaviors::publicBeforeCommentCreate(...),
             'publicHeadContent'              => FrontendBehaviors::publicHeadContent(...),
             'publicEntryAfterContent'        => FrontendBehaviors::publicEntryAfterContent(...),
+            'publicCommentAfterContent'      => FrontendBehaviors::publicCommentAfterContent(...),
             'publicCommentFormBeforeContent' => FrontendBehaviors::publicCommentFormBeforeContent(...),
             'FrontendSessionAfterSignup'     => PluginTelegramBehaviors::FrontendSessionAfterSignup(...),
         ]);
