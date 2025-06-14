@@ -1,3 +1,7 @@
+FrontendSession 0.31 - 2025.06.14
+==========================================================
+* Add behaviors for comment action on frontend for third party plugins
+
 FrontendSession 0.30 - 2025.06.12
 ==========================================================
 * Add behaviors for post action on frontend for third party plugins
