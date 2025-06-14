@@ -207,7 +207,8 @@ class FrontendBehaviors
     {
         // Comment form auto complete
         if (App::auth()->check(My::id(), App::blog()->id())
-            && App::frontend()->context()->comment_preview['content'] == ''
+            && App::frontend()->context()->exists('comment_preview')
+            //&& App::frontend()->context()->comment_preview['content'] == ''
         ) {
             App::frontend()->context()->comment_preview['name'] = App::auth()->getInfo('user_cn');
             App::frontend()->context()->comment_preview['mail'] = App::auth()->getInfo('user_email');
