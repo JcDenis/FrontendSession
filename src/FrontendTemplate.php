@@ -164,7 +164,7 @@ class FrontendTemplate
                 $profil->getInputfield([
                     (new Checkbox(My::id() . $action . '_remember'))
                         ->label(new Label(__('Remenber me'), Label::OL_FT)),
-                ], true),
+                ], false),
                 $profil->getControlset($action, __('Sign in')),
             ]);
         }
