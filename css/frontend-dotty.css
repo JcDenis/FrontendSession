@@ -26,5 +26,6 @@ p.success {
   color: var(--main-color, green);
 }
 .post-action, .comment-action {
+  margin: 0.25em 0;
   text-align: right;
 }
