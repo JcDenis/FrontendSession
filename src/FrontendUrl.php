@@ -145,7 +145,10 @@ class FrontendUrl extends Url
                             if ($signup_login != App::auth()->sudo([App::users(), 'addUser'], $cur)) {
                                 self::$form_error[] = __('Something went wrong while trying to register user.');
                             } else {
-                                App::auth()->sudo([App::users(), 'setUserBlogPermissions'], $signup_login, App::blog()->id(), [My::id() => true]);
+                                $perms              = App::users()->getUserPermissions($cur->user_id);
+                                $perms              = $perms[App::blog()->id()]['p'] ?? [];
+                                $perms[My::id()]    = true;
+                                App::auth()->sudo([App::users(), 'setUserBlogPermissions'], $signup_login, App::blog()->id(), $perms);
 
                                 # --BEHAVIOR-- FrontendSessionAfterSignup -- Cursor
                                 App::behavior()->callBehavior('FrontendSessionAfterSignup', $cur);
