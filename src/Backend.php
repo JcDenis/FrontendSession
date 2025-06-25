@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
-use ArrayObject;
+use ArrayObject, Throwable;
 use Dotclear\App;
 use Dotclear\Core\Process;
-use Dotclear\Core\Backend\{Notices, Page };
+use Dotclear\Core\Backend\{ Notices, Page };
 use Dotclear\Database\Cursor;
-use Dotclear\Helper\Html\Form\{ Button, Checkbox, Div, Input, Label, Note, Para, Text, Textarea };
+use Dotclear\Helper\Html\Form\{ Button, Checkbox, Fieldset, Img, Input, Label, Legend, Note, Para, Textarea };
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Interface\Core\BlogSettingsInterface;
-use Throwable;
 
 /**
  * @brief       FrontendSession backend class.
@@ -47,11 +46,9 @@ class Backend extends Process
                 My::jsLoad('backend-dashboard'),
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {
-                echo (new Div())
-                    ->class('fieldset')
+                echo (new Fieldset(My::id() . '_params'))
+                    ->legend(new Legend((new Img(My::icons()[0]))->class('icon-small')->render() . ' ' . My::name()))
                     ->items([
-                        (new Text('h4', My::name()))
-                            ->id(My::id() . '_params'),
                         (new Para())
                             ->items([
                                 (new Checkbox(My::id() . 'active', (bool) $blog_settings->get(My::id())->get('active')))
