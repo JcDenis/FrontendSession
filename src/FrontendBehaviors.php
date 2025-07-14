@@ -31,7 +31,7 @@ class FrontendBehaviors
     /**
      * Add a form after post content.
      *
-     * Third party plugins dealing with session and form on post must use 
+     * Third party plugins dealing with session and form on post must use
      * behaviors FrontendSessionPostForm and FrontendSessionPostAction.
      */
     public static function publicEntryAfterContent(): void
@@ -57,26 +57,26 @@ class FrontendBehaviors
 
             $buttons = iterator_to_array($buttons);
             foreach ($buttons as $k => $button) {
-                if (!is_a($button, Submit::class)) {
+                if (!is_a($button, Submit::class)) {    // @phpstan-ignore-line: not trully sure that $button is a Submit or not
                     unset($buttons[$k]);
                 }
             }
 
-            if (empty($buttons)) {
+            if ($buttons === []) {
                 $buttons = [new None()];
             }
 
             echo (new Div())
                 ->class('post-action')
                 ->items([
-                    (new Form([My::id(). 'post-action', 'pa' . $post_id]))
+                    (new Form([My::id() . 'post-action', 'pa' . $post_id]))
                         ->method('post')
                         ->action(App::frontend()->context()->posts->getURL() . '#p' . $post_id)
                         ->separator(' ')
                         ->items([
                             ... $buttons,
-                            (new Hidden([My::id() .'check'], App::nonce()->getNonce())),
-                            (new Hidden([My::id() .'post'], (string) $post_id)),
+                            (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
+                            (new Hidden([My::id() . 'post'], (string) $post_id)),
                         ]),
                 ])
                 ->render();
@@ -86,7 +86,7 @@ class FrontendBehaviors
     public static function publicCommentAfterContent(): void
     {
         if (App::auth()->check(My::id(), App::blog()->id())
-            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id')) != 0
+            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id'))          != 0
             && ($comment_id = (int) App::frontend()->context()->comments?->f('comment_id')) != 0
         ) {
             // if from comment form
@@ -107,27 +107,27 @@ class FrontendBehaviors
 
             $buttons = iterator_to_array($buttons);
             foreach ($buttons as $k => $button) {
-                if (!is_a($button, Submit::class)) {
+                if (!is_a($button, Submit::class)) {    // @phpstan-ignore-line: not trully sure that $button is a Submit or not
                     unset($buttons[$k]);
                 }
             }
 
-            if (empty($buttons)) {
+            if ($buttons === []) {
                 $buttons = [new None()];
             }
 
             echo (new Div())
                 ->class('comment-action')
                 ->items([
-                    (new Form([My::id(). 'comment-action', 'ca' . $comment_id]))
+                    (new Form([My::id() . 'comment-action', 'ca' . $comment_id]))
                         ->method('post')
                         ->action(App::frontend()->context()->posts->getURL() . '#c' . $comment_id)
                         ->separator(' ')
                         ->items([
                             ... $buttons,
-                            (new Hidden([My::id() .'check'], App::nonce()->getNonce())),
-                            (new Hidden([My::id() .'post'], (string) $post_id)),
-                            (new Hidden([My::id() .'comment'], (string) $comment_id)),
+                            (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
+                            (new Hidden([My::id() . 'post'], (string) $post_id)),
+                            (new Hidden([My::id() . 'comment'], (string) $comment_id)),
                         ]),
                 ])
                 ->render();

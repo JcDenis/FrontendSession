@@ -166,7 +166,7 @@ class FrontendSession
      */
     public function redirect(string ...$args): void
     {
-        App::blog()->triggerBLog(); // force no cache
+        App::blog()->triggerBlog(); // force no cache
         Http::redirect($args === [] ? Http::getSelfURI() : implode('/', $args));
     }
 
