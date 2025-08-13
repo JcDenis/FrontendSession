@@ -19,65 +19,47 @@ use Throwable;
  */
 class FrontendSession
 {
+    /**
+     * Errors stack.
+     *
+     * @var     array<int, string>  $errors
+     */
+    private array $errors = [];
+
     public string $state   = My::STATE_DISCONNECTED;
     public string $data    = '';
     public string $success = '';
 
-    private readonly SessionHandler $session;
-    private bool $session_started = false;
-
     public function __construct(
-        protected string $session_name
     ) {
-        $this->session = new SessionHandler($this->session_name, $this->ssl());
+        App::frontend()->session()->start();
 
-        // Check SESSION
-        if (isset($_COOKIE[$this->session_name])) {
-            // If we have a session we launch it now
-            try {
-                $welcome = true;
-                $this->start();
+        if (isset($_SESSION[My::id() . '_user_id'])) {
+            // Check here for user and IP address
+            $this->check($_SESSION[My::id() . '_user_id']);
 
-                if (!isset($_SESSION[My::id() . '_user_id'])) {
-                    // If session does not exist, logout.
-                    $welcome = false;
-                } else {
-                    // Check here for user and IP address
-                    $this->check($_SESSION[My::id() . '_user_id']);
-
-                    if (!App::auth()->userID() || ($this->uid() !== $_SESSION[My::id() . '_browser_uid'])) {
-                        $welcome = false;
-                    }
-                }
-
-                if (!$welcome) {
-                    $this->session()->destroy();
-                    // Avoid loop caused by old cookie
-                    $p    = $this->session()->getCookieParameters(false, -600);
-                    $p[3] = '/';
-                    $p[4] = static::domain();
-                    setcookie(...$p);   // @phpstan-ignore-line
-                }
-            } catch (Throwable) {
-                throw new SessionException(__('There seems to be no Session table in your database. Is Dotclear completly installed?'));
-            }
-
-            // Check blog to use and log out if no result
-            if (!isset($_SESSION[My::id() . '_blog_id'])) {
-                $_SESSION[My::id() . '_blog_id'] = App::blog()->id();
-            } elseif ($_SESSION[My::id() . '_blog_id'] != App::blog()->id()) {
-                unset($_SESSION[My::id() . '_blog_id']);
-            }
-
-            // Check user right on blog
-            if (isset($_SESSION[My::id() . '_user_id'])
-            && (!isset($_SESSION[My::id() . '_blog_id']) || !App::auth()->check(My::id(), App::blog()->id()))
-            ) {
-                // Kill public session
-                $this->kill();
-                // Should use redirection to logout user
+            if ($this->uid() !== $_SESSION[My::id() . '_browser_uid']) {
+                App::frontend()->session()->destroy();
+                $this->setCookie();
                 $this->redirect(App::blog()->url());
             }
+        }
+
+        // Check blog to use and log out if no result
+        if (!isset($_SESSION[My::id() . '_blog_id'])) {
+            $_SESSION[My::id() . '_blog_id'] = App::blog()->id();
+        } elseif ($_SESSION[My::id() . '_blog_id'] != App::blog()->id()) {
+            unset($_SESSION[My::id() . '_blog_id']);
+        }
+
+        // Check user right on blog
+        if (isset($_SESSION[My::id() . '_user_id'])
+        && (!isset($_SESSION[My::id() . '_blog_id']) || !App::auth()->check(My::id(), App::blog()->id()))
+        ) {
+            // Kill public session
+            $this->kill();
+            // Should use redirection to logout user
+            $this->redirect(App::blog()->url());
         }
 
         // Check COOKIE
@@ -97,34 +79,20 @@ class FrontendSession
     }
 
     /**
-     * Start (once) session.
-     */
-    private function start(): void
-    {
-        if (!$this->session_started) {
-            $this->session()->start();
-            $this->session_started = true;
-        }
-    }
-
-    /**
-     * Check if blog use SSL.
-     */
-    private function ssl(): bool
-    {
-        $bits = parse_url((string) App::blog()->url());
-
-        return empty($bits['scheme']) || !preg_match('%^http[s]?$%', $bits['scheme']) ? false : $bits['scheme'] === 'https';
-    }
-
-    /**
-     * Cookie domain.
+     * Set cookie.
      *
-     * User session can be share between subdomain of a multiblog.
+     * This takes default cookie parameters and complete them.
+     *
+     * @param   int     $expires    The expires delay
+     * @param   string  $value      The cookie content
      */
-    public static function domain(): string
+    private function setCookie(int $expires = -600, string $value = ''): void
     {
-        return defined('FRONTENDSESSION_COOKIE_DOMAIN') ? FRONTENDSESSION_COOKIE_DOMAIN : '';
+        $p = App::frontend()->session()->getCookieParameters(false, $expires);
+        $p[0] = My::id();
+        $p[1] = $value;
+
+        setcookie(...$p);
     }
 
     /**
@@ -147,16 +115,8 @@ class FrontendSession
     {
         if (isset($_COOKIE[My::id()])) {
             unset($_COOKIE[My::id()]);
-            setcookie(My::id(), '', ['expires' => time() - 3600, 'path' => '/', 'domain' => static::domain(), 'secure' => $this->ssl()]);
+            $this->setCookie();
         }
-    }
-
-    /**
-     * Get session handler.
-     */
-    public function session(): SessionHandler
-    {
-        return $this->session;
     }
 
     /**
@@ -175,52 +135,11 @@ class FrontendSession
      */
     public function kill(): void
     {
-        // Ping user's blogs
-        $this->triggerBlogs();
-
         // Kill session
-        $this->session()->destroy();
+        App::frontend()->session()->destroy();
 
         // Unset cookie if necessary
         $this->reset();
-    }
-
-    /**
-     * Ping others user blogs on signin/signout.
-     *
-     * This reduces to near zero cache and is time consuming.
-     */
-    private function triggerBlogs(): void
-    {
-        if (App::auth()->userID() != '' && static::domain() !== '') {
-            $old_blog = App::blog()->id();
-            if (App::auth()->isSuperAdmin()) {
-                // taken from App::users()->updUser()
-                $sql = new SelectStatement();
-                $rs  = $sql
-                    ->distinct()
-                    ->column('blog_id')
-                    ->from(App::con()->prefix() . App::blog()::POST_TABLE_NAME)
-                    ->where('user_id = ' . $sql->quote((string) App::auth()->userID()))
-                    ->select();
-
-                if (!is_null($rs)) {
-                    while ($rs->fetch()) {
-                        App::blog()->loadFromBlog($rs->f('blog_id'));
-                        App::blog()->triggerBlog();
-                    }
-                }
-            } else {
-                $res = App::users()->getUserPermissions((string) App::auth()->userID());
-                foreach ($res as $blog_id => $perms) {
-                    if (isset($perms['p'][My::id()]) || isset($perms['p'][App::auth()::PERMISSION_ADMIN])) {
-                        App::blog()->loadFromBlog($blog_id);
-                        App::blog()->triggerBlog();
-                    }
-                }
-            }
-            App::blog()->loadFromBlog($old_blog);
-        }
     }
 
     /**
@@ -293,19 +212,15 @@ class FrontendSession
                 $this->reset();
                 $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_CHANGE, $this->encode([$user_id, $remember], true));
             } else {
-                $this->start();
                 $_SESSION[My::id() . '_user_id']     = $user_id;
                 $_SESSION[My::id() . '_browser_uid'] = $this->uid();
                 $_SESSION[My::id() . '_blog_id']     = App::blog()->id();
 
                 if ($remember) {
-                    setcookie(
-                        My::id(),
+                    $this->setCookie(
+                        strtotime('+15 days'),
                         $user_key === null ? $this->uid($user_id) : $_COOKIE[My::id()],
-                        ['expires' => strtotime('+15 days'), 'path' => '/', 'domain' => static::domain(), 'secure' => $this->ssl()]
                     );
-
-                    $this->triggerBlogs();
                 }
 
                 return true;
@@ -315,5 +230,35 @@ class FrontendSession
         }
 
         return false;
+    }
+
+    /**
+     * Get errors messages.
+     *
+     * @return   array<int, string>
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Check if there are errors.
+     *
+     * @return  bool
+     */
+    public function hasError(): bool
+    {
+        return $this->errors !== [];
+    }
+
+    /**
+     * Add an error message.
+     *
+     * @param   string  $error  The error message
+     */
+    public function addError(string $error): void
+    {
+        $this->errors[] = $error;
     }
 }

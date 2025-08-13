@@ -22,13 +22,6 @@ use Throwable;
 class FrontendUrl extends Url
 {
     /**
-     * Form errors.
-     *
-     * @var     array<int, string>  $form_error
-     */
-    private static array $form_error = [];
-
-    /**
      * Session login endpoint.
      *
      * User sign in, sign up, sign out.
@@ -69,7 +62,9 @@ class FrontendUrl extends Url
 
             case My::ACTION_SIGNIN:
                 if (in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
-                    self::$form_error[] = $state == My::STATE_DISABLED ? __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.');
+                    App::frontend()->context()->frontend_session->addError($state == My::STATE_DISABLED ? 
+                        __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.')
+                    );
 
                     break;
                 }
@@ -86,7 +81,7 @@ class FrontendUrl extends Url
                     $redir,
                     $signin_remember
                 )) {
-                    self::$form_error[] = __('Wrong username or password.');
+                    App::frontend()->context()->frontend_session->addError(__('Wrong username or password.'));
                 } else {
                     App::frontend()->context()->frontend_session->redirect($redir);
                 }
@@ -106,32 +101,32 @@ class FrontendUrl extends Url
 
                 if (!empty($signup_login)) {
                     if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
-                        self::$form_error[] = __('This username is not valid.');
+                        App::frontend()->context()->frontend_session->addError(__('This username is not valid.'));
                     } elseif (App::users()->userExists($signup_login)) {
-                        self::$form_error[] = __('This username is not available.');
+                        App::frontend()->context()->frontend_session->addError(__('This username is not available.'));
                     }
 
                     if ($signup_email != $signup_vemail) {
-                        self::$form_error[] = __('Emails missmatch.');
+                        App::frontend()->context()->frontend_session->addError(__('Emails missmatch.'));
                     } elseif (!Text::isEmail($signup_email)) {
-                        self::$form_error[] = __('Email is not valid.');
+                        App::frontend()->context()->frontend_session->addError(__('Email is not valid.'));
                     }
 
                     if ($signup_password != $signup_vpassword) {
-                        self::$form_error[] = __('Passwords missmatch.');
+                        App::frontend()->context()->frontend_session->addError(__('Passwords missmatch.'));
                     } elseif (strlen((string) $signup_password) < 6) {
-                        self::$form_error[] = __('Password must be at lesat 6 characters long.');
+                        App::frontend()->context()->frontend_session->addError(__('Password must be at lesat 6 characters long.'));
                     }
 
                     $exists = App::users()->getUser($signup_login);
                     if (!$exists->isEmpty()) {
-                        self::$form_error[] = __('Username already exists.');
+                        App::frontend()->context()->frontend_session->addError(__('Username already exists.'));
                     }
                     if (My::settings()->get('condition_page') != '' && !$signup_condition) {
-                        self::$form_error[] = sprintf(__('You must be agree with "%s".'), __('Terms and Conditions'));
+                        App::frontend()->context()->frontend_session->addError(sprintf(__('You must be agree with "%s".'), __('Terms and Conditions')));
                     }
 
-                    if (self::$form_error === []) {
+                    if (!App::frontend()->context()->frontend_session->hasError()) {
                         try {
                             $cur                 = App::auth()->openUserCursor();
                             $cur->user_id        = $signup_login;
@@ -143,7 +138,7 @@ class FrontendUrl extends Url
                             $cur->user_lang      = (string) App::blog()->settings()->system->lang;
 
                             if ($signup_login != App::auth()->sudo([App::users(), 'addUser'], $cur)) {
-                                self::$form_error[] = __('Something went wrong while trying to register user.');
+                                App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
                             } else {
                                 $perms              = App::users()->getUserPermissions($cur->user_id);
                                 $perms              = $perms[App::blog()->id()]['p'] ?? [];
@@ -159,7 +154,7 @@ class FrontendUrl extends Url
                                 App::frontend()->context()->frontend_session->success = __('Thank you for your registration. An administrator will validate your request soon.');
                             }
                         } catch (Throwable) {
-                            self::$form_error[] = __('Something went wrong while trying to register user.');
+                            App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
                         }
                     }
                 }
@@ -179,21 +174,21 @@ class FrontendUrl extends Url
                             Mail::sendPasswordMail($res['user_id'], $res['new_pass'], $res['user_email']);
                             App::frontend()->context()->frontend_session->success = __('Your new password is in your mailbox.');
                         } catch (Throwable) {
-                            self::$form_error[] = __('Unknow username or email.');
+                            App::frontend()->context()->frontend_session->addError(__('Unknow username or email.'));
                         }
                         // send recovery email
                     } elseif (App::auth()->userID() == '' && !empty($recover_login) && !empty($recover_email)) {
                         // check if user is (super)admin
                         $rs = App::users()->getUser($recover_login);
                         if (!$rs->isEmpty() && $rs->admin() != '') {
-                            self::$form_error[] = __('You are an admin, you must change password from backend.');
+                            App::frontend()->context()->frontend_session->addError(__('You are an admin, you must change password from backend.'));
                         } else {
                             try {
                                 $recover_key = App::auth()->setRecoverKey($recover_login, $recover_email);
                                 Mail::sendRecoveryMail($recover_login, $recover_key, $recover_email);
-                                self::$form_error[] = sprintf(__('The e-mail was sent successfully to %s.'), $recover_email);
+                                App::frontend()->context()->frontend_session->addError(sprintf(__('The e-mail was sent successfully to %s.'), $recover_email));
                             } catch (Throwable) {
-                                self::$form_error[] = __('Unknow username or email.');
+                                App::frontend()->context()->frontend_session->addError(__('Unknow username or email.'));
                             }
                         }
                     }
@@ -210,7 +205,7 @@ class FrontendUrl extends Url
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
                     if (count($args) == 5 && empty($change_data)) {
-                        self::$form_error[]                                 = __('You must set a new password.');
+                        App::frontend()->context()->frontend_session->addError(__('You must set a new password.'));
                         App::frontend()->context()->frontend_session->state = My::STATE_CHANGE;
                         App::frontend()->context()->frontend_session->data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
                     } elseif (!empty($change_data)) {
@@ -222,13 +217,13 @@ class FrontendUrl extends Url
                         $rs   = App::users()->getUser((string) $data['user_id']);
 
                         if ($rs->isEmpty()) {
-                            self::$form_error[] = __('Unable to retrieve user informations.');
+                            App::frontend()->context()->frontend_session->addError(__('Unable to retrieve user informations.'));
                         } elseif ($rs->admin() != '') {
-                            self::$form_error[] = __('You are an admin, you must change password from backend.');
+                            App::frontend()->context()->frontend_session->addError(__('You are an admin, you must change password from backend.'));
                         } elseif (empty($change_password) || $change_password != $change_vpassword) {
-                            self::$form_error[] = __("Passwords don't match");
+                            App::frontend()->context()->frontend_session->addError(__("Passwords don't match"));
                         } elseif (App::auth()->checkUser((string) $data['user_id'], $change_password)) {
-                            self::$form_error[] = __("You didn't change your password.");
+                            App::frontend()->context()->frontend_session->addError(__("You didn't change your password."));
                         } else {
                             // change user password
                             try {
@@ -243,7 +238,7 @@ class FrontendUrl extends Url
                                 App::frontend()->context()->frontend_session->data    = '';
                                 App::frontend()->context()->frontend_session->success = __('Password successfully updated.');
                             } catch (Throwable $e) {
-                                self::$form_error[] = $e->getMessage();
+                                App::frontend()->context()->frontend_session->addError($e->getMessage());
                             }
                         }
                     }
@@ -259,11 +254,11 @@ class FrontendUrl extends Url
                 $user_id = (string) App::auth()->userID();
 
                 if (!App::auth()->checkPassword($current)) {
-                    self::$form_error[] = __('Password verification failed.');
+                    App::frontend()->context()->frontend_session->addError(__('Password verification failed.'));
                 } elseif (strlen(trim((string) $newpass)) < 6) {
-                    self::$form_error[] = __('Password must be 6 or more chars length.');
+                    App::frontend()->context()->frontend_session->addError(__('Password must be 6 or more chars length.'));
                 } elseif ($newpass !== $vrfpass) {
-                    self::$form_error[] = __('Passwords mismatch.');
+                    App::frontend()->context()->frontend_session->addError(__('Passwords mismatch.'));
                 } else {
                     try {
                         // change user password
@@ -276,7 +271,7 @@ class FrontendUrl extends Url
 
                         App::frontend()->context()->frontend_session->success = __('Password successfully updated.');
                     } catch (Throwable $e) {
-                        self::$form_error[] = $e->getMessage();
+                        App::frontend()->context()->frontend_session->addError($e->getMessage());
                     }
                 }
 
@@ -293,18 +288,37 @@ class FrontendUrl extends Url
                 break;
         }
 
-        if (My::settings()->get('log_form_error') && self::$form_error !== []) {
-            // remove passwords from logs
-            $_post = array_combine(array_keys($_POST), array_map(fn ($k, $v): string => str_contains((string) $k, 'pass') ? '****' : $v, array_keys($_POST), array_values($_POST)));
+        # --BEHAVIOR-- FrontendSessionServeTemplate --
+        App::behavior()->callBehavior('FrontendSessionServeTemplate');
 
-            $cur = App::log()->openLogCursor();
-            $cur->setField('log_table', My::id());
-            $cur->setField('log_msg', json_encode(['action' => $action, 'post' => $_post, 'error' => self::$form_error]));
-
-            App::log()->addLog($cur);
+        // use only dotty tplset
+        $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
+        if (!in_array($tplset, ['dotty', 'mustek'])) {
+            self::p404();
         }
 
-        self::serveTemplate();
+        // errors
+        if (App::frontend()->context()->frontend_session->hasError()) {
+            App::frontend()->context()->form_error = implode("\n", App::frontend()->context()->frontend_session->getErrors());
+
+            if (My::settings()->get('log_form_error')) {
+                // remove passwords from logs
+                $_post = array_combine(array_keys($_POST), array_map(fn ($k, $v): string => str_contains((string) $k, 'pass') ? '****' : $v, array_keys($_POST), array_values($_POST)));
+
+                $cur = App::log()->openLogCursor();
+                $cur->setField('log_table', My::id());
+                $cur->setField('log_msg', json_encode(['action' => $action, 'post' => $_post, 'error' => App::frontend()->context()->frontend_session->getErrors()]));
+
+                App::log()->addLog($cur);
+            }
+        }
+ 
+        $default_template = Path::real(App::plugins()->moduleInfo(My::id(), 'root')) . DIRECTORY_SEPARATOR . Utility::TPL_ROOT . DIRECTORY_SEPARATOR;
+        if (is_dir($default_template . $tplset)) {
+            App::frontend()->template()->setPath(App::frontend()->template()->getPath(), $default_template . $tplset);
+        }
+
+        self::serveDocument(My::id() . '.html');
     }
 
     /**
@@ -315,28 +329,5 @@ class FrontendUrl extends Url
         if (!App::nonce()->checkNonce($_POST[My::id() . 'check'] ?? '-')) {
             throw new PreconditionException();
         }
-    }
-
-    /**
-     * Serve template.
-     */
-    private static function serveTemplate(): void
-    {
-        // use only dotty tplset
-        $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
-        if (!in_array($tplset, ['dotty', 'mustek'])) {
-            self::p404();
-        }
-
-        if (count(self::$form_error) > 0) {
-            App::frontend()->context()->form_error = implode("\n", self::$form_error);
-        }
-
-        $default_template = Path::real(App::plugins()->moduleInfo(My::id(), 'root')) . DIRECTORY_SEPARATOR . Utility::TPL_ROOT . DIRECTORY_SEPARATOR;
-        if (is_dir($default_template . $tplset)) {
-            App::frontend()->template()->setPath(App::frontend()->template()->getPath(), $default_template . $tplset);
-        }
-
-        self::serveDocument(My::id() . '.html');
     }
 }

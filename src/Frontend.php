@@ -50,7 +50,7 @@ class Frontend extends Process
             'FrontendSessionAfterSignup'     => PluginTelegramBehaviors::FrontendSessionAfterSignup(...),
         ]);
 
-        App::frontend()->context()->frontend_session = new FrontendSession(My::SESSION_NAME);
+        App::frontend()->context()->frontend_session = new FrontendSession();
 
         return true;
     }

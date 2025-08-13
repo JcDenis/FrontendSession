@@ -70,10 +70,11 @@ class Widgets
         $form = false;
         $url  = App::blog()->url() . App::url()->getURLFor(My::id());
 
+        # --BEHAVIOR-- FrontendSessionWidget -- ArrayObject, string, WidgetsElement
+        App::behavior()->callBehavior('FrontendSessionWidget', $lines, $url, $widget);
+
         if (App::auth()->userID() != '') {
             if ($widget->get('show') != 'form') {
-                # --BEHAVIOR-- FrontendSessionWidget -- ArrayObject
-                App::behavior()->callBehavior('FrontendSessionWidget', $lines);
 
                 $lines[] = (new Li())
                     ->items([
