@@ -1,3 +1,10 @@
+FrontendSession 0.34 - 2025.08.13
+==========================================================
+* Bump Dotclear from 2.34 to 2.36
+* Use new Session handler
+* Use better widget behavior
+* Add stack for errors
+
 FrontendSession 0.33 - 2025.06.26
 ==========================================================
 * Standardize backend blocs
