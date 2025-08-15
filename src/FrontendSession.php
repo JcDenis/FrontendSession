@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Database\Statement\SelectStatement;
-use Dotclear\Exception\SessionException;
 use Dotclear\Helper\Network\Http;
-use Throwable;
 
 /**
  * @brief       FrontendSession module session helper.
@@ -88,7 +85,7 @@ class FrontendSession
      */
     private function setCookie(int $expires = -600, string $value = ''): void
     {
-        $p = App::frontend()->session()->getCookieParameters(false, $expires);
+        $p    = App::frontend()->session()->getCookieParameters(false, $expires);
         $p[0] = My::id();
         $p[1] = $value;
 
@@ -244,8 +241,6 @@ class FrontendSession
 
     /**
      * Check if there are errors.
-     *
-     * @return  bool
      */
     public function hasError(): bool
     {
