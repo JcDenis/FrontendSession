@@ -223,6 +223,8 @@ class FrontendSession
                     );
                 }
 
+                App::blog()->triggerBlog();
+
                 return true;
             }
         } else {
