@@ -29,14 +29,14 @@ class FrontendSession
 
     public function __construct(
     ) {
-        App::frontend()->session()->start();
+        App::session()->start();
 
         if (isset($_SESSION[My::id() . '_user_id'])) {
             // Check here for user and IP address
             $this->check($_SESSION[My::id() . '_user_id']);
 
             if ($this->uid() !== $_SESSION[My::id() . '_browser_uid']) {
-                App::frontend()->session()->destroy();
+                App::session()->destroy();
                 $this->setCookie();
                 $this->redirect(App::blog()->url());
             }
@@ -85,7 +85,7 @@ class FrontendSession
      */
     private function setCookie(int $expires = -600, string $value = ''): void
     {
-        $p    = App::frontend()->session()->getCookieParameters(false, $expires);
+        $p    = App::session()->getCookieParameters(false, $expires);
         $p[0] = My::id();
         $p[1] = $value;
 
@@ -133,7 +133,7 @@ class FrontendSession
     public function kill(): void
     {
         // Kill session
-        App::frontend()->session()->destroy();
+        App::session()->destroy();
 
         // Unset cookie if necessary
         $this->reset();
