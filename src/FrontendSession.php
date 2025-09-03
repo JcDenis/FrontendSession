@@ -31,11 +31,11 @@ class FrontendSession
     ) {
         App::session()->start();
 
-        if (isset($_SESSION[My::id() . '_user_id'])) {
+        if (App::session()->get(My::id() . '_user_id') != '') {
             // Check here for user and IP address
-            $this->check($_SESSION[My::id() . '_user_id']);
+            $this->check(App::session()->get(My::id() . '_user_id'));
 
-            if ($this->uid() !== $_SESSION[My::id() . '_browser_uid']) {
+            if ($this->uid() !== App::session()->get(My::id() . '_browser_uid')) {
                 App::session()->destroy();
                 $this->setCookie();
                 $this->redirect(App::blog()->url());
@@ -43,15 +43,15 @@ class FrontendSession
         }
 
         // Check blog to use and log out if no result
-        if (!isset($_SESSION[My::id() . '_blog_id'])) {
-            $_SESSION[My::id() . '_blog_id'] = App::blog()->id();
-        } elseif ($_SESSION[My::id() . '_blog_id'] != App::blog()->id()) {
-            unset($_SESSION[My::id() . '_blog_id']);
+        if (App::session()->get(My::id() . '_blog_id') == '') {
+            App::session()->set(My::id() . '_blog_id', App::blog()->id());
+        } elseif (App::session()->get(My::id() . '_blog_id') != App::blog()->id()) {
+            App::session()->unset(My::id() . '_blog_id');
         }
 
         // Check user right on blog
-        if (isset($_SESSION[My::id() . '_user_id'])
-        && (!isset($_SESSION[My::id() . '_blog_id']) || !App::auth()->check(My::id(), App::blog()->id()))
+        if (App::session()->get(My::id() . '_user_id') != ''
+        && (App::session()->get(My::id() . '_blog_id') == '' || !App::auth()->check(My::id(), App::blog()->id()))
         ) {
             // Kill public session
             $this->kill();
@@ -60,7 +60,7 @@ class FrontendSession
         }
 
         // Check COOKIE
-        if (!isset($_SESSION[My::id() . '_user_id']) && isset($_COOKIE[My::id()]) && strlen((string) $_COOKIE[My::id()]) == 104) {
+        if (App::session()->get(My::id() . '_user_id') == '' && isset($_COOKIE[My::id()]) && strlen((string) $_COOKIE[My::id()]) == 104) {
             // If we have a cookie, go through auth process with user_key
             $user_id = substr((string) $_COOKIE[My::id()], 40);
             $user_id = @unpack('a32', @pack('H*', $user_id));
@@ -209,9 +209,9 @@ class FrontendSession
                 $this->reset();
                 $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_CHANGE, $this->encode([$user_id, $remember], true));
             } else {
-                $_SESSION[My::id() . '_user_id']     = $user_id;
-                $_SESSION[My::id() . '_browser_uid'] = $this->uid();
-                $_SESSION[My::id() . '_blog_id']     = App::blog()->id();
+                App::session()->set(My::id() . '_user_id', $user_id);
+                App::session()->set(My::id() . '_browser_uid', $this->uid());
+                App::session()->set(My::id() . '_blog_id', App::blog()->id());
 
                 if ($remember) {
                     $this->setCookie(
