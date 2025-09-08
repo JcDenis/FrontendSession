@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Core\Process;
+use Dotclear\Helper\Process\TraitProcess;
 use Dotclear\Helper\Stack\Status;
 
 /**
@@ -15,8 +15,10 @@ use Dotclear\Helper\Stack\Status;
  * @author      Jean-Christian Paul Denis
  * @copyright   AGPL-3.0
  */
-class Prepend extends Process
+class Prepend
 {
+    use TraitProcess;
+
     public static function init(): bool
     {
         __('Pending registration', 'Pending registration (>1)');

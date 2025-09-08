@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
-use ArrayObject, Throwable;
+use ArrayObject;
+use Throwable;
 use Dotclear\App;
-use Dotclear\Core\Process;
 use Dotclear\Core\Backend\{ Notices, Page };
 use Dotclear\Database\Cursor;
 use Dotclear\Helper\Html\Form\{ Button, Checkbox, Fieldset, Img, Input, Label, Legend, Note, Para, Textarea };
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
+use Dotclear\Helper\Process\TraitProcess;
 use Dotclear\Interface\Core\BlogSettingsInterface;
 
 /**
@@ -21,8 +22,10 @@ use Dotclear\Interface\Core\BlogSettingsInterface;
  * @author      Jean-Christian Paul Denis
  * @copyright   AGPL-3.0
  */
-class Backend extends Process
+class Backend
 {
+    use TraitProcess;
+
     public static function init(): bool
     {
         return self::status(My::checkContext(My::BACKEND));
@@ -38,11 +41,10 @@ class Backend extends Process
             // widget
             'initWidgets' => Widgets::initWidgets(...),
             // add script for pending count on dashboard icon
-            'adminDashboardHeaders' => fn (): string => 
-                Page::jsJson('FrontendSession', [
-                    'interval' => 30,
-                    'status'   => My::USER_PENDING,
-                ]) .
+            'adminDashboardHeaders' => fn (): string => Page::jsJson('FrontendSession', [
+                'interval' => 30,
+                'status'   => My::USER_PENDING,
+            ]) .
                 My::jsLoad('backend-dashboard'),
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Core\Frontend\{Url, Utility };
+use Dotclear\Core\Frontend\Utility;
+use Dotclear\Core\Url;
 use Dotclear\Exception\PreconditionException;
 use Dotclear\Helper\File\Path;
 use Dotclear\Helper\Network\Http;
@@ -62,7 +63,8 @@ class FrontendUrl extends Url
 
             case My::ACTION_SIGNIN:
                 if (in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
-                    App::frontend()->context()->frontend_session->addError($state == My::STATE_DISABLED ? 
+                    App::frontend()->context()->frontend_session->addError(
+                        $state == My::STATE_DISABLED ?
                         __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.')
                     );
 
@@ -140,9 +142,9 @@ class FrontendUrl extends Url
                             if ($signup_login != App::auth()->sudo([App::users(), 'addUser'], $cur)) {
                                 App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
                             } else {
-                                $perms              = App::users()->getUserPermissions($cur->user_id);
-                                $perms              = $perms[App::blog()->id()]['p'] ?? [];
-                                $perms[My::id()]    = true;
+                                $perms           = App::users()->getUserPermissions($cur->user_id);
+                                $perms           = $perms[App::blog()->id()]['p'] ?? [];
+                                $perms[My::id()] = true;
                                 App::auth()->sudo([App::users(), 'setUserBlogPermissions'], $signup_login, App::blog()->id(), $perms);
 
                                 # --BEHAVIOR-- FrontendSessionAfterSignup -- Cursor
@@ -312,7 +314,7 @@ class FrontendUrl extends Url
                 App::log()->addLog($cur);
             }
         }
- 
+
         $default_template = Path::real(App::plugins()->moduleInfo(My::id(), 'root')) . DIRECTORY_SEPARATOR . Utility::TPL_ROOT . DIRECTORY_SEPARATOR;
         if (is_dir($default_template . $tplset)) {
             App::frontend()->template()->setPath(App::frontend()->template()->getPath(), $default_template . $tplset);
