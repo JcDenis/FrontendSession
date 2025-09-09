@@ -2,7 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/jcdenis/FrontendSession?color=lightblue)](https://github.com/JcDenis/FrontendSession/releases)
 ![Date](https://img.shields.io/github/release-date/jcdenis/FrontendSession?color=red)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.33-137bbb.svg)](https://fr.dotclear.org/download)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.36-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/FrontendSession)
 [![License](https://img.shields.io/github/license/jcdenis/FrontendSession?color=white)](https://github.com/JcDenis/FrontendSession/blob/master/LICENSE)
 
@@ -14,7 +14,7 @@ _FrontendSession_ is a plugin for the open-source web publishing software called
 
 ## REQUIREMENTS
 
-* Dotclear 2.34
+* Dotclear 2.36
 * PHP 8.1+
 * Dotclear admin permission for configuration
 
