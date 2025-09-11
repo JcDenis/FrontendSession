@@ -6,9 +6,22 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use ArrayObject;
 use Dotclear\App;
-use Dotclear\Helper\Html\Form\{ Checkbox, Email, Form, Hidden, Input, Label, Li, Link, Password, Para, Submit, Text, Ul };
+use Dotclear\Helper\Html\Form\Checkbox;
+use Dotclear\Helper\Html\Form\Email;
+use Dotclear\Helper\Html\Form\Form;
+use Dotclear\Helper\Html\Form\Hidden;
+use Dotclear\Helper\Html\Form\Input;
+use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Li;
+use Dotclear\Helper\Html\Form\Link;
+use Dotclear\Helper\Html\Form\Password;
+use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\Submit;
+use Dotclear\Helper\Html\Form\Text;
+use Dotclear\Helper\Html\Form\Ul;
 use Dotclear\Helper\Network\Http;
-use Dotclear\Plugin\widgets\{WidgetsElement, WidgetsStack };
+use Dotclear\Plugin\widgets\WidgetsElement;
+use Dotclear\Plugin\widgets\WidgetsStack;
 
 /**
  * @brief       FrontendSession module widgets helper.

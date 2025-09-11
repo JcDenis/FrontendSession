@@ -6,8 +6,17 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use ArrayObject;
 use Dotclear\App;
-use Dotclear\Core\Frontend\Tpl;
-use Dotclear\Helper\Html\Form\{ Checkbox, Div, Email, Hidden, Input, Label, Link, None, Note, Password, Text };
+use Dotclear\Helper\Html\Form\Checkbox;
+use Dotclear\Helper\Html\Form\Div;
+use Dotclear\Helper\Html\Form\Email;
+use Dotclear\Helper\Html\Form\Hidden;
+use Dotclear\Helper\Html\Form\Input;
+use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Link;
+use Dotclear\Helper\Html\Form\None;
+use Dotclear\Helper\Html\Form\Note;
+use Dotclear\Helper\Html\Form\Password;
+use Dotclear\Helper\Html\Form\Text;
 use Dotclear\Helper\Html\Html;
 
 /**
@@ -39,7 +48,7 @@ class FrontendTemplate
         $if   = [];
         $sign = fn ($a): string => (bool) $a ? '' : '!';
 
-        $operator = isset($attr['operator']) ? Tpl::getOperator($attr['operator']) : '&&';
+        $operator = isset($attr['operator']) ? App::frontend()->template()::getOperator($attr['operator']) : '&&';
 
         // allow registration
         if (isset($attr['registration'])) {

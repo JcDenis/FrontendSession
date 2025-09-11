@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
-use Dotclear\Core\Frontend\Utility;
-use Dotclear\Core\Url;
 use Dotclear\Exception\PreconditionException;
 use Dotclear\Helper\File\Path;
 use Dotclear\Helper\Network\Http;
@@ -20,7 +18,7 @@ use Throwable;
  * @author      Jean-Christian Paul Denis
  * @copyright   AGPL-3.0
  */
-class FrontendUrl extends Url
+class FrontendUrl
 {
     /**
      * Session login endpoint.
@@ -41,7 +39,7 @@ class FrontendUrl extends Url
         if (!My::settings()->get('active')
             || !is_a(App::frontend()->context()->frontend_session, FrontendSession::class)
         ) {
-            self::p404();
+            App::url()::p404();
         }
 
         // Parse request
@@ -296,7 +294,7 @@ class FrontendUrl extends Url
         // use only dotty tplset
         $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
         if (!in_array($tplset, ['dotty', 'mustek'])) {
-            self::p404();
+            App::url()::p404();
         }
 
         // errors
@@ -315,12 +313,12 @@ class FrontendUrl extends Url
             }
         }
 
-        $default_template = Path::real(App::plugins()->moduleInfo(My::id(), 'root')) . DIRECTORY_SEPARATOR . Utility::TPL_ROOT . DIRECTORY_SEPARATOR;
+        $default_template = Path::real(App::plugins()->moduleInfo(My::id(), 'root')) . DIRECTORY_SEPARATOR . App::frontend()::TPL_ROOT . DIRECTORY_SEPARATOR;
         if (is_dir($default_template . $tplset)) {
             App::frontend()->template()->setPath(App::frontend()->template()->getPath(), $default_template . $tplset);
         }
 
-        self::serveDocument(My::id() . '.html');
+        App::url()::serveDocument(My::id() . '.html');
     }
 
     /**

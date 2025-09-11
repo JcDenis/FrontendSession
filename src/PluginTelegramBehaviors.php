@@ -6,7 +6,8 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use Dotclear\App;
 use Dotclear\Database\Cursor;
-use Dotclear\Plugin\TelegramNotifier\{Telegram, TelegramAction };
+use Dotclear\Plugin\TelegramNotifier\Telegram;
+use Dotclear\Plugin\TelegramNotifier\TelegramAction;
 
 /**
  * @brief       FrontendSession plugin TelegramNotifier behaviors.

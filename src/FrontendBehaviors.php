@@ -6,8 +6,13 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use ArrayObject;
 use Dotclear\App;
-use Dotclear\Database\{Cursor, MetaRecord };
-use Dotclear\Helper\Html\Form\{ Div, Form, Hidden, None, Submit };
+use Dotclear\Database\Cursor;
+use Dotclear\Database\MetaRecord;
+use Dotclear\Helper\Html\Form\Div;
+use Dotclear\Helper\Html\Form\Form;
+use Dotclear\Helper\Html\Form\Hidden;
+use Dotclear\Helper\Html\Form\None;
+use Dotclear\Helper\Html\Form\Submit;
 use Exception;
 
 /**

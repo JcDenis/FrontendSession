@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
-use Dotclear\Database\{ Cursor, MetaRecord };
+use Dotclear\Database\Cursor;
+use Dotclear\Database\MetaRecord;
 
 /**
  * @brief       daRepo comment options.
