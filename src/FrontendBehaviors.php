@@ -42,7 +42,7 @@ class FrontendBehaviors
     public static function publicEntryAfterContent(): void
     {
         if (App::auth()->check(My::id(), App::blog()->id())
-            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id')) != 0
+            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id')) !== 0
         ) {
             // if from post form
             if (!empty($_POST[My::id() . 'post']) && $_POST[My::id() . 'post'] == $post_id) {
@@ -91,8 +91,8 @@ class FrontendBehaviors
     public static function publicCommentAfterContent(): void
     {
         if (App::auth()->check(My::id(), App::blog()->id())
-            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id'))          != 0
-            && ($comment_id = (int) App::frontend()->context()->comments?->f('comment_id')) != 0
+            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id'))          !== 0
+            && ($comment_id = (int) App::frontend()->context()->comments?->f('comment_id')) !== 0
         ) {
             // if from comment form
             if (!empty($_POST[My::id() . 'comment']) && $_POST[My::id() . 'comment'] == $comment_id) {

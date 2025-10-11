@@ -60,7 +60,7 @@ class FrontendSession
         }
 
         // Check COOKIE
-        if (App::session()->get(My::id() . '_user_id') == '' && isset($_COOKIE[My::id()]) && strlen((string) $_COOKIE[My::id()]) == 104) {
+        if (App::session()->get(My::id() . '_user_id') == '' && isset($_COOKIE[My::id()]) && strlen((string) $_COOKIE[My::id()]) === 104) {
             // If we have a cookie, go through auth process with user_key
             $user_id = substr((string) $_COOKIE[My::id()], 40);
             $user_id = @unpack('a32', @pack('H*', $user_id));
@@ -151,7 +151,7 @@ class FrontendSession
         $cookie  = $data[1] ?? '';
         $user_id = '';
 
-        if ($user !== false && strlen($cookie) == 104) {
+        if ($user !== false && strlen($cookie) === 104) {
             $user_id = @unpack('a32', @pack('H*', substr($cookie, 40)));
             if (is_array($user_id)) {
                 $user_id = App::auth()->checkUser(trim($user), null, substr($cookie, 0, 40)) ? trim($user) : '';
@@ -173,7 +173,7 @@ class FrontendSession
      */
     public function encode(array $data, bool $encode = false): string
     {
-        if (count($data) == 2 && $encode) {
+        if (count($data) === 2 && $encode) {
             $data = [
                 base64_encode((string) $data[0]),
                 $this->uid((string) $data[0]),
@@ -197,7 +197,7 @@ class FrontendSession
          && App::auth()->check(My::id(), App::blog()->id())               === true
         ) {
             // check if user is pending activation
-            if ((int) App::auth()->getInfo('user_status') == My::USER_PENDING) {
+            if ((int) App::auth()->getInfo('user_status') === My::USER_PENDING) {
                 $this->reset();
                 $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_SIGNIN, My::STATE_PENDING);
                 // check if user is not enabled

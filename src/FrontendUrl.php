@@ -204,7 +204,7 @@ class FrontendUrl
 
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
-                    if (count($args) == 5 && empty($change_data)) {
+                    if (count($args) === 5 && empty($change_data)) {
                         App::frontend()->context()->frontend_session->addError(__('You must set a new password.'));
                         App::frontend()->context()->frontend_session->state = My::STATE_CHANGE;
                         App::frontend()->context()->frontend_session->data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
