@@ -137,13 +137,13 @@ class FrontendUrl
                             $cur->user_status    = My::USER_PENDING;
                             $cur->user_lang      = (string) App::blog()->settings()->system->lang;
 
-                            if ($signup_login != App::auth()->sudo([App::users(), 'addUser'], $cur)) {
+                            if ($signup_login != App::auth()->sudo(App::users()->addUser(...), $cur)) {
                                 App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
                             } else {
                                 $perms           = App::users()->getUserPermissions($cur->user_id);
                                 $perms           = $perms[App::blog()->id()]['p'] ?? [];
                                 $perms[My::id()] = true;
-                                App::auth()->sudo([App::users(), 'setUserBlogPermissions'], $signup_login, App::blog()->id(), $perms);
+                                App::auth()->sudo(App::users()->setUserBlogPermissions(...), $signup_login, App::blog()->id(), $perms);
 
                                 # --BEHAVIOR-- FrontendSessionAfterSignup -- Cursor
                                 App::behavior()->callBehavior('FrontendSessionAfterSignup', $cur);
