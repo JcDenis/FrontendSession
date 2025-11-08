@@ -82,7 +82,8 @@ class Mail
         );
 
         // admin email
-        foreach (explode(',', (string) My::settings()->get('email_registration')) as $mail) {
+        $mails = explode(',', (string) My::settings()->get('email_registration'));
+        foreach ($mails as $mail) {
             if (trim($mail) !== '') {
                 self::mailSender(
                     trim($mail),
