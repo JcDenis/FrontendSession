@@ -212,8 +212,8 @@ msgid "Current password:"
 msgstr "Mot de passe actuel :"
 
 #: src/FrontendTemplate.php:469
-msgid "Profil"
-msgstr "Profile"
+msgid "Profile"
+msgstr "Profil"
 
 #: src/FrontendTemplate.php:478
 msgid "Your site URL:"
@@ -308,7 +308,7 @@ msgid "Password successfully updated."
 msgstr "Mot de passe mis à jour avec succès."
 
 #: src/FrontendUrl.php:270
-msgid "Profil successfully updated."
+msgid "Profile successfully updated."
 msgstr "Profil mis à jour avec succés."
 
 #: src/FrontendUrl.php:285
