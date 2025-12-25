@@ -292,7 +292,7 @@ class FrontendTemplate
                             ->value(''),
                     ]),
                 $profil->getInputfield([
-                    (new Email(My::id() . $action . '_usermail'))
+                    (new Input(My::id() . $action . '_login'))
                         ->size(30)
                         ->maxlength(255)
                         ->value('')
