@@ -76,6 +76,10 @@ dotclear.ready(() => {
     // First pass
     dotclear.FrontendSession.pendingCount(icon);
     // Then fired every 60 seconds
-    dotclear.FrontendSession.timer = setInterval(dotclear.FrontendSession.pendingCount, (dotclear.FrontendSession.interval || 60) * 1000, icon);
+    dotclear.FrontendSession.timer = setInterval(
+      dotclear.FrontendSession.pendingCount,
+      (dotclear.FrontendSession.interval || 60) * 1000,
+      icon,
+    );
   }
 });

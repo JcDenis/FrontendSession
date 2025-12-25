@@ -88,7 +88,6 @@ class Widgets
 
         if (App::auth()->userID() != '') {
             if ($widget->get('show') != 'form') {
-
                 $lines[] = (new Li())
                     ->items([
                         (new Link())
@@ -114,7 +113,7 @@ class Widgets
                                 (new Submit([My::id() . 'submit', My::id() . My::ACTION_SIGNOUT . 'submit_widget'], __('Disconnect'))),
                             ]),
                     ]);
-                }
+            }
         } elseif ($widget->get('show') != 'menu') {
             if (My::settings()->get('enable_recovery')) {
                 $lines[] = (new Li())
@@ -177,8 +176,7 @@ class Widgets
                     ]);
         }
 
-        if ($form === false && count($lines) === 0) {
-
+        if ($form === false && $lines->count() === 0) {
             return '';
         }
 
@@ -186,7 +184,7 @@ class Widgets
             (bool) $widget->get('content_only'),
             My::id() . ' ' . $widget->get('class'),
             '',
-            $widget->renderTitle($widget->get('title')) . ($form === false ? '' : $form->render()) . (count($lines) === 0 ? '' : (new Ul())->items($lines)->render())
+            $widget->renderTitle($widget->get('title')) . ($form === false ? '' : $form->render()) . ($lines->count() === 0 ? '' : (new Ul())->items($lines)->render())
         );
     }
 }

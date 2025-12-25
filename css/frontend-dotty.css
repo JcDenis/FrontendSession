@@ -1,4 +1,5 @@
-.session-form input:not([type='checkbox'], [type='radio'], [type='submit']), .session-form textarea {
+.session-form input:not([type='checkbox'], [type='radio'], [type='submit']),
+.session-form textarea {
   display: block;
   width: 75%;
 }
@@ -25,7 +26,8 @@ p.success {
   font-weight: bold;
   color: var(--main-color, green);
 }
-.post-action, .comment-action {
+.post-action,
+.comment-action {
   margin: 0.25em 0;
   text-align: right;
 }

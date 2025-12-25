@@ -150,7 +150,7 @@ class FrontendTemplate
 
         // Sign in form
         if (!$connected) {
-            $action  = My::ACTION_SIGNIN;
+            $action = My::ACTION_SIGNIN;
             $profil->addAction($action, __('Sign in'), [
                 $profil->getInputfield([
                     (new Input(My::id() . $action . '_login'))
@@ -180,7 +180,7 @@ class FrontendTemplate
 
         // sign up form
         if (!$connected && My::settings()->get('enable_registration')) {
-            $action  = My::ACTION_SIGNUP;
+            $action = My::ACTION_SIGNUP;
             $profil->addAction($action, __('Sign up'), [
                 $profil->getInputfield([
                     (new Input(My::id() . $action . '_login'))
@@ -282,7 +282,7 @@ class FrontendTemplate
 
         // password recovery form
         if (!$connected && My::settings()->get('enable_recovery')) {
-            $action  = My::ACTION_RECOVER;
+            $action = My::ACTION_RECOVER;
             $profil->addAction($action, __('Password recovery'), [
                 // Honeypot
                 (new Div())
@@ -315,7 +315,7 @@ class FrontendTemplate
 
         // signout form
         if ($connected) {
-            $action  = My::ACTION_SIGNOUT;
+            $action = My::ACTION_SIGNOUT;
             $profil->addAction($action, __('Sign in'), [
                 (new Text('p', sprintf(__('You are connected as: %s'), App::auth()->getInfo('user_cn')))),
                 $profil->getControlset($action, __('Logout')),
@@ -324,7 +324,7 @@ class FrontendTemplate
 
         // password recovery change form
         if (App::frontend()->context()->frontend_session->state === My::STATE_CHANGE && My::settings()->get('enable_recovery')) {
-            $action  = My::ACTION_CHANGE;
+            $action = My::ACTION_CHANGE;
             $profil->addAction($action, __('Password change'), [
                 $profil->getInputfield([
                     (new Password(My::id() . $action . '_password'))
@@ -348,7 +348,7 @@ class FrontendTemplate
                         ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
                 ], true),
                 $profil->getControlset($action, __('Change'), [
-                    (new Hidden([My::id() . $action . '_data'], App::frontend()->context()->frontend_session->data ?? ''))
+                    (new Hidden([My::id() . $action . '_data'], App::frontend()->context()->frontend_session->data ?? '')),
                 ]),
             ]);
         }
@@ -356,7 +356,7 @@ class FrontendTemplate
         // Password change form
         if ($connected && App::auth()->allowPassChange() && !App::auth()->check(App::auth()::PERMISSION_ADMIN, App::blog()->id())) {
             // admins MUST use backend methods to change password
-            $action  = My::ACTION_UPDPASS;
+            $action = My::ACTION_UPDPASS;
             $profil->addAction($action, __('Password change'), [
                 $profil->getInputfield([
                     (new Password(My::id() . $action . '_current'))

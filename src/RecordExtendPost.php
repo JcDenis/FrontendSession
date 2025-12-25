@@ -28,7 +28,6 @@ class RecordExtendPost
     {
         // If post comment is closed, keep it closed
         if (!$rs->f('post_open_comment')) {
-
             return false;
         }
 
@@ -39,7 +38,6 @@ class RecordExtendPost
 
         // check third party plugins
         if (is_bool($option->isActive())) {
-
             return $option->isActive();
         }
 
