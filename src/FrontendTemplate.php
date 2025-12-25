@@ -199,7 +199,6 @@ class FrontendTemplate
                         ->size(30)
                         ->maxlength(255)
                         ->value('')
-                        ->required(true)
                         ->autocomplete('username')
                         ->label(new Label(__('Display name:'), Label::OL_TF)),
                     (new Note())

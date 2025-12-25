@@ -91,7 +91,7 @@ class FrontendUrl
             case My::ACTION_SIGNUP:
                 self::checkForm();
                 $signup_login       = $_POST[My::id() . $action . '_login']       ?? '';
-                $signin_displayname = $_POST[My::id() . $action . '_displayname'] ?? '';
+                $signup_displayname = $_POST[My::id() . $action . '_displayname'] ?? '';
                 $signup_firstname   = $_POST[My::id() . $action . '_firstname']   ?? '';
                 $signup_name        = $_POST[My::id() . $action . '_name']        ?? '';
                 $signup_email       = $_POST[My::id() . $action . '_email']       ?? '';
@@ -107,7 +107,7 @@ class FrontendUrl
                         App::frontend()->context()->frontend_session->addError(__('This username is not available.'));
                     }
 
-                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signin_displayname)) {
+                    if (trim($signup_displayname) !== '' && !preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_displayname)) {
                         App::frontend()->context()->frontend_session->addError(__('This display name is not valid.'));
                     }
 
