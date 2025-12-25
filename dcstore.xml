@@ -2,11 +2,11 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="FrontendSession">
     <name>Frontend Session</name>
-    <version>0.35.5</version>
-    <date>2025-12-25T18:01:53+00:00</date>
+    <version>0.36</version>
+    <date>2025-12-25T19:58:23+00:00</date>
     <author>Jean-Christian Paul Denis and contributors</author>
     <desc>Allow session on frontend.</desc>
-    <file>https://github.com/JcDenis/FrontendSession/releases/download/v0.35.5/plugin-FrontendSession.zip</file>
+    <file>https://github.com/JcDenis/FrontendSession/releases/download/v0.36/plugin-FrontendSession.zip</file>
     <da:dcmin>2.36</da:dcmin>
     <da:details>https://github.com/JcDenis/FrontendSession/src/branch/master/README.md</da:details>
     <da:support>https://github.com/JcDenis/FrontendSession/issues</da:support>
