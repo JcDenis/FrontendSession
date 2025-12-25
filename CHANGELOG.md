@@ -1,3 +1,8 @@
+FrontendSession 0.36 - 2025.12.25
+==========================================================
+* Add user displayname to user registration
+* Various fixes
+
 FrontendSession 0.35 - 2025.09.09
 ==========================================================
 * Use TraitProcess
