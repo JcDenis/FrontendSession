@@ -1,9 +1,9 @@
 <?php
 // Language: Français
-// Module: FrontendSession - 0.26
-// Date: 2025-05-31 20:53:48
-// Author: , contact@jcdenis.fr
-// Translated with Translater - 2025.03.03
+// Module: FrontendSession - 0.36
+// Date: 2025-12-25 19:53:58
+// Author: JcDeniss, contact@jcdenis.fr
+// Translated with Translater - 2025.09.11
 
 
 #
@@ -43,6 +43,8 @@ L10n::$locales['Remenber me'] = 'Se souvenir de moi';
 L10n::$locales['Sign up'] = 'S\'inscrire';
 L10n::$locales['Username:'] = 'Nom d\'utilisatrice ou d\'utilisateur :';
 L10n::$locales['Should be at least 3 characters long with only figures and letters.'] = 'Doit contenir au moins 3 caractères avec uniquement des chiffres et des lettres';
+L10n::$locales['Display name:'] = 'Pseudonyme :';
+L10n::$locales['This is the name that will be displayed on blog.'] = 'Ceci est le pseudonyme qui sera affiché sur le blog.';
 L10n::$locales['First Name:'] = 'Prénom :';
 L10n::$locales['Last Name:'] = 'Nom :';
 L10n::$locales['Email:'] = 'Email :';
@@ -60,13 +62,12 @@ L10n::$locales['New password:'] = 'Nouveau mot de passe :';
 L10n::$locales['Repeat new password:'] = 'Répéter le nouveau mot de passe :';
 L10n::$locales['Change'] = 'Changer';
 L10n::$locales['Current password:'] = 'Mot de passe actuel :';
-L10n::$locales['Profile'] = 'Profil';
-L10n::$locales['Your site URL:'] = 'URL de votre site :';
 L10n::$locales['This account is disabled.'] = 'Ce compte est désactivé.';
 L10n::$locales['Your account is not yet activated. An administrator will review your account and validate it soon.'] = 'Votre compte n\'est pas encore activé. Un administrateur vérifiera votre inscription dès que possible.';
 L10n::$locales['Wrong username or password.'] = 'Mauvais nom d\'utilisateur ou de mot de passe.';
 L10n::$locales['This username is not valid.'] = 'L\'identifiant n\'est pas valide.';
 L10n::$locales['This username is not available.'] = 'Cet identifiant n\'est pas disponible.';
+L10n::$locales['This display name is not valid.'] = 'Ce pseudonyme n\'est pas valide.';
 L10n::$locales['Emails missmatch.'] = 'L\'email ne correspondent pas.';
 L10n::$locales['Email is not valid.'] = 'L\'email n\'est pas valide.';
 L10n::$locales['Passwords missmatch.'] = 'Les mots de passe ne correspondent pas.';
@@ -84,7 +85,6 @@ L10n::$locales['Unable to retrieve user informations.'] = 'Impossible de retrouv
 L10n::$locales['Passwords don\'t match'] = 'Les mots de passe ne correspondent pas';
 L10n::$locales['You didn\'t change your password.'] = 'Vous n\'avez pas changé votre mot de passe.';
 L10n::$locales['Password successfully updated.'] = 'Mot de passe mis à jour avec succès.';
-L10n::$locales['Profile successfully updated.'] = 'Profil mis à jour avec succés.';
 L10n::$locales['Password verification failed.'] = 'Echec de la vérification du mot de passe.';
 L10n::$locales['Password must be 6 or more chars length.'] = 'Le mot de passe doit contenir au mois si caractères.';
 L10n::$locales['Passwords mismatch.'] = 'Les mots de passe ne correspondent pas.';
@@ -116,3 +116,6 @@ L10n::$locales['Frontend session'] = 'Session publique';
 L10n::$locales['You are connected as:'] = 'Vous êtes :';
 L10n::$locales['Disconnect'] = 'Se déconnecter';
 L10n::$locales['Connect'] = 'Se connecter';
+L10n::$locales['Profile'] = 'Profil';
+L10n::$locales['Your site URL:'] = 'URL de votre site :';
+L10n::$locales['Profile successfully updated.'] = 'Profil mis à jour avec succés.';

@@ -195,6 +195,18 @@ class FrontendTemplate
                         ->text(__('Should be at least 3 characters long with only figures and letters.')),
                 ], true),
                 $profil->getInputfield([
+                    (new Input(My::id() . $action . '_displayname'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('username')
+                        ->label(new Label(__('Display name:'), Label::OL_TF)),
+                    (new Note())
+                        ->class('note')
+                        ->text(__('This is the name that will be displayed on blog.')),
+                ], true),
+                $profil->getInputfield([
                     (new Input(My::id() . $action . '_firstname'))
                         ->size(30)
                         ->maxlength(255)

@@ -90,20 +90,25 @@ class FrontendUrl
 
             case My::ACTION_SIGNUP:
                 self::checkForm();
-                $signup_login     = $_POST[My::id() . $action . '_login']     ?? '';
-                $signup_firstname = $_POST[My::id() . $action . '_firstname'] ?? '';
-                $signup_name      = $_POST[My::id() . $action . '_name']      ?? '';
-                $signup_email     = $_POST[My::id() . $action . '_email']     ?? '';
-                $signup_vemail    = $_POST[My::id() . $action . '_vemail']    ?? '';
-                $signup_password  = $_POST[My::id() . $action . '_password']  ?? '';
-                $signup_vpassword = $_POST[My::id() . $action . '_vpassword'] ?? '';
-                $signup_condition = !empty($_POST[My::id() . $action . '_condition']);
+                $signup_login       = $_POST[My::id() . $action . '_login']       ?? '';
+                $signin_displayname = $_POST[My::id() . $action . '_displayname'] ?? '';
+                $signup_firstname   = $_POST[My::id() . $action . '_firstname']   ?? '';
+                $signup_name        = $_POST[My::id() . $action . '_name']        ?? '';
+                $signup_email       = $_POST[My::id() . $action . '_email']       ?? '';
+                $signup_vemail      = $_POST[My::id() . $action . '_vemail']      ?? '';
+                $signup_password    = $_POST[My::id() . $action . '_password']    ?? '';
+                $signup_vpassword   = $_POST[My::id() . $action . '_vpassword']   ?? '';
+                $signup_condition   = !empty($_POST[My::id() . $action . '_condition']);
 
                 if (!empty($signup_login)) {
                     if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
                         App::frontend()->context()->frontend_session->addError(__('This username is not valid.'));
                     } elseif (App::users()->userExists($signup_login)) {
                         App::frontend()->context()->frontend_session->addError(__('This username is not available.'));
+                    }
+
+                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signin_displayname)) {
+                        App::frontend()->context()->frontend_session->addError(__('This display name is not valid.'));
                     }
 
                     if ($signup_email != $signup_vemail) {
@@ -128,14 +133,15 @@ class FrontendUrl
 
                     if (!App::frontend()->context()->frontend_session->hasError()) {
                         try {
-                            $cur                 = App::auth()->openUserCursor();
-                            $cur->user_id        = $signup_login;
-                            $cur->user_name      = $signup_name;
-                            $cur->user_firstname = $signup_firstname;
-                            $cur->user_email     = $signup_email;
-                            $cur->user_pwd       = $signup_password;
-                            $cur->user_status    = My::USER_PENDING;
-                            $cur->user_lang      = (string) App::blog()->settings()->system->lang;
+                            $cur                   = App::auth()->openUserCursor();
+                            $cur->user_id          = $signup_login;
+                            $cur->user_displayname = $signup_displayname;
+                            $cur->user_name        = $signup_name;
+                            $cur->user_firstname   = $signup_firstname;
+                            $cur->user_email       = $signup_email;
+                            $cur->user_pwd         = $signup_password;
+                            $cur->user_status      = My::USER_PENDING;
+                            $cur->user_lang        = (string) App::blog()->settings()->system->lang;
 
                             if ($signup_login != App::auth()->sudo(App::users()->addUser(...), $cur)) {
                                 App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
