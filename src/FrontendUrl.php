@@ -107,7 +107,7 @@ class FrontendUrl
                         App::frontend()->context()->frontend_session->addError(__('This username is not available.'));
                     }
 
-                    if (trim($signup_displayname) !== '' && !preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_displayname)) {
+                    if (trim((string) $signup_displayname) !== '' && !preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_displayname)) {
                         App::frontend()->context()->frontend_session->addError(__('This display name is not valid.'));
                     }
 
