@@ -143,6 +143,14 @@ class FrontendUrl
                             $cur->user_status      = My::USER_PENDING;
                             $cur->user_lang        = (string) App::blog()->settings()->system->lang;
 
+                            // Force markdown syntax and legacy editor for new user
+                            $cur->user_options['editor'] = [
+                                'xhtml'    => 'dcCKEditor',
+                                'wiki'     => 'dcLegacyEditor',
+                                'markdown' => 'dcLegacyEditor',
+                            ];
+                            $cur->user_options['post_format'] = 'markdown';
+
                             if ($signup_login != App::auth()->sudo(App::users()->addUser(...), $cur)) {
                                 App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
                             } else {
