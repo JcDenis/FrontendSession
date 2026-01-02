@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
+use ArrayObject;
 use Dotclear\App;
 use Dotclear\Exception\PreconditionException;
 use Dotclear\Helper\File\Path;
@@ -143,10 +144,13 @@ class FrontendUrl
                             $cur->user_status      = My::USER_PENDING;
                             $cur->user_lang        = (string) App::blog()->settings()->system->lang;
 
-                            // Force markdown syntax and legacy editor for new user
-                            $cur->user_options = [
-                                'post_format' => 'markdown',
-                            ];
+                            // Set post format if defined in settings
+                            $post_format = App::blog()->settings()->get(My::id())->get('post_format');
+                            if ($post_format) {
+                                $cur->user_options = new ArrayObject([
+                                    'post_format' => $post_format,
+                                ]);
+                            }
 
                             if ($signup_login != App::auth()->sudo(App::users()->addUser(...), $cur)) {
                                 App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));

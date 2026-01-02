@@ -42,6 +42,7 @@ class Install
             My::settings()->put('email_from', '', 'text', 'No-reply email address for confirmation mail', false, true);
             My::settings()->put('connected', "You're now connected to the blog.", 'text', 'Connected display text', false, true);
             My::settings()->put('disconnected', "You must be connected to unlock all blog's features.", 'text', 'Disconnected display text', false, true);
+            My::settings()->put('post_format', '', 'text', 'Post content syntax for new users', false, true);
 
             return true;
         } catch (Exception $e) {

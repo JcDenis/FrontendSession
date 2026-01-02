@@ -19,6 +19,7 @@ use Dotclear\Helper\Html\Form\Label;
 use Dotclear\Helper\Html\Form\Legend;
 use Dotclear\Helper\Html\Form\Note;
 use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\Select;
 use Dotclear\Helper\Html\Form\Textarea;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
@@ -58,6 +59,23 @@ class Backend
                 My::jsLoad('backend-dashboard'),
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {
+                // From user preferences (might be optimized, one day)
+                $formaters         = App::formater()->getFormaters();
+                $format_by_editors = [];
+                foreach ($formaters as $editor => $formats) {
+                    $label = __((string) App::plugins()->moduleInfo($editor, 'desc')) ?: __($editor);
+                    foreach ($formats as $format) {
+                        $format_by_editors[$format][$label] = $editor;
+                    }
+                }
+                $available_formats = ['' => ''];
+                foreach (array_keys($format_by_editors) as $format) {
+                    $available_formats[App::formater()->getFormaterName($format)] = $format;
+                    if (!isset($user_options['editor'][$format])) {
+                        $user_options['editor'][$format] = '';
+                    }
+                }
+
                 echo (new Fieldset(My::id() . '_params'))
                     ->legend(new Legend((new Img(My::icons()[0]))->class('icon-small')->render() . ' ' . My::name()))
                     ->items([
@@ -78,6 +96,14 @@ class Backend
                                 (new Checkbox(My::id() . 'enable_recovery', (bool) $blog_settings->get(My::id())->get('enable_recovery')))
                                     ->value(1)
                                     ->label(new Label(__('Enable user password recovery form on frontend'), Label::IL_FT)),
+                            ]),
+                        (new Para())
+                            ->class('field')
+                            ->items([
+                                (new Select(My::id() . 'post_format'))
+                                    ->items($available_formats)
+                                    ->default($blog_settings->get(My::id())->get('post_format'))
+                                    ->label(new Label(__('Preferred format:'), Label::OL_TF)),
                             ]),
                         (new Para())
                             ->items([
@@ -159,6 +185,7 @@ class Backend
                 $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from'], 'text');
                 $blog_settings->get(My::id())->put('connected', (string) $_POST[My::id() . 'connected'], 'text');
                 $blog_settings->get(My::id())->put('disconnected', (string) $_POST[My::id() . 'disconnected'], 'text');
+                $blog_settings->get(My::id())->put('post_format', (string) $_POST[My::id() . 'post_format'], 'text');
             },
             // add js for test editor
             'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend-blogpref') . Page::jsJson(My::id(), [
