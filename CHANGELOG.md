@@ -1,3 +1,8 @@
+FrontendSession 0.37 - 2026.01.02
+==========================================================
+* Add blog setting for users post format
+* Vairous fixes
+
 FrontendSession 0.36 - 2025.12.25
 ==========================================================
 * Add user displayname to user registration
