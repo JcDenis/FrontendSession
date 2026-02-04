@@ -74,7 +74,7 @@ class Mail
                 sprintf(__('Thank you for your registration on blog "%s"!'), App::blog()->name()) . "\n\n" .
                 __('Site:') . ' ' . App::blog()->name() . ' - ' . App::blog()->url() . "\n" .
                 __('Username:') . ' ' . $user_id . "\n" .
-                __('Password:') . ' ' . $user_pwd . "\n\n" .
+                __('Password:') . ' ' . __('Your wonderful, mysterious, and unbreakable password, the one you have memorised and/or saved in your favourite password manager.') . "\n\n" .
                 __('Administrators need to review before activate your account but they will do it as soon as possible.') . "\n" .
                 __('You will receive an email when it will be ready.') . "\n",
                 80
