@@ -1,3 +1,7 @@
+FrontendSession 0.38 - 2026.02.04
+==========================================================
+* Remove paswword from signup confirmation mail
+
 FrontendSession 0.37 - 2026.01.02
 ==========================================================
 * Add blog setting for users post format
