@@ -20,21 +20,21 @@ _FrontendSession_ is a plugin for the open-source web publishing software called
 
 ## USAGE
 
-First install _FrontendSession_, manualy from a zip package or from 
+First install _FrontendSession_, manually from a zip package or from 
 Dotaddict repository. (See Dotclear's documentation to know how do this)
 
 Once it's done you can manage FrontendSession option from blog preferences.
 
-There are templates for public page. 
-These template is adapted to default Dotclear's theme. 
+There is a template for public page. 
+This template is adapted to default Dotclear's theme. 
 If you want to create your own template for your theme,  
-copy files from FrontendSession/default-templates 
-to your theme tpl path and adapt them.
+copy file from FrontendSession/default-templates 
+to your theme tpl path and adapt it.
 
-* This plugin manage sign in, sign up, sign out, and session on public pages, nothing more.
-* User must have __FrontendSession__ permission on blog and the __enbaled__ status to sign in.
-* The registration form create user with this permission and a __pending__ status.
-* Features enabled by session must be done by others plugins.
+* This plugin manages sign in, sign up, sign out, and session on public pages, nothing more.
+* User must have __FrontendSession__ permission on blog and the __enabled__ status to sign in.
+* The registration form creates user with this permission and a __pending__ status.
+* Features enabled by session must be done by other plugins.
 * Using session on Frontend reduces cache system to near zero.
 * You can use plugin TelegramNotifier to get notification on new registration
 
