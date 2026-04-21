@@ -31,9 +31,11 @@ class FrontendSession
     ) {
         App::session()->start();
 
-        if (App::session()->get(My::id() . '_user_id') != '') {
+        $session_user_id = is_string($session_user_id = App::session()->get(My::id() . '_user_id')) ? $session_user_id : '';
+
+        if ($session_user_id !== '') {
             // Check here for user and IP address
-            $this->check(App::session()->get(My::id() . '_user_id'));
+            $this->check($session_user_id);
 
             if ($this->uid() !== App::session()->get(My::id() . '_browser_uid')) {
                 App::session()->destroy();
@@ -60,18 +62,21 @@ class FrontendSession
         }
 
         // Check COOKIE
-        if (App::session()->get(My::id() . '_user_id') == '' && isset($_COOKIE[My::id()]) && strlen((string) $_COOKIE[My::id()]) === 104) {
+        $cookie = isset($_COOKIE[My::id()]) && is_string($cookie = $_COOKIE[My::id()]) ? $cookie : '';
+        if ($session_user_id === '' && strlen($cookie) === 104) {
             // If we have a cookie, go through auth process with user_key
-            $user_id = substr((string) $_COOKIE[My::id()], 40);
+            $user_id = substr($cookie, 40);
             $user_id = @unpack('a32', @pack('H*', $user_id));
-            if (is_array($user_id)) {
-                $user_id  = trim((string) $user_id[1]);
+            if (is_array($user_id) && isset($user_id[1]) && is_string($user_id[1])) {
+                $user_id  = trim($user_id[1]);
                 $user_key = substr((string) $_COOKIE[My::id()], 0, 40);
             } else {
                 $user_id = $user_key = null;
             }
 
-            $this->check($user_id, null, $user_key, $_REQUEST[My::id() . 'redir'] ?? null, true);
+            $redir = is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : null;
+
+            $this->check($user_id, null, $user_key, $redir, true);
         }
     }
 
@@ -197,11 +202,12 @@ class FrontendSession
          && App::auth()->check(My::id(), App::blog()->id())               === true
         ) {
             // check if user is pending activation
-            if ((int) App::auth()->getInfo('user_status') === My::USER_PENDING) {
+            $user_status = is_numeric($user_status = App::auth()->getInfo('user_status')) ? (int) $user_status : 0;
+            if ($user_status === My::USER_PENDING) {
                 $this->reset();
                 $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_SIGNIN, My::STATE_PENDING);
                 // check if user is not enabled
-            } elseif (App::status()->user()->isRestricted((int) App::auth()->getInfo('user_status'))) {
+            } elseif (App::status()->user()->isRestricted($user_status)) {
                 $this->reset();
                 $this->redirect(App::blog()->url() . App::url()->getURLFor(My::id()), My::ACTION_SIGNIN, My::STATE_DISABLED);
                 // check if user must change password
@@ -214,9 +220,10 @@ class FrontendSession
                 App::session()->set(My::id() . '_blog_id', App::blog()->id());
 
                 if ($remember) {
+                    $cookie = isset($_COOKIE[My::id()]) && is_string($cookie = $_COOKIE[My::id()]) ? $cookie : '';
                     $this->setCookie(
                         strtotime('+15 days'),
-                        $user_key === null ? $this->uid($user_id) : $_COOKIE[My::id()],
+                        $user_key === null ? $this->uid($user_id) : $cookie,
                     );
                 }
 

@@ -26,21 +26,25 @@ class Mail
             return;
         }
 
-        $headers = [
-            'From: ' . sprintf('%1$s <' . My::settings()->get('email_from') . '>', RootMail::B64Header(App::blog()->name())),
-            'MIME-Version: 1.0',
-            'Content-Type: text/plain; charset=UTF-8;',
-            'Content-Transfer-Encoding: 8bit',
-            'X-Originating-IP: ' . Http::realIP(),
-            'X-Mailer: Dotclear',
-            'X-Blog-Id: ' . RootMail::B64Header(App::blog()->id()),
-            'X-Blog-Name: ' . RootMail::B64Header(App::blog()->name()),
-            'X-Blog-Url: ' . RootMail::B64Header(App::blog()->url()),
-        ];
+        $email_from = is_string($email_from = My::settings()->get('email_from')) ? $email_from : '';
 
-        $subject = RootMail::B64Header(sprintf('[%s] %s', App::blog()->name(), $subject));
+        if ($email_from !== '') {
+            $headers = [
+                'From: ' . sprintf('%1$s <' . $email_from . '>', RootMail::B64Header(App::blog()->name())),
+                'MIME-Version: 1.0',
+                'Content-Type: text/plain; charset=UTF-8;',
+                'Content-Transfer-Encoding: 8bit',
+                'X-Originating-IP: ' . Http::realIP(),
+                'X-Mailer: Dotclear',
+                'X-Blog-Id: ' . RootMail::B64Header(App::blog()->id()),
+                'X-Blog-Name: ' . RootMail::B64Header(App::blog()->name()),
+                'X-Blog-Url: ' . RootMail::B64Header(App::blog()->url()),
+            ];
 
-        RootMail::sendMail($dest, $subject, $message, $headers);
+            $subject = RootMail::B64Header(sprintf('[%s] %s', App::blog()->name(), $subject));
+
+            RootMail::sendMail($dest, $subject, $message, $headers);
+        }
     }
 
     /**
@@ -82,7 +86,9 @@ class Mail
         );
 
         // admin email
-        $mails = explode(',', (string) My::settings()->get('email_registration'));
+        $email_registration = is_string($email_registration = My::settings()->get('email_registration')) ? $email_registration : '';
+
+        $mails = explode(',', $email_registration);
         foreach ($mails as $mail) {
             if (trim($mail) !== '') {
                 self::mailSender(

@@ -20,13 +20,17 @@ $this->registerModule(
     'Jean-Christian Paul Denis and Contributors',
     '0.38',
     [
-        'requires'    => [['core', '2.36']],
+        'requires' => [['core', '2.36']],
+        // @phpstan-ignore binaryOp.invalid
         'settings'    => ['blog' => '#params.' . $this->id . '_params'],
         'permissions' => 'My',
         'type'        => 'plugin',
-        'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',
-        'details'     => 'https://github.com/JcDenis/' . $this->id . '/',
-        'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . $this->id . '/master/dcstore.xml',
-        'date'        => '2026-02-04T18:05:33+00:00',
+        // @phpstan-ignore binaryOp.invalid
+        'support' => 'https://github.com/JcDenis/' . $this->id . '/issues',
+        // @phpstan-ignore binaryOp.invalid
+        'details' => 'https://github.com/JcDenis/' . $this->id . '/',
+        // @phpstan-ignore binaryOp.invalid
+        'repository' => 'https://raw.githubusercontent.com/JcDenis/' . $this->id . '/master/dcstore.xml',
+        'date'       => '2026-02-04T18:05:33+00:00',
     ]
 );

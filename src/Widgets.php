@@ -86,8 +86,12 @@ class Widgets
         # --BEHAVIOR-- FrontendSessionWidget -- ArrayObject, string, WidgetsElement
         App::behavior()->callBehavior('FrontendSessionWidget', $lines, $url, $widget);
 
+        $show  = is_string($show = $widget->get('show')) ? $show : '';
+        $class = is_string($class = $widget->get('class')) ? $class : '';
+        $title = is_string($title = $widget->get('title')) ? $title : '';
+
         if (App::auth()->userID() != '') {
-            if ($widget->get('show') != 'form') {
+            if ($show !== 'form') {
                 $lines[] = (new Li())
                     ->items([
                         (new Link())
@@ -97,14 +101,16 @@ class Widgets
             }
 
             // signout
-            if ($widget->get('show') != 'menu') {
+            if ($show !== 'menu') {
+                $user_cn = is_string($user_cn = App::auth()->getInfo('user_cn')) ? $user_cn : App::auth()->userID();
+
                 $form = (new Form())
                     ->class('session-form')
                     ->method('post')
                     ->action($url)
                     ->id(My::id() . My::ACTION_SIGNOUT . 'form_widget')
                     ->fields([
-                        (new Text('p', __('You are connected as:') . '<br />' . App::auth()->getInfo('user_cn'))),
+                        (new Text('p', __('You are connected as:') . '<br />' . $user_cn)),
                         (new Para())
                             ->items([
                                 (new Hidden([My::id() . 'check'], App::nonce()->getNonce())),
@@ -114,7 +120,7 @@ class Widgets
                             ]),
                     ]);
             }
-        } elseif ($widget->get('show') != 'menu') {
+        } elseif ($show !== 'menu') {
             if (My::settings()->get('enable_recovery')) {
                 $lines[] = (new Li())
                     ->items([
@@ -182,9 +188,9 @@ class Widgets
 
         return $widget->renderDiv(
             (bool) $widget->get('content_only'),
-            My::id() . ' ' . $widget->get('class'),
+            My::id() . ' ' . $class,
             '',
-            $widget->renderTitle($widget->get('title')) . ($form === false ? '' : $form->render()) . ($lines->count() === 0 ? '' : (new Ul())->items($lines)->render())
+            $widget->renderTitle($title) . ($form === false ? '' : $form->render()) . ($lines->count() === 0 ? '' : (new Ul())->items($lines)->render())
         );
     }
 }

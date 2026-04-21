@@ -41,9 +41,14 @@ class FrontendBehaviors
      */
     public static function publicEntryAfterContent(): void
     {
-        if (App::auth()->check(My::id(), App::blog()->id())
-            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id')) !== 0
-        ) {
+        $post_id = 0;
+        $url     = '';
+        if (App::auth()->check(My::id(), App::blog()->id()) && App::frontend()->context()->posts instanceof MetaRecord) {
+            $post_id = is_numeric($post_id = App::frontend()->context()->posts->f('post_id')) ? (int) $post_id : 0;
+            $url     = is_string($url = App::frontend()->context()->posts->getURL()) ? $url : '';
+        }
+
+        if ($post_id !== 0) {
             // if from post form
             if (!empty($_POST[My::id() . 'post']) && $_POST[My::id() . 'post'] == $post_id) {
                 FrontendUrl::checkForm();
@@ -76,7 +81,7 @@ class FrontendBehaviors
                 ->items([
                     (new Form([My::id() . 'post-action', 'pa' . $post_id]))
                         ->method('post')
-                        ->action(App::frontend()->context()->posts->getURL() . '#p' . $post_id)
+                        ->action($url . '#p' . $post_id)
                         ->separator(' ')
                         ->items([
                             ... $buttons,
@@ -90,10 +95,20 @@ class FrontendBehaviors
 
     public static function publicCommentAfterContent(): void
     {
-        if (App::auth()->check(My::id(), App::blog()->id())
-            && ($post_id = (int) App::frontend()->context()->posts?->f('post_id'))          !== 0
-            && ($comment_id = (int) App::frontend()->context()->comments?->f('comment_id')) !== 0
-        ) {
+        $post_id    = 0;
+        $comment_id = 0;
+        $url        = '';
+        if (App::auth()->check(My::id(), App::blog()->id())) {
+            if (App::frontend()->context()->posts instanceof MetaRecord) {
+                $post_id = is_numeric($post_id = App::frontend()->context()->posts->f('post_id')) ? (int) $post_id : 0;
+                $url     = is_string($url = App::frontend()->context()->posts->getURL()) ? $url : '';
+            }
+            if (App::frontend()->context()->comments instanceof MetaRecord) {
+                $comment_id = is_numeric($comment_id = App::frontend()->context()->comments->f('comment_id')) ? (int) $comment_id : 0;
+            }
+        }
+
+        if ($post_id !== 0 && $comment_id !== 0) {
             // if from comment form
             if (!empty($_POST[My::id() . 'comment']) && $_POST[My::id() . 'comment'] == $comment_id) {
                 FrontendUrl::checkForm();
@@ -126,7 +141,7 @@ class FrontendBehaviors
                 ->items([
                     (new Form([My::id() . 'comment-action', 'ca' . $comment_id]))
                         ->method('post')
-                        ->action(App::frontend()->context()->posts->getURL() . '#c' . $comment_id)
+                        ->action($url . '#c' . $comment_id)
                         ->separator(' ')
                         ->items([
                             ... $buttons,
@@ -178,29 +193,32 @@ class FrontendBehaviors
      */
     public static function publicHeadContent(): void
     {
-        $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
+        $theme = is_string($theme = App::blog()->settings()->system->get('theme')) ? $theme : '';
+        if ($theme !== '') {
+            $tplset = is_string($tplset = App::themes()->moduleInfo($theme, 'tplset')) ? $tplset : '';
 
-        // Load post creation page CSS
-        if (!My::settings()->get('disable_css') && $tplset == 'dotty') {
-            echo My::cssLoad('frontend-dotty');
-        }
+            // Load post creation page CSS
+            if (!My::settings()->get('disable_css') && $tplset === 'dotty') {
+                echo My::cssLoad('frontend-dotty');
+            }
 
-        // Hide comment form input. This does not work with all themes.
-        if (App::auth()->check(My::id(), App::blog()->id())) {
-            if ($tplset == 'mustek') {
-                echo '<!-- FrontendSession special -->' . "\n" .
-                    '<style>' .
-                    '#comment-form .field:has(> #c_name), #comment-form .field:has(> #c_mail), #comment-form .field:has(> #c_site), #comment-form .remember {' .
-                    'display:none;' .
-                    '}' .
-                    '</style>' . "\n";
-            } else { // dotty
-                echo '<!-- FrontendSession special -->' . "\n" .
-                    '<style>' .
-                    '#comment-form .name-field, #comment-form .mail-field, #comment-form .site-field, #comment-form .remember {' .
-                    'display:none;' .
-                    '}' .
-                    '</style>' . "\n";
+            // Hide comment form input. This does not work with all themes.
+            if (App::auth()->check(My::id(), App::blog()->id())) {
+                if ($tplset === 'mustek') {
+                    echo '<!-- FrontendSession special -->' . "\n" .
+                        '<style>' .
+                        '#comment-form .field:has(> #c_name), #comment-form .field:has(> #c_mail), #comment-form .field:has(> #c_site), #comment-form .remember {' .
+                        'display:none;' .
+                        '}' .
+                        '</style>' . "\n";
+                } else { // dotty
+                    echo '<!-- FrontendSession special -->' . "\n" .
+                        '<style>' .
+                        '#comment-form .name-field, #comment-form .mail-field, #comment-form .site-field, #comment-form .remember {' .
+                        'display:none;' .
+                        '}' .
+                        '</style>' . "\n";
+                }
             }
         }
     }
@@ -214,10 +232,14 @@ class FrontendBehaviors
         if (App::auth()->check(My::id(), App::blog()->id())
             && App::frontend()->context()->exists('comment_preview')
             //&& App::frontend()->context()->comment_preview['content'] == ''
-        ) {
-            App::frontend()->context()->comment_preview['name'] = App::auth()->getInfo('user_cn');
-            App::frontend()->context()->comment_preview['mail'] = App::auth()->getInfo('user_email');
-            App::frontend()->context()->comment_preview['site'] = App::auth()->getInfo('user_url');
+            && is_array(App::frontend()->context()->comment_preview)) {
+            $user_cn    = is_string($user_cn = App::auth()->getInfo('user_cn')) ? $user_cn : App::auth()->userID();
+            $user_email = is_string($user_email = App::auth()->getInfo('user_email')) ? $user_email : '';
+            $user_site  = is_string($user_site = App::auth()->getInfo('user_url')) ? $user_site : '';
+
+            App::frontend()->context()->comment_preview['name'] = $user_cn;
+            App::frontend()->context()->comment_preview['mail'] = $user_email;
+            App::frontend()->context()->comment_preview['site'] = $user_site;
         }
     }
 }

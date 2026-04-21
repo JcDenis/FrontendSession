@@ -6,6 +6,7 @@ namespace Dotclear\Plugin\FrontendSession;
 
 use ArrayObject;
 use Dotclear\App;
+use Dotclear\Core\Frontend\Tpl;
 use Dotclear\Helper\Html\Form\Checkbox;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Email;
@@ -48,7 +49,7 @@ class FrontendTemplate
         $if   = [];
         $sign = fn ($a): string => (bool) $a ? '' : '!';
 
-        $operator = isset($attr['operator']) ? App::frontend()->template()::getOperator($attr['operator']) : '&&';
+        $operator = isset($attr['operator']) && is_string($attr['operator']) ? Tpl::getOperator($attr['operator']) : '&&';
 
         // allow registration
         if (isset($attr['registration'])) {
@@ -63,7 +64,7 @@ class FrontendTemplate
             $if[] = $sign($attr['condition']) . My::class . "::settings()->get('condition_page')";
         }
         // session state
-        if (isset($attr['state'])) {
+        if (isset($attr['state']) && is_string($attr['state'])) {
             $if[] = $sign($attr['state']) . "(App::frontend()->context()->frontend_session?->state == '" . Html::escapeHTML($attr['state']) . "')";
         }
         // session success message
@@ -141,7 +142,7 @@ class FrontendTemplate
      */
     public static function parseSessionPage(): void
     {
-        if (!is_a(App::frontend()->context()->frontend_session, FrontendSession::class)) {
+        if (!App::frontend()->context()->frontend_session instanceof FrontendSession) {
             return;
         }
 
@@ -180,6 +181,8 @@ class FrontendTemplate
 
         // sign up form
         if (!$connected && My::settings()->get('enable_registration')) {
+            $condition_page = is_string($condition_page = My::settings()->get('condition_page')) ? $condition_page : '';
+
             $action = My::ACTION_SIGNUP;
             $profil->addAction($action, __('Sign up'), [
                 $profil->getInputfield([
@@ -273,10 +276,10 @@ class FrontendTemplate
                             sprintf(
                                 __('I have read and accept the %s.'),
                                 (new Link())
-                                ->class('outgoing')
-                                ->href(My::settings()->get('condition_page'))
-                                ->text(__('Terms and Conditions'))
-                                ->render()
+                                    ->class('outgoing')
+                                    ->href($condition_page)
+                                    ->text(__('Terms and Conditions'))
+                                    ->render()
                             ),
                             Label::OL_FT
                         )),
@@ -284,8 +287,8 @@ class FrontendTemplate
                 // Honeypot
                 $profil->getInputfield([
                     (new Checkbox('agree', false))
-                            ->value('1')
-                            ->label(new Label(__('Do not check this box'), Label::OL_FT)),
+                        ->value('1')
+                        ->label(new Label(__('Do not check this box'), Label::OL_FT)),
                 ]),
                 $profil->getControlset($action, __('Sign up')),
             ]);
@@ -326,9 +329,10 @@ class FrontendTemplate
 
         // signout form
         if ($connected) {
-            $action = My::ACTION_SIGNOUT;
+            $action  = My::ACTION_SIGNOUT;
+            $user_cn = is_string($user_cn = App::auth()->getInfo('user_cn')) ? $user_cn : App::auth()->userID();
             $profil->addAction($action, __('Sign in'), [
-                (new Text('p', sprintf(__('You are connected as: %s'), App::auth()->getInfo('user_cn')))),
+                (new Text('p', sprintf(__('You are connected as: %s'), $user_cn))),
                 $profil->getControlset($action, __('Logout')),
             ]);
         }

@@ -38,19 +38,36 @@ class FrontendUrl
         }
 
         if (!My::settings()->get('active')
-            || !is_a(App::frontend()->context()->frontend_session, FrontendSession::class)
+            || !App::frontend()->context()->frontend_session instanceof FrontendSession
         ) {
             App::url()::p404();
         }
 
+        // Post data helpers
+        $_Bool = fn (string $name): bool => !empty($_POST[$name]);
+        $_Str  = fn (string $name, string $default = ''): string => isset($_POST[$name]) && is_string($val = $_POST[$name]) ? $val : $default;
+
         // Parse request
-        $args   = explode('/', (string) $args);
-        $action = $_POST[My::id() . 'action']   ?? ($args[1] ?? '');
-        $state  = $_POST[My::id() . 'state']    ?? ($args[2] ?? '');
-        $redir  = $_REQUEST[My::id() . 'redir'] ?? null;
+        $args = explode('/', (string) $args);
+
+        // 1st get POST data
+        $action = $_Str(My::id() . 'action');
+        $state  = $_Str(My::id() . 'state');
+
+        // 2nd fallback to given arguments
+        if ($action === '') {
+            $action = $args[1] ?? '';
+        }
+        if ($state === '') {
+            $state = $args[2] ?? '';
+        }
+
+        $redir = is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : '';
 
         // Set user state
-        App::frontend()->context()->frontend_session->state = App::auth()->userID() == '' ? My::STATE_DISCONNECTED : My::STATE_CONNECTED;
+        $user_id = is_string($user_id = App::auth()->userID()) ? $user_id : '';
+
+        App::frontend()->context()->frontend_session->state = $user_id === '' ? My::STATE_DISCONNECTED : My::STATE_CONNECTED;
 
         // Do action
         switch ($action) {
@@ -63,7 +80,7 @@ class FrontendUrl
             case My::ACTION_SIGNIN:
                 if (in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
                     App::frontend()->context()->frontend_session->addError(
-                        $state == My::STATE_DISABLED ?
+                        $state === My::STATE_DISABLED ?
                         __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.')
                     );
 
@@ -71,9 +88,9 @@ class FrontendUrl
                 }
 
                 self::checkForm();
-                $signin_login    = $_POST[My::id() . $action . '_login']    ?? '';
-                $signin_password = $_POST[My::id() . $action . '_password'] ?? '';
-                $signin_remember = !empty($_POST[My::id() . $action . '_remember']);
+                $signin_login    = $_Str(My::id() . $action . '_login');
+                $signin_password = $_Str(My::id() . $action . '_password');
+                $signin_remember = $_Bool(My::id() . $action . '_remember');
 
                 if (!App::frontend()->context()->frontend_session->check(
                     $signin_login,
@@ -91,36 +108,36 @@ class FrontendUrl
 
             case My::ACTION_SIGNUP:
                 self::checkForm();
-                $signup_login       = $_POST[My::id() . $action . '_login']       ?? '';
-                $signup_displayname = $_POST[My::id() . $action . '_displayname'] ?? '';
-                $signup_firstname   = $_POST[My::id() . $action . '_firstname']   ?? '';
-                $signup_name        = $_POST[My::id() . $action . '_name']        ?? '';
-                $signup_email       = $_POST[My::id() . $action . '_email']       ?? '';
-                $signup_vemail      = $_POST[My::id() . $action . '_vemail']      ?? '';
-                $signup_password    = $_POST[My::id() . $action . '_password']    ?? '';
-                $signup_vpassword   = $_POST[My::id() . $action . '_vpassword']   ?? '';
-                $signup_condition   = !empty($_POST[My::id() . $action . '_condition']);
+                $signup_login       = $_Str(My::id() . $action . '_login');
+                $signup_displayname = $_Str(My::id() . $action . '_displayname');
+                $signup_firstname   = $_Str(My::id() . $action . '_firstname');
+                $signup_name        = $_Str(My::id() . $action . '_name');
+                $signup_email       = $_Str(My::id() . $action . '_email');
+                $signup_vemail      = $_Str(My::id() . $action . '_vemail');
+                $signup_password    = $_Str(My::id() . $action . '_password');
+                $signup_vpassword   = $_Str(My::id() . $action . '_vpassword');
+                $signup_condition   = $_Bool(My::id() . $action . '_condition');
 
-                if (!empty($signup_login)) {
-                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_login)) {
+                if ($signup_login !== '') {
+                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_login)) {
                         App::frontend()->context()->frontend_session->addError(__('This username is not valid.'));
                     } elseif (App::users()->userExists($signup_login)) {
                         App::frontend()->context()->frontend_session->addError(__('This username is not available.'));
                     }
 
-                    if (trim((string) $signup_displayname) !== '' && !preg_match('/^[A-Za-z0-9._-]{3,}$/', (string) $signup_displayname)) {
+                    if (trim($signup_displayname) !== '' && !preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_displayname)) {
                         App::frontend()->context()->frontend_session->addError(__('This display name is not valid.'));
                     }
 
-                    if ($signup_email != $signup_vemail) {
+                    if ($signup_email !== $signup_vemail) {
                         App::frontend()->context()->frontend_session->addError(__('Emails missmatch.'));
                     } elseif (!Text::isEmail($signup_email)) {
                         App::frontend()->context()->frontend_session->addError(__('Email is not valid.'));
                     }
 
-                    if ($signup_password != $signup_vpassword) {
+                    if ($signup_password !== $signup_vpassword) {
                         App::frontend()->context()->frontend_session->addError(__('Passwords missmatch.'));
-                    } elseif (strlen((string) $signup_password) < 6) {
+                    } elseif (strlen($signup_password) < 6) {
                         App::frontend()->context()->frontend_session->addError(__('Password must be at lesat 6 characters long.'));
                     }
 
@@ -133,6 +150,8 @@ class FrontendUrl
                     }
 
                     if (!App::frontend()->context()->frontend_session->hasError()) {
+                        $system_lang = is_string($system_lang = App::blog()->settings()->system->lang) ? $system_lang : 'en';
+
                         try {
                             $cur                   = App::auth()->openUserCursor();
                             $cur->user_id          = $signup_login;
@@ -142,7 +161,7 @@ class FrontendUrl
                             $cur->user_email       = $signup_email;
                             $cur->user_pwd         = $signup_password;
                             $cur->user_status      = My::USER_PENDING;
-                            $cur->user_lang        = (string) App::blog()->settings()->system->lang;
+                            $cur->user_lang        = $system_lang;
 
                             // Set post format if defined in settings
                             $post_format = App::blog()->settings()->get(My::id())->get('post_format');
@@ -178,12 +197,12 @@ class FrontendUrl
 
             case My::ACTION_RECOVER:
                 self::checkForm();
-                $recover_login = $_POST[My::id() . $action . '_login'] ?? '';
-                $recover_email = $_POST[My::id() . $action . '_email'] ?? '';
+                $recover_login = $_Str(My::id() . $action . '_login');
+                $recover_email = $_Str(My::id() . $action . '_email');
 
                 if (My::settings()->get('enable_recovery')) {
                     // change password from recovery email
-                    if (!empty($state)) {
+                    if ($state !== '') {
                         try {
                             $res = App::auth()->recoverUserPassword($state);
                             Mail::sendPasswordMail($res['user_id'], $res['new_pass'], $res['user_email']);
@@ -192,7 +211,7 @@ class FrontendUrl
                             App::frontend()->context()->frontend_session->addError(__('Unknow username or email.'));
                         }
                         // send recovery email
-                    } elseif (App::auth()->userID() == '' && !empty($recover_login) && !empty($recover_email)) {
+                    } elseif (App::auth()->userID() == '' && $recover_login !== '' && $recover_email !== '') {
                         // check if user is (super)admin
                         $rs = App::users()->getUser($recover_login);
                         if (!$rs->isEmpty() && $rs->admin() != '') {
@@ -213,17 +232,17 @@ class FrontendUrl
 
             case My::ACTION_CHANGE:
                 self::checkForm();
-                $change_data      = $_POST[My::id() . $action . '_data']      ?? '';
-                $change_password  = $_POST[My::id() . $action . '_password']  ?? '';
-                $change_vpassword = $_POST[My::id() . $action . '_vpassword'] ?? '';
+                $change_data      = $_Str(My::id() . $action . '_data');
+                $change_password  = $_Str(My::id() . $action . '_password');
+                $change_vpassword = $_Str(My::id() . $action . '_vpassword');
 
                 if (My::settings()->get('enable_recovery')) {
                     // set data for post from
-                    if (count($args) === 5 && empty($change_data)) {
+                    if (count($args) === 5 && $change_data === '') {
                         App::frontend()->context()->frontend_session->addError(__('You must set a new password.'));
                         App::frontend()->context()->frontend_session->state = My::STATE_CHANGE;
                         App::frontend()->context()->frontend_session->data  = App::frontend()->context()->frontend_session->encode([$args[2], $args[3], $args[4]]);
-                    } elseif (!empty($change_data)) {
+                    } elseif ($change_data !== '') {
                         App::frontend()->context()->frontend_session->state = My::STATE_CHANGE;
                         App::frontend()->context()->frontend_session->data  = $change_data;
 
@@ -235,7 +254,7 @@ class FrontendUrl
                             App::frontend()->context()->frontend_session->addError(__('Unable to retrieve user informations.'));
                         } elseif ($rs->admin() != '') {
                             App::frontend()->context()->frontend_session->addError(__('You are an admin, you must change password from backend.'));
-                        } elseif (empty($change_password) || $change_password != $change_vpassword) {
+                        } elseif ($change_password !== '' || $change_password !== $change_vpassword) {
                             App::frontend()->context()->frontend_session->addError(__("Passwords don't match"));
                         } elseif (App::auth()->checkUser((string) $data['user_id'], $change_password)) {
                             App::frontend()->context()->frontend_session->addError(__("You didn't change your password."));
@@ -263,14 +282,16 @@ class FrontendUrl
 
             case My::ACTION_UPDPASS:
                 self::checkForm();
-                $current = $_POST[My::id() . $action . '_current'] ?? '';
-                $newpass = $_POST[My::id() . $action . '_newpass'] ?? '';
-                $vrfpass = $_POST[My::id() . $action . '_vrfpass'] ?? '';
+
+                $current = $_Str(My::id() . $action . '_current');
+                $newpass = $_Str(My::id() . $action . '_newpass');
+                $vrfpass = $_Str(My::id() . $action . '_vrfpass');
+
                 $user_id = (string) App::auth()->userID();
 
                 if (!App::auth()->checkPassword($current)) {
                     App::frontend()->context()->frontend_session->addError(__('Password verification failed.'));
-                } elseif (strlen(trim((string) $newpass)) < 6) {
+                } elseif (strlen(trim($newpass)) < 6) {
                     App::frontend()->context()->frontend_session->addError(__('Password must be 6 or more chars length.'));
                 } elseif ($newpass !== $vrfpass) {
                     App::frontend()->context()->frontend_session->addError(__('Passwords mismatch.'));
@@ -293,7 +314,7 @@ class FrontendUrl
                 break;
 
             default:
-                if ($action != '') {
+                if ($action !== '') {
                     self::checkForm();
 
                     # --BEHAVIOR-- FrontendSessionAction -- string
@@ -307,7 +328,11 @@ class FrontendUrl
         App::behavior()->callBehavior('FrontendSessionServeTemplate');
 
         // use only dotty tplset
-        $tplset = App::themes()->moduleInfo(App::blog()->settings()->get('system')->get('theme'), 'tplset');
+        $theme = is_string($theme = App::blog()->settings()->system->get('theme')) ? $theme : '';
+        if ($theme === '') {
+            App::url()->p404();
+        }
+        $tplset = is_string($tplset = App::themes()->moduleInfo($theme, 'tplset')) ? $tplset : '';
         if (!in_array($tplset, ['dotty', 'mustek'])) {
             App::url()::p404();
         }
@@ -318,7 +343,10 @@ class FrontendUrl
 
             if (My::settings()->get('log_form_error')) {
                 // remove passwords from logs
-                $_post = array_combine(array_keys($_POST), array_map(fn ($k, $v): string => str_contains((string) $k, 'pass') ? '****' : $v, array_keys($_POST), array_values($_POST)));
+                $_post = array_combine(
+                    array_keys($_POST),
+                    array_map(fn ($k, $v): string => str_contains((string) $k, 'pass') ? '****' : (is_string($v) ? $v : ''), array_keys($_POST), array_values($_POST))
+                );
 
                 $cur = App::log()->openLogCursor();
                 $cur->setField('log_table', My::id());
@@ -328,7 +356,8 @@ class FrontendUrl
             }
         }
 
-        $default_template = Path::real(App::plugins()->moduleInfo(My::id(), 'root')) . DIRECTORY_SEPARATOR . App::frontend()::TPL_ROOT . DIRECTORY_SEPARATOR;
+        $root             = is_string($root = App::plugins()->moduleInfo(My::id(), 'root')) ? $root : '';
+        $default_template = Path::real($root) . DIRECTORY_SEPARATOR . App::frontend()::TPL_ROOT . DIRECTORY_SEPARATOR;
         if (is_dir($default_template . $tplset)) {
             App::frontend()->template()->setPath(App::frontend()->template()->getPath(), $default_template . $tplset);
         }
@@ -341,7 +370,8 @@ class FrontendUrl
      */
     public static function checkForm(): void
     {
-        if (!App::nonce()->checkNonce($_POST[My::id() . 'check'] ?? '-')) {
+        $nonce = isset($_POST[My::id() . 'check']) && is_string($nonce = $_POST[My::id() . 'check']) ? $nonce : '-';
+        if (!App::nonce()->checkNonce($nonce)) {
             throw new PreconditionException();
         }
     }

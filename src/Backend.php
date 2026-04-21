@@ -60,14 +60,17 @@ class Backend
             // blog settings form
             'adminBlogPreferencesFormV2' => function (BlogSettingsInterface $blog_settings): void {
                 // From user preferences (might be optimized, one day)
-                $formaters         = App::formater()->getFormaters();
+                $formaters = App::formater()->getFormaters();
+
                 $format_by_editors = [];
                 foreach ($formaters as $editor => $formats) {
-                    $label = __((string) App::plugins()->moduleInfo($editor, 'desc')) ?: __($editor);
+                    $desc  = is_string($desc = App::plugins()->moduleInfo($editor, 'desc')) ? $desc : '';
+                    $label = __($desc) ?: __($editor);
                     foreach ($formats as $format) {
                         $format_by_editors[$format][$label] = $editor;
                     }
                 }
+
                 $available_formats = ['' => ''];
                 foreach (array_keys($format_by_editors) as $format) {
                     $available_formats[App::formater()->getFormaterName($format)] = $format;
@@ -75,6 +78,13 @@ class Backend
                         $user_options['editor'][$format] = '';
                     }
                 }
+
+                $post_format        = is_string($post_format = $blog_settings->get(My::id())->get('post_format')) ? $post_format : '';
+                $condition_page     = is_string($condition_page = $blog_settings->get(My::id())->get('condition_page')) ? $condition_page : '';
+                $email_registration = is_string($email_registration = $blog_settings->get(My::id())->get('email_registration')) ? $email_registration : '';
+                $email_from         = is_string($email_from = $blog_settings->get(My::id())->get('email_from')) ? $email_from : '';
+                $connected          = is_string($connected = $blog_settings->get(My::id())->get('connected')) ? $connected : '';
+                $disconnected       = is_string($disconnected = $blog_settings->get(My::id())->get('disconnected')) ? $disconnected : '';
 
                 echo (new Fieldset(My::id() . '_params'))
                     ->legend(new Legend((new Img(My::icons()[0]))->class('icon-small')->render() . ' ' . My::name()))
@@ -102,7 +112,7 @@ class Backend
                             ->items([
                                 (new Select(My::id() . 'post_format'))
                                     ->items($available_formats)
-                                    ->default($blog_settings->get(My::id())->get('post_format'))
+                                    ->default($post_format)
                                     ->label(new Label(__('Preferred format:'), Label::OL_TF)),
                             ]),
                         (new Para())
@@ -125,7 +135,7 @@ class Backend
                                 (new Input(My::id() . 'condition_page'))
                                     ->size(65)
                                     ->maxlength(255)
-                                    ->value($blog_settings->get(My::id())->get('condition_page'))
+                                    ->value($condition_page)
                                     ->label(new Label(sprintf(__('Link to the "%s" page or entry:'), __('Terms and Conditions')), Label::OL_TF)),
                                 (new Button('condition_page_selector', __('Choose an entry'))),
                             ]),
@@ -138,7 +148,7 @@ class Backend
                                     ->class('maximal')
                                     ->size(65)
                                     ->maxlength(255)
-                                    ->value($blog_settings->get(My::id())->get('email_registration'))
+                                    ->value($email_registration)
                                     ->label(new Label(__('Registration administrator email:'), Label::OL_TF)),
                             ]),
                         (new Note())
@@ -150,7 +160,7 @@ class Backend
                                     ->class('maximal')
                                     ->size(65)
                                     ->maxlength(255)
-                                    ->value($blog_settings->get(My::id())->get('email_from'))
+                                    ->value($email_from)
                                     ->label(new Label(__('Registration no-reply email:'), Label::OL_TF)),
                             ]),
                         (new Note())
@@ -158,14 +168,14 @@ class Backend
                             ->text(__('This is mail address used on registration confirmation email.')),
                         (new Para())
                             ->items([
-                                (new Textarea(My::id() . 'connected', Html::escapeHTML((string) $blog_settings->get(My::id())->get('connected'))))
+                                (new Textarea(My::id() . 'connected', Html::escapeHTML($connected)))
                                     ->rows(6)
                                     ->class('maximal')
                                     ->label((new Label(__('Text to display on login page when user is connected:'), Label::OL_TF))),
                             ]),
                         (new Para())
                             ->items([
-                                (new Textarea(My::id() . 'disconnected', Html::escapeHTML((string) $blog_settings->get(My::id())->get('disconnected'))))
+                                (new Textarea(My::id() . 'disconnected', Html::escapeHTML($disconnected)))
                                     ->rows(6)
                                     ->class('maximal')
                                     ->label((new Label(__('Text to display on login page when user is disconnected:'), Label::OL_TF))),
@@ -173,20 +183,26 @@ class Backend
                     ])
                     ->render();
             },
+
             // blog settings update
             'adminBeforeBlogSettingsUpdate' => function (BlogSettingsInterface $blog_settings): void {
-                $blog_settings->get(My::id())->put('active', !empty($_POST[My::id() . 'active']), 'boolean');
-                $blog_settings->get(My::id())->put('enable_registration', !empty($_POST[My::id() . 'enable_registration']), 'boolean');
-                $blog_settings->get(My::id())->put('enable_recovery', !empty($_POST[My::id() . 'enable_recovery']), 'boolean');
-                $blog_settings->get(My::id())->put('limit_comment', !empty($_POST[My::id() . 'limit_comment']), 'boolean');
-                $blog_settings->get(My::id())->put('disable_css', !empty($_POST[My::id() . 'disable_css']), 'boolean');
-                $blog_settings->get(My::id())->put('condition_page', (string) $_POST[My::id() . 'condition_page'], 'text');
-                $blog_settings->get(My::id())->put('email_registration', (string) $_POST[My::id() . 'email_registration'], 'text');
-                $blog_settings->get(My::id())->put('email_from', (string) $_POST[My::id() . 'email_from'], 'text');
-                $blog_settings->get(My::id())->put('connected', (string) $_POST[My::id() . 'connected'], 'text');
-                $blog_settings->get(My::id())->put('disconnected', (string) $_POST[My::id() . 'disconnected'], 'text');
-                $blog_settings->get(My::id())->put('post_format', (string) $_POST[My::id() . 'post_format'], 'text');
+                // Post data helpers
+                $_Bool = fn (string $name): bool => !empty($_POST[$name]);
+                $_Str  = fn (string $name, string $default = ''): string => isset($_POST[$name]) && is_string($val = $_POST[$name]) ? $val : $default;
+
+                $blog_settings->get(My::id())->put('active', $_Bool(My::id() . 'active'), 'boolean');
+                $blog_settings->get(My::id())->put('enable_registration', $_Bool(My::id() . 'enable_registration'), 'boolean');
+                $blog_settings->get(My::id())->put('enable_recovery', $_Bool(My::id() . 'enable_recovery'), 'boolean');
+                $blog_settings->get(My::id())->put('limit_comment', $_Bool(My::id() . 'limit_comment'), 'boolean');
+                $blog_settings->get(My::id())->put('disable_css', $_Bool(My::id() . 'disable_css'), 'boolean');
+                $blog_settings->get(My::id())->put('condition_page', $_Str(My::id() . 'condition_page'), 'text');
+                $blog_settings->get(My::id())->put('email_registration', $_Str(My::id() . 'email_registration'), 'text');
+                $blog_settings->get(My::id())->put('email_from', $_Str(My::id() . 'email_from'), 'text');
+                $blog_settings->get(My::id())->put('connected', $_Str(My::id() . 'connected'), 'text');
+                $blog_settings->get(My::id())->put('disconnected', $_Str(My::id() . 'disconnected'), 'text');
+                $blog_settings->get(My::id())->put('post_format', $_Str(My::id() . 'post_format'), 'text');
             },
+
             // add js for test editor
             'adminBlogPreferencesHeaders' => fn (): string => My::jsLoad('backend-blogpref') . Page::jsJson(My::id(), [
                 'popup_posts' => App::backend()->url()->get('admin.posts.popup', [
@@ -218,7 +234,7 @@ class Backend
             },
             // simple menu select
             'adminSimpleMenuBeforeEdit' => function ($type, $select, &$attr): void {
-                if ($type == My::id()) {
+                if ($type == My::id() && is_array($attr)) {
                     $attr[0] = __('My account');
                     $attr[1] = __('Sign in to this blog');
                     $attr[2] = App::blog()->url() . App::url()->getURLFor(My::id());
@@ -228,12 +244,14 @@ class Backend
             'adminUsersActions' => function (array $users, array $blogs, string $action, string $redir): void {
                 if ($action == My::id()) {
                     foreach ($users as $u) {
-                        try {
-                            $cur              = App::auth()->openUserCursor();
-                            $cur->user_status = My::USER_PENDING;
-                            App::users()->updUser($u, $cur);
-                        } catch (Throwable $e) {
-                            App::error()->add($e->getMessage());
+                        if (is_string($u)) {
+                            try {
+                                $cur              = App::auth()->openUserCursor();
+                                $cur->user_status = My::USER_PENDING;
+                                App::users()->updUser($u, $cur);
+                            } catch (Throwable $e) {
+                                App::error()->add($e->getMessage());
+                            }
                         }
                     }
                     if (!App::error()->flag()) {
@@ -245,14 +263,14 @@ class Backend
             // send mail on user activation
             'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
-                if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED) {
+                if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED && is_string($user->user_email)) {
                     Mail::sendActivationMail($user->user_email);
                 }
             },
             // send mail on user activation
             'adminBeforeUserEnable' => function (string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
-                if (!$user->isEmpty()) {
+                if (!$user->isEmpty() && is_string($user->user_email)) {
                     Mail::sendActivationMail($user->user_email);
                 }
             },
@@ -260,11 +278,11 @@ class Backend
 
         // add REST methods
         App::rest()->addFunction('FrontendSessionPendingCount', function (): array {
-            $count = (int) App::users()->getUsers(['user_status' => My::USER_PENDING], true)->f(0);
+            $count = is_numeric($count = App::users()->getUsers(['user_status' => My::USER_PENDING], true)->f(0)) ? (int) $count : 0;
 
             return [
                 'ret' => true,
-                'msg' => $count !== 0 ? sprintf(__('One pending registration', '%s pending registrations', (int) $count), $count) : '',
+                'msg' => $count !== 0 ? sprintf(__('One pending registration', '%s pending registrations', $count), $count) : '',
                 'nb'  => $count,
             ];
         });

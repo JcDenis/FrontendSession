@@ -44,15 +44,18 @@ class PluginTelegramBehaviors
             return;
         }
 
+        $user_id    = is_string($user_id = $cur->getField('user_id')) ? $user_id : '';
+        $user_email = is_string($user_email = $cur->getField('user_email')) ? $user_email : '';
+
         $message = sprintf('*%s*', __('New user registration')) . "\n" .
             "-- \n" .
             sprintf(__('*Blog:* [%s](%s)'), App::blog()->name(), App::blog()->url()) . "\n" .
-            sprintf(__('*User:* %s'), $cur->getField('user_id')) . "\n" .
-            sprintf(__('*Email:* %s'), $cur->getField('user_email')) . "\n" .
+            sprintf(__('*User:* %s'), $user_id) . "\n" .
+            sprintf(__('*Email:* %s'), $user_email) . "\n" .
             "-- \n" .
             __('Follow this link below to validate it:') . "\n" .
             // manual admin URL as we are in Frontend
-            App::config()->adminUrl() . '?process=User&id=' . $cur->getField('user_id');
+            App::config()->adminUrl() . '?process=User&id=' . $user_id;
 
         $telegram = new Telegram();
         $telegram
