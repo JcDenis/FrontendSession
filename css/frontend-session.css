@@ -1,0 +1,11 @@
+#comment-form {
+  .field:has(> #c_name),
+  .field:has(> #c_mail),
+  .field:has(> #c_site),
+  .name-field,
+  .mail-field,
+  .site-field,
+  .remember {
+    display: none;
+  }
+}

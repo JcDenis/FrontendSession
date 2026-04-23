@@ -13,6 +13,7 @@ use Dotclear\Helper\Html\Form\Form;
 use Dotclear\Helper\Html\Form\Hidden;
 use Dotclear\Helper\Html\Form\None;
 use Dotclear\Helper\Html\Form\Submit;
+use Dotclear\Helper\Html\Html;
 use Exception;
 
 /**
@@ -202,23 +203,22 @@ class FrontendBehaviors
                 echo My::cssLoad('frontend-dotty');
             }
 
-            // Hide comment form input. This does not work with all themes.
+            // Hide comment form input (via CSS) and provide the user info (via JS).
+            // This may not work with all themes.
             if (App::auth()->check(My::id(), App::blog()->id())) {
-                if ($tplset === 'mustek') {
-                    echo '<!-- FrontendSession special -->' . "\n" .
-                        '<style>' .
-                        '#comment-form .field:has(> #c_name), #comment-form .field:has(> #c_mail), #comment-form .field:has(> #c_site), #comment-form .remember {' .
-                        'display:none;' .
-                        '}' .
-                        '</style>' . "\n";
-                } else { // dotty
-                    echo '<!-- FrontendSession special -->' . "\n" .
-                        '<style>' .
-                        '#comment-form .name-field, #comment-form .mail-field, #comment-form .site-field, #comment-form .remember {' .
-                        'display:none;' .
-                        '}' .
-                        '</style>' . "\n";
-                }
+                $user_cn    = is_string($user_cn = App::auth()->getInfo('user_cn')) ? $user_cn : App::auth()->userID();
+                $user_email = is_string($user_email = App::auth()->getInfo('user_email')) ? $user_email : '';
+                $user_site  = is_string($user_site = App::auth()->getInfo('user_url')) ? $user_site : '';
+
+                echo
+                My::cssLoad('frontend-session') .
+                Html::jsJson('frontend_session', [
+                    'connected' => true,
+                    'name'      => $user_cn,
+                    'email'     => $user_email,
+                    'site'      => $user_site,
+                ]) .
+                My::jsLoad('frontend-session');
             }
         }
     }
