@@ -62,7 +62,7 @@ class FrontendUrl
             $state = $args[2] ?? '';
         }
 
-        $redir = is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : '';
+        $redir = isset($_REQUEST[My::id() . 'redir']) && is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : '';
 
         // Set user state
         $user_id = is_string($user_id = App::auth()->userID()) ? $user_id : '';
