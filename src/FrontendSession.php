@@ -74,7 +74,7 @@ class FrontendSession
                 $user_id = $user_key = null;
             }
 
-            $redir = is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : null;
+            $redir = isset($_REQUEST[My::id() . 'redir']) && is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : null;
 
             $this->check($user_id, null, $user_key, $redir, true);
         }
