@@ -18,7 +18,7 @@ $this->registerModule(
     'Frontend sessions',
     'Allow session on frontend.',
     'Jean-Christian Paul Denis and Contributors',
-    '0.39',
+    '0.40',
     [
         'requires' => [['core', '2.36']],
         // @phpstan-ignore binaryOp.invalid
