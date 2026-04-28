@@ -190,17 +190,17 @@ class Backend
                 $_Bool = fn (string $name): bool => !empty($_POST[$name]);
                 $_Str  = fn (string $name, string $default = ''): string => isset($_POST[$name]) && is_string($val = $_POST[$name]) ? $val : $default;
 
-                $blog_settings->get(My::id())->put('active', $_Bool(My::id() . 'active'), 'boolean');
-                $blog_settings->get(My::id())->put('enable_registration', $_Bool(My::id() . 'enable_registration'), 'boolean');
-                $blog_settings->get(My::id())->put('enable_recovery', $_Bool(My::id() . 'enable_recovery'), 'boolean');
-                $blog_settings->get(My::id())->put('limit_comment', $_Bool(My::id() . 'limit_comment'), 'boolean');
-                $blog_settings->get(My::id())->put('disable_css', $_Bool(My::id() . 'disable_css'), 'boolean');
-                $blog_settings->get(My::id())->put('condition_page', $_Str(My::id() . 'condition_page'), 'text');
-                $blog_settings->get(My::id())->put('email_registration', $_Str(My::id() . 'email_registration'), 'text');
-                $blog_settings->get(My::id())->put('email_from', $_Str(My::id() . 'email_from'), 'text');
-                $blog_settings->get(My::id())->put('connected', $_Str(My::id() . 'connected'), 'text');
-                $blog_settings->get(My::id())->put('disconnected', $_Str(My::id() . 'disconnected'), 'text');
-                $blog_settings->get(My::id())->put('post_format', $_Str(My::id() . 'post_format'), 'text');
+                $blog_settings->get(My::id())->put('active', $_Bool(My::id() . 'active'), App::blogWorkspace()::NS_BOOL);
+                $blog_settings->get(My::id())->put('enable_registration', $_Bool(My::id() . 'enable_registration'), App::blogWorkspace()::NS_BOOL);
+                $blog_settings->get(My::id())->put('enable_recovery', $_Bool(My::id() . 'enable_recovery'), App::blogWorkspace()::NS_BOOL);
+                $blog_settings->get(My::id())->put('limit_comment', $_Bool(My::id() . 'limit_comment'), App::blogWorkspace()::NS_BOOL);
+                $blog_settings->get(My::id())->put('disable_css', $_Bool(My::id() . 'disable_css'), App::blogWorkspace()::NS_BOOL);
+                $blog_settings->get(My::id())->put('condition_page', $_Str(My::id() . 'condition_page'), App::blogWorkspace()::NS_STRING);
+                $blog_settings->get(My::id())->put('email_registration', $_Str(My::id() . 'email_registration'), App::blogWorkspace()::NS_STRING);
+                $blog_settings->get(My::id())->put('email_from', $_Str(My::id() . 'email_from'), App::blogWorkspace()::NS_STRING);
+                $blog_settings->get(My::id())->put('connected', $_Str(My::id() . 'connected'), App::blogWorkspace()::NS_STRING);
+                $blog_settings->get(My::id())->put('disconnected', $_Str(My::id() . 'disconnected'), App::blogWorkspace()::NS_STRING);
+                $blog_settings->get(My::id())->put('post_format', $_Str(My::id() . 'post_format'), App::blogWorkspace()::NS_STRING);
             },
 
             // add js for test editor
