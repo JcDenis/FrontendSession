@@ -45,8 +45,8 @@ class Install
             My::settings()->put('post_format', '', App::blogWorkspace()::NS_STRING, 'Post content syntax for new users', false, true);
 
             return true;
-        } catch (Exception $e) {
-            App::error()->add($e->getMessage());
+        } catch (Exception $exception) {
+            App::error()->add($exception->getMessage());
 
             return false;
         }

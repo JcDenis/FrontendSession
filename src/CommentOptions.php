@@ -24,7 +24,8 @@ use Dotclear\Database\MetaRecord;
  */
 class CommentOptions
 {
-    private ?bool $active   = null;
+    private ?bool $active = null;
+
     private ?bool $moderate = null;
 
     public function __construct(

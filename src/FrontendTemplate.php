@@ -55,18 +55,22 @@ class FrontendTemplate
         if (isset($attr['registration'])) {
             $if[] = $sign($attr['registration']) . My::class . "::settings()->get('enable_registration')";
         }
+
         // allow password recovery
         if (isset($attr['recovery'])) {
             $if[] = $sign($attr['recovery']) . My::class . "::settings()->get('enable_recovery')";
         }
+
         // has a condition page link
         if (isset($attr['condition'])) {
             $if[] = $sign($attr['condition']) . My::class . "::settings()->get('condition_page')";
         }
+
         // session state
         if (isset($attr['state']) && is_string($attr['state'])) {
             $if[] = $sign($attr['state']) . "(App::frontend()->context()->frontend_session?->state == '" . Html::escapeHTML($attr['state']) . "')";
         }
+
         // session success message
         if (isset($attr['success'])) {
             $if[] = $sign($attr['success']) . "(App::frontend()->context()->frontend_session?->success != '')";

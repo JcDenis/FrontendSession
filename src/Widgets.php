@@ -129,6 +129,7 @@ class Widgets
                             ->text(__('Password recovery')),
                     ]);
             }
+
             if (My::settings()->get('enable_registration')) {
                 $lines[] = (new Li())
                     ->items([

@@ -58,6 +58,7 @@ class FrontendUrl
         if ($action === '') {
             $action = $args[1] ?? '';
         }
+
         if ($state === '') {
             $state = $args[2] ?? '';
         }
@@ -78,7 +79,7 @@ class FrontendUrl
                 break;
 
             case My::ACTION_SIGNIN:
-                if (in_array($state, [My::STATE_PENDING, My::STATE_DISABLED])) {
+                if (in_array($state, [My::STATE_PENDING, My::STATE_DISABLED], true)) {
                     App::frontend()->context()->frontend_session->addError(
                         $state === My::STATE_DISABLED ?
                         __('This account is disabled.') : __('Your account is not yet activated. An administrator will review your account and validate it soon.')
@@ -145,6 +146,7 @@ class FrontendUrl
                     if (!$exists->isEmpty()) {
                         App::frontend()->context()->frontend_session->addError(__('Username already exists.'));
                     }
+
                     if (My::settings()->get('condition_page') != '' && !$signup_condition) {
                         App::frontend()->context()->frontend_session->addError(sprintf(__('You must be agree with "%s".'), __('Terms and Conditions')));
                     }
@@ -210,6 +212,7 @@ class FrontendUrl
                         } catch (Throwable) {
                             App::frontend()->context()->frontend_session->addError(__('Unknow username or email.'));
                         }
+
                         // send recovery email
                     } elseif (App::auth()->userID() == '' && $recover_login !== '' && $recover_email !== '') {
                         // check if user is (super)admin
@@ -332,8 +335,9 @@ class FrontendUrl
         if ($theme === '') {
             App::url()->p404();
         }
+
         $tplset = is_string($tplset = App::themes()->moduleInfo($theme, 'tplset')) ? $tplset : '';
-        if (!in_array($tplset, ['dotty', 'mustek'])) {
+        if (!in_array($tplset, ['dotty', 'mustek'], true)) {
             App::url()::p404();
         }
 

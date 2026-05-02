@@ -23,8 +23,10 @@ class FrontendSession
      */
     private array $errors = [];
 
-    public string $state   = My::STATE_DISCONNECTED;
-    public string $data    = '';
+    public string $state = My::STATE_DISCONNECTED;
+
+    public string $data = '';
+
     public string $success = '';
 
     public function __construct(
@@ -71,7 +73,8 @@ class FrontendSession
                 $user_id  = trim($user_id[1]);
                 $user_key = substr((string) $_COOKIE[My::id()], 0, 40);
             } else {
-                $user_id = $user_key = null;
+                $user_id  = null;
+                $user_key = null;
             }
 
             $redir = isset($_REQUEST[My::id() . 'redir']) && is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : null;

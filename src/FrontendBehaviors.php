@@ -104,6 +104,7 @@ class FrontendBehaviors
                 $post_id = is_numeric($post_id = App::frontend()->context()->posts->f('post_id')) ? (int) $post_id : 0;
                 $url     = is_string($url = App::frontend()->context()->posts->getURL()) ? $url : '';
             }
+
             if (App::frontend()->context()->comments instanceof MetaRecord) {
                 $comment_id = is_numeric($comment_id = App::frontend()->context()->comments->f('comment_id')) ? (int) $comment_id : 0;
             }

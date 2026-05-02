@@ -254,6 +254,7 @@ class Backend
                             }
                         }
                     }
+
                     if (!App::error()->flag()) {
                         Notices::addSuccessNotice(__('User has been successfully marked as pending.'));
                         Http::redirect($redir);
