@@ -337,7 +337,7 @@ class FrontendUrl
         }
 
         $tplset = is_string($tplset = App::themes()->moduleInfo($theme, 'tplset')) ? $tplset : '';
-        if (!in_array($tplset, ['dotty', 'mustek'], true)) {
+        if (!in_array($tplset, ['glaz', 'dotty', 'mustek'], true)) {
             App::url()::p404();
         }
 

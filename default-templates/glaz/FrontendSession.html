@@ -1,0 +1,34 @@
+{{tpl:extends parent="__layout.html"}}
+<tpl:Block name="head-title">
+  <title>{{tpl:lang My account}}</title>
+</tpl:Block>
+
+<tpl:Block name="meta-entry">
+  <meta name="author" content="{{tpl:BlogEditor encode_html="1"}}" />
+  <meta name="date" content="{{tpl:BlogUpdateDate iso8601="1"}}" />
+</tpl:Block>
+
+<tpl:Block name="head-linkrel">
+  <link rel="contents" href="{{tpl:BlogArchiveURL}}" title="{{tpl:lang Archives}}" />
+  <link rel="meta" type="application/xbel+xml" title="Blogroll" href="{{tpl:BlogrollXbelLink}}" />
+</tpl:Block>
+
+<tpl:Block name="body-tag">
+  <body class="dc-home dc-session">
+</tpl:Block>
+
+<tpl:Block name="main-content">
+  <header id="content-info">
+  	<h2>{{tpl:lang My account}}</h2>
+			<div class="info">{{tpl:FrontendSessionInfo}}</div>
+  </header>
+  <div class="content-inner">
+			<tpl:SysIfFormError>
+			<p class="error">{{tpl:SysFormError}}</p>
+			</tpl:SysIfFormError>
+			<tpl:FrontendSessionIf success="1">
+			<p class="success">{{tpl:FrontendSessionSuccess}}</p>
+			</tpl:FrontendSessionIf>
+			{{tpl:FrontendSessionContent}}
+  </div> <!-- # End #content-inner -->
+</tpl:Block>

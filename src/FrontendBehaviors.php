@@ -203,6 +203,13 @@ class FrontendBehaviors
             if (!My::settings()->get('disable_css') && $tplset === 'dotty') {
                 echo My::cssLoad('frontend-dotty');
             }
+            if (!My::settings()->get('disable_css')) {
+                if ($tplset === 'dotty') {
+                    echo My::cssLoad('frontend-dotty');
+                } elseif ($tplset === 'glaz') {
+                    echo My::cssLoad('frontend-glaz');
+                }
+            }
 
             // Hide comment form input (via CSS) and provide the user info (via JS).
             // This may not work with all themes.

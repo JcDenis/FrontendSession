@@ -1,0 +1,33 @@
+.session-form input:not([type='checkbox'], [type='radio'], [type='submit']),
+.session-form textarea {
+  display: block;
+  width: 75%;
+}
+.session-form .required label {
+  font-weight: bold;
+}
+.session-form .required label:before {
+  content: '* ';
+  color: #c00;
+  font-weight: bold;
+}
+.session-form .inputfield {
+  margin: 1em 0;
+}
+.session-form .note {
+  margin: 0em;
+  font-style: italic;
+}
+.content-inner .session-form {
+  padding-bottom: 2em;
+}
+p.success {
+  font-size: 1.25em;
+  font-weight: bold;
+  color: var(--main-color, green);
+}
+.post-action,
+.comment-action {
+  margin: 0.25em 0;
+  text-align: right;
+}
