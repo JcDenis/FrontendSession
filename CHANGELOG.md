@@ -1,3 +1,11 @@
+FrontendSession 0.41 - 2026.05.16
+==========================================================
+* Fix recovery process
+
+FrontendSession 0.40 - 2026.04.23
+==========================================================
+* Code review
+
 FrontendSession 0.38 - 2026.02.04
 ==========================================================
 * Remove paswword from signup confirmation mail
