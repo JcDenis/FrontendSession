@@ -374,7 +374,9 @@ class FrontendUrl
      */
     public static function checkForm(): void
     {
-        if ($_POST === []) return;
+        if ($_POST === []) {
+            return;
+        }
 
         $nonce = isset($_POST[My::id() . 'check']) && is_string($nonce = $_POST[My::id() . 'check']) ? $nonce : '-';
         if (!App::nonce()->checkNonce($nonce)) {

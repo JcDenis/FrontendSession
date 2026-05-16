@@ -203,6 +203,7 @@ class FrontendBehaviors
             if (!My::settings()->get('disable_css') && $tplset === 'dotty') {
                 echo My::cssLoad('frontend-dotty');
             }
+
             if (!My::settings()->get('disable_css')) {
                 if ($tplset === 'dotty') {
                     echo My::cssLoad('frontend-dotty');
