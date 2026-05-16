@@ -257,7 +257,7 @@ class FrontendUrl
                             App::frontend()->context()->frontend_session->addError(__('Unable to retrieve user informations.'));
                         } elseif ($rs->admin() != '') {
                             App::frontend()->context()->frontend_session->addError(__('You are an admin, you must change password from backend.'));
-                        } elseif ($change_password !== '' || $change_password !== $change_vpassword) {
+                        } elseif ($change_password === '' || $change_password !== $change_vpassword) {
                             App::frontend()->context()->frontend_session->addError(__("Passwords don't match"));
                         } elseif (App::auth()->checkUser((string) $data['user_id'], $change_password)) {
                             App::frontend()->context()->frontend_session->addError(__("You didn't change your password."));
@@ -374,6 +374,8 @@ class FrontendUrl
      */
     public static function checkForm(): void
     {
+        if ($_POST === []) return;
+
         $nonce = isset($_POST[My::id() . 'check']) && is_string($nonce = $_POST[My::id() . 'check']) ? $nonce : '-';
         if (!App::nonce()->checkNonce($nonce)) {
             throw new PreconditionException();

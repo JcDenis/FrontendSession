@@ -153,6 +153,37 @@ class FrontendTemplate
         $connected = App::auth()->check(My::id(), App::blog()->id());
         $profil    = new FrontendSessionProfil(My::id());
 
+        // password recovery change form
+        if (App::frontend()->context()->frontend_session->state === My::STATE_CHANGE && My::settings()->get('enable_recovery')) {
+            $action = My::ACTION_CHANGE;
+            $profil->addAction($action, __('Password change'), [
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_password'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('New password:'), Label::OL_TF)),
+                    (new Note())
+                        ->class('note')
+                        ->text(__('Should be at least 6 characters long.')),
+                ], true),
+                $profil->getInputfield([
+                    (new Password(My::id() . $action . '_vpassword'))
+                        ->size(30)
+                        ->maxlength(255)
+                        ->value('')
+                        ->required(true)
+                        ->autocomplete('new-password')
+                        ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
+                ], true),
+                $profil->getControlset($action, __('Change'), [
+                    (new Hidden([My::id() . $action . '_data'], App::frontend()->context()->frontend_session->data ?? '')),
+                ]),
+            ]);
+        }
+
         // Sign in form
         if (!$connected) {
             $action = My::ACTION_SIGNIN;
@@ -338,37 +369,6 @@ class FrontendTemplate
             $profil->addAction($action, __('Sign in'), [
                 (new Text('p', sprintf(__('You are connected as: %s'), $user_cn))),
                 $profil->getControlset($action, __('Logout')),
-            ]);
-        }
-
-        // password recovery change form
-        if (App::frontend()->context()->frontend_session->state === My::STATE_CHANGE && My::settings()->get('enable_recovery')) {
-            $action = My::ACTION_CHANGE;
-            $profil->addAction($action, __('Password change'), [
-                $profil->getInputfield([
-                    (new Password(My::id() . $action . '_password'))
-                        ->size(30)
-                        ->maxlength(255)
-                        ->value('')
-                        ->required(true)
-                        ->autocomplete('new-password')
-                        ->label(new Label(__('New password:'), Label::OL_TF)),
-                    (new Note())
-                        ->class('note')
-                        ->text(__('Should be at least 6 characters long.')),
-                ], true),
-                $profil->getInputfield([
-                    (new Password(My::id() . $action . '_vpassword'))
-                        ->size(30)
-                        ->maxlength(255)
-                        ->value('')
-                        ->required(true)
-                        ->autocomplete('new-password')
-                        ->label(new Label(__('Repeat new password:'), Label::OL_TF)),
-                ], true),
-                $profil->getControlset($action, __('Change'), [
-                    (new Hidden([My::id() . $action . '_data'], App::frontend()->context()->frontend_session->data ?? '')),
-                ]),
             ]);
         }
 
