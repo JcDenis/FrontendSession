@@ -149,6 +149,7 @@ class Backend
                                     ->size(65)
                                     ->maxlength(255)
                                     ->value($email_registration)
+                                    ->required(true)
                                     ->label(new Label(__('Registration administrator email:'), Label::OL_TF)),
                             ]),
                         (new Note())
@@ -161,6 +162,7 @@ class Backend
                                     ->size(65)
                                     ->maxlength(255)
                                     ->value($email_from)
+                                    ->required(true)
                                     ->label(new Label(__('Registration no-reply email:'), Label::OL_TF)),
                             ]),
                         (new Note())
