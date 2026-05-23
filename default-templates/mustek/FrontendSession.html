@@ -3,67 +3,67 @@
 
 <head>
 
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="ROBOTS" content="{{tpl:BlogMetaRobots robots=" NOINDEX,NOARCHIVE"}}">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="{{tpl:BlogEditor encode_html=" 1"}}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="ROBOTS" content="{{tpl:BlogMetaRobots robots=" NOINDEX,NOARCHIVE"}}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="author" content="{{tpl:BlogEditor encode_html="1"}}">
 
-	<title>{{tpl:lang My account}} - {{tpl:BlogName encode_html="1"}}</title>
-	<meta name="description" content="{{tpl:FrontendSessionInfo remove_html="1"}}">
-	<link rel="contents" title="{{tpl:lang Archives}}" href="{{tpl:BlogArchiveURL}}">
+  <title>{{tpl:lang My account}} - {{tpl:BlogName encode_html="1"}}</title>
+  <meta name="description" content="{{tpl:FrontendSessionInfo remove_html="1"}}">
+  <link rel="contents" title="{{tpl:lang Archives}}" href="{{tpl:BlogArchiveURL}}">
 
-	{{tpl:include src="_head.html"}}
+  {{tpl:include src="_head.html"}}
 </head>
 
 <body id="page-top" class="dc-contactme">
 
-	{{tpl:include src="_top.html"}}
+  {{tpl:include src="_top.html"}}
 
-	<!-- Intro Header -->
-	<header class="masthead bg-primary text-white text-center">
-		<div class="container d-flex align-items-center flex-column">
-			<!-- Masthead Avatar Image-->
-			<img class="masthead-avatar mb-5 rounded-circle" src="{{tpl:freelancerUserImageSrc}}" alt="">
-			<!-- Masthead Heading-->
-			<h1 class="masthead-heading text-uppercase mb-0">{{tpl:lang My account}}</h1>
-			<!-- Icon Divider-->
-			<div class="divider-custom divider-light">
-				<div class="divider-custom-line"></div>
-				<div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-				<div class="divider-custom-line"></div>
-			</div>
-		</div>
-	</header>
+  <!-- Intro Header -->
+  <header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+      <!-- Masthead Avatar Image-->
+      <img class="masthead-avatar mb-5 rounded-circle" src="{{tpl:freelancerUserImageSrc}}" alt="">
+      <!-- Masthead Heading-->
+      <h1 class="masthead-heading text-uppercase mb-0">{{tpl:lang My account}}</h1>
+      <!-- Icon Divider-->
+      <div class="divider-custom divider-light">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+        <div class="divider-custom-line"></div>
+      </div>
+    </div>
+  </header>
 
-	<!-- Content Section -->
-	<section id="content" class="container px-4 px-lg-5 content-section text-center" role="main">
-		<div class="row gx-4 gx-lg-5 justify-content-center">
-			<div class="col-lg-10">
-				<h2 class="sr-only sr-only-focusable">{{tpl:lang Entry}}</h2>
-				<article class="post">
-					<div>{{tpl:FrontendSessionInfo}}<hr /></div>
+  <!-- Content Section -->
+  <section id="content" class="container px-4 px-lg-5 content-section text-center" role="main">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-lg-10">
+        <h2 class="sr-only sr-only-focusable">{{tpl:lang Entry}}</h2>
+        <article class="post">
+          <div>{{tpl:FrontendSessionInfo}}<hr /></div>
 
-						<tpl:FrontendSessionIf success="1">
-						<p class="success">{{tpl:FrontendSessionSuccess}}</p>
-						</tpl:FrontendSessionIf>
-						{{tpl:FrontendSessionContent}}
-						<!-- # --BEHAVIOR-- FrontendSessionPage -->
-			  		{{tpl:SysBehavior behavior="FrontendSessionPage"}}
+            <tpl:FrontendSessionIf success="1">
+            <p class="success">{{tpl:FrontendSessionSuccess}}</p>
+            </tpl:FrontendSessionIf>
+            {{tpl:FrontendSessionContent}}
+            <!-- # --BEHAVIOR-- FrontendSessionPage -->
+            {{tpl:SysBehavior behavior="FrontendSessionPage"}}
 
-				</article>
-				<p><a href="#page-top" class="btn btn-circle page-scroll up js-scroll-trigger"><i
-							class="fa fa-angle-double-up animated"></i></a></p>
+        </article>
+        <p><a href="#page-top" class="btn btn-circle page-scroll up js-scroll-trigger"><i
+              class="fa fa-angle-double-up animated"></i></a></p>
 
-			</div>
-		</div>
-	</section>
+      </div>
+    </div>
+  </section>
 
-	<!-- Menubar Section -->
-	{{tpl:include src="_menubar.html"}}
+  <!-- Menubar Section -->
+  {{tpl:include src="_menubar.html"}}
 
-	<!-- Footer -->
-	{{tpl:include src="_footer.html"}}
+  <!-- Footer -->
+  {{tpl:include src="_footer.html"}}
 
 </body>
 
