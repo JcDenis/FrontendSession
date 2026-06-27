@@ -68,7 +68,7 @@ class FrontendBehaviors
 
             $buttons = iterator_to_array($buttons);
             foreach ($buttons as $k => $button) {
-                if (!is_a($button, Submit::class)) {    // @phpstan-ignore-line: not trully sure that $button is a Submit or not
+                if (!is_a($button, Submit::class)) {    // @phpstan-ignore function.alreadyNarrowedType (: not trully sure that $button is a Submit or not)
                     unset($buttons[$k]);
                 }
             }
@@ -129,7 +129,7 @@ class FrontendBehaviors
 
             $buttons = iterator_to_array($buttons);
             foreach ($buttons as $k => $button) {
-                if (!is_a($button, Submit::class)) {    // @phpstan-ignore-line: not trully sure that $button is a Submit or not
+                if (!is_a($button, Submit::class)) {    // @phpstan-ignore function.alreadyNarrowedType (: not trully sure that $button is a Submit or not)
                     unset($buttons[$k]);
                 }
             }
