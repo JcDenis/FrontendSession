@@ -152,7 +152,7 @@ class FrontendUrl
                     }
 
                     if (!App::frontend()->context()->frontend_session->hasError()) {
-                        $system_lang = is_string($system_lang = App::blog()->settings()->system->lang) ? $system_lang : 'en';
+                        $system_lang = App::blog()->settings()->get('system')->getStr('lang', false) ?: 'en';
 
                         try {
                             $cur                   = App::auth()->openUserCursor();
@@ -166,7 +166,7 @@ class FrontendUrl
                             $cur->user_lang        = $system_lang;
 
                             // Set post format if defined in settings
-                            $post_format = App::blog()->settings()->get(My::id())->get('post_format');
+                            $post_format = App::blog()->settings()->get(My::id())->getStr('post_format');
                             if ($post_format) {
                                 $cur->user_options = new ArrayObject([
                                     'post_format' => $post_format,
@@ -331,7 +331,7 @@ class FrontendUrl
         App::behavior()->callBehavior('FrontendSessionServeTemplate');
 
         // use only dotty tplset
-        $theme = is_string($theme = App::blog()->settings()->system->get('theme')) ? $theme : '';
+        $theme = App::blog()->settings()->get('system')->getStr('theme', false);
         if ($theme === '') {
             App::url()->p404();
         }

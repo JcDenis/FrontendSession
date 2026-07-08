@@ -195,7 +195,7 @@ class FrontendBehaviors
      */
     public static function publicHeadContent(): void
     {
-        $theme = is_string($theme = App::blog()->settings()->system->get('theme')) ? $theme : '';
+        $theme = App::blog()->settings()->get('system')->getStr('theme', false);
         if ($theme !== '') {
             $tplset = is_string($tplset = App::themes()->moduleInfo($theme, 'tplset')) ? $tplset : '';
 
