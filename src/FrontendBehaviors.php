@@ -46,7 +46,7 @@ class FrontendBehaviors
         $url     = '';
         if (App::auth()->check(My::id(), App::blog()->id()) && App::frontend()->context()->posts instanceof MetaRecord) {
             $post_id = is_numeric($post_id = App::frontend()->context()->posts->f('post_id')) ? (int) $post_id : 0;
-            $url     = is_string($url = App::frontend()->context()->posts->getURL()) ? $url : '';
+            $url     = App::frontend()->context()->posts->getURL();
         }
 
         if ($post_id !== 0) {
@@ -102,7 +102,7 @@ class FrontendBehaviors
         if (App::auth()->check(My::id(), App::blog()->id())) {
             if (App::frontend()->context()->posts instanceof MetaRecord) {
                 $post_id = is_numeric($post_id = App::frontend()->context()->posts->f('post_id')) ? (int) $post_id : 0;
-                $url     = is_string($url = App::frontend()->context()->posts->getURL()) ? $url : '';
+                $url     = App::frontend()->context()->posts->getURL();
             }
 
             if (App::frontend()->context()->comments instanceof MetaRecord) {
