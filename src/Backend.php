@@ -266,15 +266,15 @@ class Backend
             // send mail on user activation
             'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
-                if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED && is_string($user->user_email)) {
-                    Mail::sendActivationMail($user->user_email);
+                if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED && $user->strField('user_email') !== '') {
+                    Mail::sendActivationMail($user->strField('user_email'));
                 }
             },
             // send mail on user activation
             'adminBeforeUserEnable' => function (string $user_id): void {
                 $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
-                if (!$user->isEmpty() && is_string($user->user_email)) {
-                    Mail::sendActivationMail($user->user_email);
+                if (!$user->isEmpty() && $user->strField('user_email') !== '') {
+                    Mail::sendActivationMail($user->strField('user_email'));
                 }
             },
         ]);
