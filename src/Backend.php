@@ -281,7 +281,7 @@ class Backend
 
         // add REST methods
         App::rest()->addFunction('FrontendSessionPendingCount', function (): array {
-            $count = is_numeric($count = App::users()->getUsers(['user_status' => My::USER_PENDING], true)->f(0)) ? (int) $count : 0;
+            $count = App::users()->getUsers(['user_status' => My::USER_PENDING], true)->cardinal();
 
             return [
                 'ret' => true,

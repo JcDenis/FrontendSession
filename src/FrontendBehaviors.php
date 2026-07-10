@@ -45,7 +45,7 @@ class FrontendBehaviors
         $post_id = 0;
         $url     = '';
         if (App::auth()->check(My::id(), App::blog()->id()) && App::frontend()->context()->posts instanceof MetaRecord) {
-            $post_id = is_numeric($post_id = App::frontend()->context()->posts->f('post_id')) ? (int) $post_id : 0;
+            $post_id = App::frontend()->context()->posts->intField('post_id');
             $url     = App::frontend()->context()->posts->getURL();
         }
 
@@ -101,12 +101,12 @@ class FrontendBehaviors
         $url        = '';
         if (App::auth()->check(My::id(), App::blog()->id())) {
             if (App::frontend()->context()->posts instanceof MetaRecord) {
-                $post_id = is_numeric($post_id = App::frontend()->context()->posts->f('post_id')) ? (int) $post_id : 0;
+                $post_id = App::frontend()->context()->posts->intField('post_id');
                 $url     = App::frontend()->context()->posts->getURL();
             }
 
             if (App::frontend()->context()->comments instanceof MetaRecord) {
-                $comment_id = is_numeric($comment_id = App::frontend()->context()->comments->f('comment_id')) ? (int) $comment_id : 0;
+                $comment_id = App::frontend()->context()->comments->intField('comment_id');
             }
         }
 
@@ -163,7 +163,7 @@ class FrontendBehaviors
     {
         // recheck if post comment is closed, should never happened
         $rs = $cur->getField('post_id') ? App::blog()->getPosts(['post_id' => $cur->getField('post_id')]) : null;
-        if (!$rs instanceof MetaRecord || !$rs->f('post_open_comment')) {
+        if (!$rs instanceof MetaRecord || !$rs->boolField('post_open_comment')) {
             return;
         }
 
