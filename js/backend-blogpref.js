@@ -6,9 +6,9 @@ $(() => {
   const fs = dotclear.getData('FrontendSession');
   dotclear.fs = fs;
 
-  if (typeof jsToolBar === 'function') {
+  if (typeof dotclear.ToolBar === 'function') {
     $('#FrontendSessionconnected').each(function () {
-      const FrontendSessionJsToolBar = new jsToolBar(this);
+      const FrontendSessionJsToolBar = new dotclear.ToolBar(this);
       FrontendSessionJsToolBar.draw('xhtml');
     });
   }
