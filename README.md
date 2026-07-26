@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/jcdenis/FrontendSession?color=lightblue)](https://github.com/JcDenis/FrontendSession/releases)
 ![Date](https://img.shields.io/github/release-date/jcdenis/FrontendSession?color=red)
 [![Dotclear](https://img.shields.io/badge/dotclear-v2.36-137bbb.svg)](https://fr.dotclear.org/download)
-[![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/FrontendSession)
+[![Repository](https://img.shields.io/badge/repository-official-9ac123.svg)](https://dotclear.org/plugin/detail/FrontendSession)
 [![License](https://img.shields.io/github/license/jcdenis/FrontendSession?color=white)](https://github.com/JcDenis/FrontendSession/blob/master/LICENSE)
 
 ## ABOUT
@@ -21,7 +21,7 @@ _FrontendSession_ is a plugin for the open-source web publishing software called
 ## USAGE
 
 First install _FrontendSession_, manually from a zip package or from 
-Dotaddict repository. (See Dotclear's documentation to know how do this)
+Dotclear plugins repository. (See Dotclear's documentation to know how do this)
 
 Once it's done you can manage FrontendSession option from blog preferences.
 
@@ -41,7 +41,7 @@ to your theme tpl path and adapt it.
 ## LINKS
 
 * [License](https://github.com/JcDenis/FrontendSession/blob/master/LICENSE)
-* [Packages & details](https://github.com/JcDenis/FrontendSession/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/FrontendSession))
+* [Packages & details](https://github.com/JcDenis/FrontendSession/releases) (or on [Repository](https://dotclear.org/plugin/detail/FrontendSession))
 * [Sources & contributions](https://github.com/JcDenis/FrontendSession)
 * [Issues & security](https://github.com/JcDenis/FrontendSession/issues)
 
