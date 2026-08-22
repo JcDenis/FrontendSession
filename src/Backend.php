@@ -74,9 +74,7 @@ class Backend
                 $available_formats = ['' => ''];
                 foreach (array_keys($format_by_editors) as $format) {
                     $available_formats[App::formater()->getFormaterName($format)] = $format;
-                    if (!isset($user_options['editor'][$format])) {
-                        $user_options['editor'][$format] = '';
-                    }
+                    $user_options['editor'][$format] ??= '';
                 }
 
                 $post_format        = is_string($post_format = $blog_settings->get(My::id())->get('post_format')) ? $post_format : '';
