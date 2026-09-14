@@ -1,7 +1,7 @@
 .session-form input:not([type='checkbox'], [type='radio'], [type='submit']),
 .session-form textarea {
   display: block;
-  width: 75%;
+  inline-size: 75%;
 }
 .session-form .required label {
   font-weight: bold;
@@ -19,7 +19,7 @@
   font-style: italic;
 }
 .content-inner .session-form {
-  padding-bottom: 2em;
+  padding-block-end: 2em;
 }
 p.success {
   font-size: 1.25em;
@@ -29,5 +29,5 @@ p.success {
 .post-action,
 .comment-action {
   margin: 0.25em 0;
-  text-align: right;
+  text-align: end;
 }
