@@ -71,7 +71,7 @@ class FrontendSession
             $user_id = @unpack('a32', @pack('H*', $user_id));
             if (is_array($user_id) && isset($user_id[1]) && is_string($user_id[1])) {
                 $user_id  = trim($user_id[1]);
-                $user_key = substr((string) $_COOKIE[My::id()], 0, 40);
+                $user_key = substr($_COOKIE[My::id()], 0, 40);
             } else {
                 $user_id  = null;
                 $user_key = null;
