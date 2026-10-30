@@ -305,7 +305,7 @@ class FrontendTemplate
                         ->autocomplete('new-password')
                         ->label(new Label(__('Repeat password:'), Label::OL_TF)),
                 ], true),
-                My::settings()->get('condition_page') != '' ? $profil->getInputfield([
+                $condition_page !== '' ? $profil->getInputfield([
                     (new Checkbox(My::id() . $action . '_condition'))
                         ->label(new Label(
                             sprintf(

@@ -90,7 +90,7 @@ class Widgets
         $class = is_string($class = $widget->get('class')) ? $class : '';
         $title = is_string($title = $widget->get('title')) ? $title : '';
 
-        if (App::auth()->userID() != '') {
+        if ((string) App::auth()->userID() !== '') {
             if ($show !== 'form') {
                 $lines[] = (new Li())
                     ->items([

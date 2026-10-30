@@ -233,8 +233,8 @@ class Backend
                 }
             },
             // simple menu select
-            'adminSimpleMenuBeforeEdit' => function ($type, $select, &$attr): void {
-                if ($type == My::id() && is_array($attr)) {
+            'adminSimpleMenuBeforeEdit' => function (string $type, $select, &$attr): void {
+                if ($type === My::id() && is_array($attr)) {
                     $attr[0] = __('My account');
                     $attr[1] = __('Sign in to this blog');
                     $attr[2] = App::blog()->url() . App::url()->getURLFor(My::id());
@@ -242,7 +242,7 @@ class Backend
             },
             // user activation
             'adminUsersActions' => function (array $users, array $blogs, string $action, string $redir): void {
-                if ($action == My::id()) {
+                if ($action === My::id()) {
                     foreach ($users as $u) {
                         if (is_string($u)) {
                             try {
@@ -263,8 +263,9 @@ class Backend
             },
             // send mail on user activation
             'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
-                $user = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
-                if (!$user->isEmpty() && $cur->user_status == App::status()->user()::ENABLED && $user->strField('user_email') !== '') {
+                $user        = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
+                $user_status = is_numeric($cur->user_status) ? (int) $cur->user_status : 0;
+                if (!$user->isEmpty() && $user_status === App::status()->user()::ENABLED && $user->strField('user_email') !== '') {
                     Mail::sendActivationMail($user->strField('user_email'));
                 }
             },

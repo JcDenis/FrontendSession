@@ -47,15 +47,18 @@ class FrontendSession
         }
 
         // Check blog to use and log out if no result
-        if (App::session()->get(My::id() . '_blog_id') == '') {
+        $my_blog_id = is_string($my_blog_id = App::session()->get(My::id() . '_blog_id')) ? $my_blog_id : '';
+        if ($my_blog_id === '') {
             App::session()->set(My::id() . '_blog_id', App::blog()->id());
-        } elseif (App::session()->get(My::id() . '_blog_id') != App::blog()->id()) {
+        } elseif ($my_blog_id !== App::blog()->id()) {
             App::session()->unset(My::id() . '_blog_id');
         }
 
         // Check user right on blog
-        if (App::session()->get(My::id() . '_user_id') != ''
-        && (App::session()->get(My::id() . '_blog_id') == '' || !App::auth()->check(My::id(), App::blog()->id()))
+        $my_user_id = is_string($my_user_id = App::session()->get(My::id() . '_user_id')) ? $my_user_id : '';
+        $my_blog_id = is_string($my_blog_id = App::session()->get(My::id() . '_blog_id')) ? $my_blog_id : '';
+        if ($my_user_id !== ''
+            && ($my_blog_id === '' || !App::auth()->check(My::id(), App::blog()->id()))
         ) {
             // Kill public session
             $this->kill();

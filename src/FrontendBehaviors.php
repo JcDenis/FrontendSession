@@ -51,7 +51,8 @@ class FrontendBehaviors
 
         if ($post_id !== 0) {
             // if from post form
-            if (!empty($_POST[My::id() . 'post']) && $_POST[My::id() . 'post'] == $post_id) {
+            $my_post_id = isset($_POST[My::id() . 'post']) && is_numeric($my_post_id = $_POST[My::id() . 'post']) ? (int) $my_post_id : 0;
+            if ($my_post_id === $post_id) {
                 FrontendUrl::checkForm();
 
                 # --BEHAVIOR-- FrontendSessionPostAction -- MetaRecord
@@ -112,7 +113,8 @@ class FrontendBehaviors
 
         if ($post_id !== 0 && $comment_id !== 0) {
             // if from comment form
-            if (!empty($_POST[My::id() . 'comment']) && $_POST[My::id() . 'comment'] == $comment_id) {
+            $my_comment_id = isset($_POST[My::id() . 'comment']) && is_numeric($my_comment_id = $_POST[My::id() . 'comment']) ? (int) $my_comment_id : 0;
+            if ($my_comment_id === $comment_id) {
                 FrontendUrl::checkForm();
 
                 # --BEHAVIOR-- FrontendSessionPostAction -- MetaRecord
@@ -178,7 +180,7 @@ class FrontendBehaviors
         }
 
         // recheck comment active, should never happened. if no option and limit and user not auth = stop
-        if ($option->isActive() === null && My::settings()->get('limit_comment') && App::auth()->userID() == '') {
+        if ($option->isActive() === null && My::settings()->get('limit_comment') && (string) App::auth()->userID() === '') {
             throw new Exception(__('Comments creation are limited to registered users.'));
         }
 

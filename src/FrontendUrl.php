@@ -147,7 +147,7 @@ class FrontendUrl
                         App::frontend()->context()->frontend_session->addError(__('Username already exists.'));
                     }
 
-                    if (My::settings()->get('condition_page') != '' && !$signup_condition) {
+                    if (My::settings()->getStr('condition_page') !== '' && !$signup_condition) {
                         App::frontend()->context()->frontend_session->addError(sprintf(__('You must be agree with "%s".'), __('Terms and Conditions')));
                     }
 
@@ -173,7 +173,7 @@ class FrontendUrl
                                 ]);
                             }
 
-                            if ($signup_login != App::auth()->sudo(App::users()->addUser(...), $cur)) {
+                            if ($signup_login !== App::auth()->sudo(App::users()->addUser(...), $cur)) {
                                 App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
                             } else {
                                 $perms           = App::users()->getUserPermissions($cur->user_id);
@@ -214,10 +214,10 @@ class FrontendUrl
                         }
 
                         // send recovery email
-                    } elseif (App::auth()->userID() == '' && $recover_login !== '' && $recover_email !== '') {
+                    } elseif ((string) App::auth()->userID() === '' && $recover_login !== '' && $recover_email !== '') {
                         // check if user is (super)admin
                         $rs = App::users()->getUser($recover_login);
-                        if (!$rs->isEmpty() && $rs->admin() != '') {
+                        if (!$rs->isEmpty() && $rs->admin() !== '') {
                             App::frontend()->context()->frontend_session->addError(__('You are an admin, you must change password from backend.'));
                         } else {
                             try {
@@ -255,7 +255,7 @@ class FrontendUrl
 
                         if ($rs->isEmpty()) {
                             App::frontend()->context()->frontend_session->addError(__('Unable to retrieve user informations.'));
-                        } elseif ($rs->admin() != '') {
+                        } elseif ($rs->admin() !== '') {
                             App::frontend()->context()->frontend_session->addError(__('You are an admin, you must change password from backend.'));
                         } elseif ($change_password === '' || $change_password !== $change_vpassword) {
                             App::frontend()->context()->frontend_session->addError(__("Passwords don't match"));
