@@ -180,7 +180,7 @@ class FrontendBehaviors
         }
 
         // recheck comment active, should never happened. if no option and limit and user not auth = stop
-        if ($option->isActive() === null && My::settings()->get('limit_comment') && (string) App::auth()->userID() === '') {
+        if ($option->isActive() === null && My::settings()->get('limit_comment') && App::auth()->userID() === '') {
             throw new Exception(__('Comments creation are limited to registered users.'));
         }
 

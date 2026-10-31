@@ -66,7 +66,7 @@ class FrontendUrl
         $redir = isset($_REQUEST[My::id() . 'redir']) && is_string($redir = $_REQUEST[My::id() . 'redir']) ? $redir : '';
 
         // Set user state
-        $user_id = is_string($user_id = App::auth()->userID()) ? $user_id : '';
+        $user_id = App::auth()->userID();
 
         App::frontend()->context()->frontend_session->state = $user_id === '' ? My::STATE_DISCONNECTED : My::STATE_CONNECTED;
 
@@ -214,7 +214,7 @@ class FrontendUrl
                         }
 
                         // send recovery email
-                    } elseif ((string) App::auth()->userID() === '' && $recover_login !== '' && $recover_email !== '') {
+                    } elseif (App::auth()->userID() === '' && $recover_login !== '' && $recover_email !== '') {
                         // check if user is (super)admin
                         $rs = App::users()->getUser($recover_login);
                         if (!$rs->isEmpty() && $rs->admin() !== '') {
@@ -289,8 +289,6 @@ class FrontendUrl
                 $current = $_Str(My::id() . $action . '_current');
                 $newpass = $_Str(My::id() . $action . '_newpass');
                 $vrfpass = $_Str(My::id() . $action . '_vrfpass');
-
-                $user_id = (string) App::auth()->userID();
 
                 if (!App::auth()->checkPassword($current)) {
                     App::frontend()->context()->frontend_session->addError(__('Password verification failed.'));
