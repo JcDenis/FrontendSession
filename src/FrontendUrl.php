@@ -37,7 +37,7 @@ class FrontendUrl
             exit;
         }
 
-        if (!My::settings()->get('active')
+        if (!My::settings()->getBool('active', false)
             || !App::frontend()->context()->frontend_session instanceof FrontendSession
         ) {
             App::url()::p404();
@@ -120,13 +120,13 @@ class FrontendUrl
                 $signup_condition   = $_Bool(My::id() . $action . '_condition');
 
                 if ($signup_login !== '') {
-                    if (!preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_login)) {
+                    if (!(bool) preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_login)) {
                         App::frontend()->context()->frontend_session->addError(__('This username is not valid.'));
                     } elseif (App::users()->userExists($signup_login)) {
                         App::frontend()->context()->frontend_session->addError(__('This username is not available.'));
                     }
 
-                    if (trim($signup_displayname) !== '' && !preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_displayname)) {
+                    if (trim($signup_displayname) !== '' && !(bool) preg_match('/^[A-Za-z0-9._-]{3,}$/', $signup_displayname)) {
                         App::frontend()->context()->frontend_session->addError(__('This display name is not valid.'));
                     }
 
@@ -166,8 +166,8 @@ class FrontendUrl
                             $cur->user_lang        = $system_lang;
 
                             // Set post format if defined in settings
-                            $post_format = App::blog()->settings()->get(My::id())->getStr('post_format');
-                            if ($post_format) {
+                            $post_format = App::blog()->settings()->get(My::id())->getStr('post_format', false);
+                            if ($post_format !== '') {
                                 $cur->user_options = new ArrayObject([
                                     'post_format' => $post_format,
                                 ]);
@@ -202,7 +202,7 @@ class FrontendUrl
                 $recover_login = $_Str(My::id() . $action . '_login');
                 $recover_email = $_Str(My::id() . $action . '_email');
 
-                if (My::settings()->get('enable_recovery')) {
+                if (My::settings()->getBool('enable_recovery', false)) {
                     // change password from recovery email
                     if ($state !== '') {
                         try {
@@ -239,7 +239,7 @@ class FrontendUrl
                 $change_password  = $_Str(My::id() . $action . '_password');
                 $change_vpassword = $_Str(My::id() . $action . '_vpassword');
 
-                if (My::settings()->get('enable_recovery')) {
+                if (My::settings()->getBool('enable_recovery', false)) {
                     // set data for post from
                     if (count($args) === 5 && $change_data === '') {
                         App::frontend()->context()->frontend_session->addError(__('You must set a new password.'));
@@ -343,7 +343,7 @@ class FrontendUrl
         if (App::frontend()->context()->frontend_session->hasError()) {
             App::frontend()->context()->form_error = implode("\n", App::frontend()->context()->frontend_session->getErrors());
 
-            if (My::settings()->get('log_form_error')) {
+            if (My::settings()->getBool('log_form_error', false)) {
                 // remove passwords from logs
                 $_post = array_combine(
                     array_keys($_POST),

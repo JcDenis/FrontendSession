@@ -22,7 +22,7 @@ class Mail
      */
     private static function mailSender(string $dest, string $subject, string $message): void
     {
-        if (!My::settings()->get('email_from')) {
+        if (My::settings()->getStr('email_from', false) === '') {
             return;
         }
 

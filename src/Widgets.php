@@ -70,7 +70,7 @@ class Widgets
     {
         if ($widget->isOffline()
             || !$widget->checkHomeOnly(App::url()->getType())
-            || !My::settings()->get('active')
+            || !My::settings()->getBool('active', false)
         ) {
             return '';
         }
@@ -121,7 +121,7 @@ class Widgets
                     ]);
             }
         } elseif ($show !== 'menu') {
-            if (My::settings()->get('enable_recovery')) {
+            if (My::settings()->getBool('enable_recovery', false)) {
                 $lines[] = (new Li())
                     ->items([
                         (new Link())
@@ -130,7 +130,7 @@ class Widgets
                     ]);
             }
 
-            if (My::settings()->get('enable_registration')) {
+            if (My::settings()->getBool('enable_registration', false)) {
                 $lines[] = (new Li())
                     ->items([
                         (new Link())

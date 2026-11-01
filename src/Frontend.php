@@ -25,7 +25,7 @@ class Frontend
 
     public static function process(): bool
     {
-        if (!self::status() || !My::settings()->get('active')) {
+        if (!self::status() || !My::settings()->getBool('active', false)) {
             return false;
         }
 

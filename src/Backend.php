@@ -228,7 +228,7 @@ class Backend
             },
             // simple menu type
             'adminSimpleMenuAddType' => function (ArrayObject $items): void {
-                if (My::settings()->get('active')) {
+                if (My::settings()->getBool('active', false)) {
                     $items[My::id()] = new ArrayObject([__('Public login page'), false]);
                 }
             },

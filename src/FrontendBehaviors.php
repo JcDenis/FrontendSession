@@ -164,7 +164,8 @@ class FrontendBehaviors
     public static function publicBeforeCommentCreate(Cursor $cur): void
     {
         // recheck if post comment is closed, should never happened
-        $rs = $cur->getField('post_id') ? App::blog()->getPosts(['post_id' => $cur->getField('post_id')]) : null;
+        $post_id = $cur->intField('post_id');
+        $rs      = $post_id !== 0 ? App::blog()->getPosts(['post_id' => $post_id]) : null;
         if (!$rs instanceof MetaRecord || !$rs->boolField('post_open_comment')) {
             return;
         }
@@ -180,7 +181,7 @@ class FrontendBehaviors
         }
 
         // recheck comment active, should never happened. if no option and limit and user not auth = stop
-        if ($option->isActive() === null && My::settings()->get('limit_comment') && App::auth()->userID() === '') {
+        if ($option->isActive() === null && My::settings()->getBool('limit_comment', false) && App::auth()->userID() === '') {
             throw new Exception(__('Comments creation are limited to registered users.'));
         }
 
@@ -202,11 +203,7 @@ class FrontendBehaviors
             $tplset = is_string($tplset = App::themes()->moduleInfo($theme, 'tplset')) ? $tplset : '';
 
             // Load post creation page CSS
-            if (!My::settings()->get('disable_css') && $tplset === 'dotty') {
-                echo My::cssLoad('frontend-dotty');
-            }
-
-            if (!My::settings()->get('disable_css')) {
+            if (!My::settings()->getBool('disable_css', false)) {
                 if ($tplset === 'dotty') {
                     echo My::cssLoad('frontend-dotty');
                 } elseif ($tplset === 'glaz') {

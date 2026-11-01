@@ -42,6 +42,8 @@ class RecordExtendPost
         }
 
         // at least check frontend session settings, then Doclear settings
-        return (!My::settings()->get('limit_comment') || App::auth()->check(My::id(), App::blog()->id())) && PostPublic::commentsActive($rs);
+        return (!My::settings()->getBool('limit_comment', false)
+            || App::auth()->check(My::id(), App::blog()->id()))
+        && PostPublic::commentsActive($rs);
     }
 }

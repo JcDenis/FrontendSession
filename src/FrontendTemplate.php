@@ -154,7 +154,7 @@ class FrontendTemplate
         $profil    = new FrontendSessionProfil(My::id());
 
         // password recovery change form
-        if (App::frontend()->context()->frontend_session->state === My::STATE_CHANGE && My::settings()->get('enable_recovery')) {
+        if (App::frontend()->context()->frontend_session->state === My::STATE_CHANGE && My::settings()->getBool('enable_recovery', false)) {
             $action = My::ACTION_CHANGE;
             $profil->addAction($action, __('Password change'), [
                 $profil->getInputfield([
@@ -215,7 +215,7 @@ class FrontendTemplate
         }
 
         // sign up form
-        if (!$connected && My::settings()->get('enable_registration')) {
+        if (!$connected && My::settings()->getBool('enable_registration', false)) {
             $condition_page = is_string($condition_page = My::settings()->get('condition_page')) ? $condition_page : '';
 
             $action = My::ACTION_SIGNUP;
@@ -330,7 +330,7 @@ class FrontendTemplate
         }
 
         // password recovery form
-        if (!$connected && My::settings()->get('enable_recovery')) {
+        if (!$connected && My::settings()->getBool('enable_recovery', false)) {
             $action = My::ACTION_RECOVER;
             $profil->addAction($action, __('Password recovery'), [
                 // Honeypot
