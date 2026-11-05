@@ -25,6 +25,7 @@ use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Helper\Process\TraitProcess;
 use Dotclear\Interface\Core\BlogSettingsInterface;
+use Dotclear\Plugin\simpleMenu\MenuItemEdit;
 
 /**
  * @brief       FrontendSession backend class.
@@ -233,11 +234,11 @@ class Backend
                 }
             },
             // simple menu select
-            'adminSimpleMenuBeforeEdit' => function (string $type, $select, &$attr): void {
-                if ($type === My::id() && is_array($attr)) {
-                    $attr[0] = __('My account');
-                    $attr[1] = __('Sign in to this blog');
-                    $attr[2] = App::blog()->url() . App::url()->getURLFor(My::id());
+            'adminSimpleMenuBeforeEditV2' => function (MenuItemEdit $menuItemEdit): void {
+                if ($menuItemEdit->getType() === My::id()) {
+                    $menuItemEdit->setLabel(__('My account'));
+                    $menuItemEdit->setDescription(__('Sign in to this blog'));
+                    $menuItemEdit->setUrl(App::blog()->url() . App::url()->getURLFor(My::id()));
                 }
             },
             // user activation
