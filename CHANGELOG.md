@@ -1,3 +1,14 @@
+FrontendSession 0.43 - 2026.11.09
+===========================================================
+* PHP code review
+* Cope with RTL
+* PHPStan strict rules: uselessCast
+* PHPStan strict rules: disallowedLooseComparison
+* App::auth()->userID() returns string since 2023 (return type fixed in AuthInterface on 10/31/2026)
+* PHPStan strict rules: booleansInConditions, DC 2.40+
+* Cope with adminSimpleMenuBeforeEditV2 rather than deprecated adminSimpleMenuBeforeEdit
+* Use Dotclear 2.40 typed cursor and widget methods
+
 FrontendSession 0.42 - 2026.08.12
 ==========================================================
 * Bump Dotclear from 2.36 to 2.39
