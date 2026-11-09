@@ -44,8 +44,8 @@ class PluginTelegramBehaviors
             return;
         }
 
-        $user_id    = is_string($user_id = $cur->getField('user_id')) ? $user_id : '';
-        $user_email = is_string($user_email = $cur->getField('user_email')) ? $user_email : '';
+        $user_id    = $cur->strField('user_id');
+        $user_email = $cur->strField('user_email');
 
         $message = sprintf('*%s*', __('New user registration')) . "\n" .
             "-- \n" .

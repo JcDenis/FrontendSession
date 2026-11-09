@@ -300,7 +300,7 @@ class FrontendUrl
                     try {
                         // change user password
                         $cur = App::auth()->openUserCursor();
-                        $cur->setField('user_pwd', $newpass);
+                        $cur->setStrField('user_pwd', $newpass);
                         App::auth()->sudo(App::users()->updUser(...), $user_id, $cur);
 
                         // reload user
@@ -351,8 +351,8 @@ class FrontendUrl
                 );
 
                 $cur = App::log()->openLogCursor();
-                $cur->setField('log_table', My::id());
-                $cur->setField('log_msg', json_encode(['action' => $action, 'post' => $_post, 'error' => App::frontend()->context()->frontend_session->getErrors()]));
+                $cur->setStrField('log_table', My::id());
+                $cur->setStrField('log_msg', (string) json_encode(['action' => $action, 'post' => $_post, 'error' => App::frontend()->context()->frontend_session->getErrors()]));
 
                 App::log()->addLog($cur);
             }

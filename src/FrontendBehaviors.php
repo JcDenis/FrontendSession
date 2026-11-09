@@ -177,7 +177,7 @@ class FrontendBehaviors
 
         // check third party plugins
         if (is_bool($option->isModerate())) {
-            $cur->setField('comment_status', $option->isModerate() ? App::status()->comment()::UNPUBLISHED : App::status()->comment()::PUBLISHED);
+            $cur->setIntField('comment_status', $option->isModerate() ? App::status()->comment()::UNPUBLISHED : App::status()->comment()::PUBLISHED);
         }
 
         // recheck comment active, should never happened. if no option and limit and user not auth = stop
@@ -187,9 +187,9 @@ class FrontendBehaviors
 
         // Sorry not sorry, use user info if he is registered
         if (App::auth()->check(My::id(), App::blog()->id())) {
-            $cur->setField('comment_author', App::auth()->getInfo('user_cn'));
-            $cur->setField('comment_email', App::auth()->getInfo('user_email'));
-            $cur->setField('comment_site', App::auth()->getInfo('user_url'));
+            $cur->setStrField('comment_author', is_string($info = App::auth()->getInfo('user_cn')) ? $info : null);
+            $cur->setStrField('comment_email', is_string($info = App::auth()->getInfo('user_email')) ? $info : null);
+            $cur->setStrField('comment_site', is_string($info = App::auth()->getInfo('user_url')) ? $info : null);
         }
     }
 

@@ -87,8 +87,8 @@ class Widgets
         App::behavior()->callBehavior('FrontendSessionWidget', $lines, $url, $widget);
 
         $show  = is_string($show = $widget->get('show')) ? $show : '';
-        $class = is_string($class = $widget->get('class')) ? $class : '';
-        $title = is_string($title = $widget->get('title')) ? $title : '';
+        $class = $widget->getClass();
+        $title = $widget->getTitle();
 
         if (App::auth()->userID() !== '') {
             if ($show !== 'form') {
@@ -188,7 +188,7 @@ class Widgets
         }
 
         return $widget->renderDiv(
-            (bool) $widget->get('content_only'),
+            $widget->getContentOnly(),
             My::id() . ' ' . $class,
             '',
             $widget->renderTitle($title) . ($form === false ? '' : $form->render()) . ($lines->count() === 0 ? '' : (new Ul())->items($lines)->render())
