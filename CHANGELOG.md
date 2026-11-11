@@ -1,3 +1,8 @@
+FrontendSession 0.44 - 2026.11.11
+===========================================================
+* Use user preferences for post format and typed cursor methods (Dotclear 2.40)
+* Do not ask for status icon URL when backend URLs do not exist
+
 FrontendSession 0.43 - 2026.11.09
 ===========================================================
 * PHP code review
