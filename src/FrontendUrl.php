@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\FrontendSession;
 
-use ArrayObject;
 use Dotclear\App;
 use Dotclear\Exception\PreconditionException;
 use Dotclear\Helper\File\Path;
@@ -156,27 +155,32 @@ class FrontendUrl
 
                         try {
                             $cur                   = App::auth()->openUserCursor();
-                            $cur->user_id          = $signup_login;
-                            $cur->user_displayname = $signup_displayname;
-                            $cur->user_name        = $signup_name;
-                            $cur->user_firstname   = $signup_firstname;
-                            $cur->user_email       = $signup_email;
-                            $cur->user_pwd         = $signup_password;
-                            $cur->user_status      = My::USER_PENDING;
-                            $cur->user_lang        = $system_lang;
+                            $cur->setStrField('user_id', $signup_login);
+                            $cur->setStrField('user_displayname', $signup_displayname);
+                            $cur->setStrField('user_name', $signup_name);
+                            $cur->setStrField('user_firstname', $signup_firstname);
+                            $cur->setStrField('user_email', $signup_email);
+                            $cur->setStrField('user_pwd', $signup_password);
+                            $cur->setIntField('user_status', My::USER_PENDING);
+                            $cur->setStrField('user_lang', $system_lang);
 
-                            // Set post format if defined in settings
+                            // Post format defined in settings
                             $post_format = App::blog()->settings()->get(My::id())->getStr('post_format', false);
-                            if ($post_format !== '') {
-                                $cur->user_options = new ArrayObject([
-                                    'post_format' => $post_format,
-                                ]);
-                            }
 
                             if ($signup_login !== App::auth()->sudo(App::users()->addUser(...), $cur)) {
                                 App::frontend()->context()->frontend_session->addError(__('Something went wrong while trying to register user.'));
                             } else {
-                                $perms           = App::users()->getUserPermissions($cur->user_id);
+                                // Set post format in user preferences (as Dotclear does since 2.40)
+                                if ($post_format !== '') {
+                                    App::userPreferences()->createFromUser($signup_login, 'interface')->get('interface')->put(
+                                        'post_format',
+                                        $post_format,
+                                        App::userWorkspace()::WS_STRING,
+                                        'Post default format'
+                                    );
+                                }
+
+                                $perms           = App::users()->getUserPermissions($signup_login);
                                 $perms           = $perms[App::blog()->id()]['p'] ?? [];
                                 $perms[My::id()] = true;
                                 App::auth()->sudo(App::users()->setUserBlogPermissions(...), $signup_login, App::blog()->id(), $perms);
@@ -265,8 +269,8 @@ class FrontendUrl
                             // change user password
                             try {
                                 $cur                  = App::auth()->openUserCursor();
-                                $cur->user_change_pwd = 0;
-                                $cur->user_pwd        = $change_password;
+                                $cur->setIntField('user_change_pwd', 0);
+                                $cur->setStrField('user_pwd', $change_password);
                                 App::users()->updUser((string) $data['user_id'], $cur);
 
                                 // sign in user

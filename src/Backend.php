@@ -75,7 +75,6 @@ class Backend
                 $available_formats = ['' => ''];
                 foreach (array_keys($format_by_editors) as $format) {
                     $available_formats[App::formater()->getFormaterName($format)] = $format;
-                    $user_options['editor'][$format] ??= '';
                 }
 
                 $post_format        = is_string($post_format = $blog_settings->get(My::id())->get('post_format')) ? $post_format : '';
@@ -248,7 +247,7 @@ class Backend
                         if (is_string($u)) {
                             try {
                                 $cur              = App::auth()->openUserCursor();
-                                $cur->user_status = My::USER_PENDING;
+                                $cur->setIntField('user_status', My::USER_PENDING);
                                 App::users()->updUser($u, $cur);
                             } catch (Throwable $e) {
                                 App::error()->add($e->getMessage());
@@ -265,7 +264,7 @@ class Backend
             // send mail on user activation
             'adminBeforeUserUpdate' => function (Cursor $cur, string $user_id): void {
                 $user        = App::users()->getUsers(['user_id' => $user_id, 'user_status' => My::USER_PENDING]);
-                $user_status = is_numeric($cur->user_status) ? (int) $cur->user_status : 0;
+                $user_status = $cur->intField('user_status');
                 if (!$user->isEmpty() && $user_status === App::status()->user()::ENABLED && $user->strField('user_email') !== '') {
                     Mail::sendActivationMail($user->strField('user_email'));
                 }
