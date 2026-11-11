@@ -52,7 +52,7 @@ class Prepend
             My::id(),
             'Pending registration',
             'Pending registration (>1)',
-            My::fileURL('icon.svg')
+            My::statusIcon('icon.svg')
         )));
 
         // Plugin telegram notification
