@@ -8,7 +8,7 @@
     <desc>Allow session on frontend.</desc>
     <file>https://github.com/JcDenis/FrontendSession/releases/download/v0.44/plugin-FrontendSession.zip</file>
     <da:dcmin>2.40</da:dcmin>
-    <da:details>https://github.com/JcDenis/FrontendSession/src/branch/master/README.md</da:details>
+    <da:details>https://github.com/JcDenis/FrontendSession/blob/master/README.md</da:details>
     <da:support>https://github.com/JcDenis/FrontendSession/issues</da:support>
   </module>
 </modules>
