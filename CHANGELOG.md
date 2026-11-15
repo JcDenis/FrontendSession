@@ -1,3 +1,9 @@
+FrontendSession 0.45 - 2026.11.15
+===========================================================
+* [fix] Recovery mail success message, notice when comments are limited, connected texts translated, password length message, typos
+* [docs] Add a user guide in French, with screenshots
+* [new] Behavior FrontendSessionSignin on sign in page, fix "Remember me"
+
 FrontendSession 0.44 - 2026.11.11
 ===========================================================
 * Use user preferences for post format and typed cursor methods (Dotclear 2.40)
