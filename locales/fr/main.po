@@ -33,7 +33,7 @@ msgid "Enable user password recovery form on frontend"
 msgstr "Autoriser la récupération publique de mot de passe"
 
 msgid "Preferred format:"
-msgstr "Format d'édition préféré :"
+msgstr "Format d'édition préféré :"
 
 msgid "Limit new comments to registered users"
 msgstr "Limiter les nouveaux commentaires aux utilisateurs enregistrés"
@@ -107,7 +107,7 @@ msgid "Sign up"
 msgstr "S'inscrire"
 
 msgid "Username:"
-msgstr "Nom d'utilisatrice ou d'utilisateur :"
+msgstr "Nom d'utilisatrice ou d'utilisateur :"
 
 msgid "Should be at least 3 characters long with only figures and letters."
 msgstr "Doit contenir au moins 3 caractères avec uniquement des chiffres et des lettres"
@@ -119,13 +119,13 @@ msgid "This is the name that will be displayed on blog."
 msgstr "Ceci est le pseudonyme qui sera affiché sur le blog."
 
 msgid "First Name:"
-msgstr "Prénom :"
+msgstr "Prénom :"
 
 msgid "Last Name:"
-msgstr "Nom :"
+msgstr "Nom :"
 
 msgid "Email:"
-msgstr "Email :"
+msgstr "Email :"
 
 msgid "Repeat email:"
 msgstr "Répéter l'email :"
@@ -160,7 +160,7 @@ msgid "Password change"
 msgstr "Changement de mot de passe"
 
 msgid "New password:"
-msgstr "Nouveau mot de passe :"
+msgstr "Nouveau mot de passe :"
 
 msgid "Repeat new password:"
 msgstr "Répéter le nouveau mot de passe :"
@@ -181,7 +181,7 @@ msgid "Your account is not yet activated. An administrator will review your acco
 msgstr "Votre compte n'est pas encore activé. Un administrateur vérifiera votre inscription dès que possible."
 
 msgid "Wrong username or password."
-msgstr "Mauvais nom d'utilisateur ou de mot de passe."
+msgstr "Nom d'utilisatrice, d'utilisateur ou mot de passe incorrect."
 
 msgid "This username is not valid."
 msgstr "L'identifiant n'est pas valide."
@@ -244,7 +244,7 @@ msgid "Password successfully updated."
 msgstr "Mot de passe mis à jour avec succès."
 
 msgid "Password verification failed."
-msgstr "Echec de la vérification du mot de passe."
+msgstr "Échec de la vérification du mot de passe."
 
 
 msgid "Passwords mismatch."
@@ -296,7 +296,7 @@ msgid "Password reset"
 msgstr "Réinitialisation du mot de passe"
 
 msgid "Someone has requested to reset the password for the following site and username."
-msgstr "Quelqu'un a demandé la réinitialisation du mot de passe pour le site et l'utilisateur·rice suivants."
+msgstr "Quelqu'un a demandé la réinitialisation du mot de passe pour le site et l'utilisatrice ou l'utilisateur suivants."
 
 msgid "To reset your password visit the following address, otherwise just ignore this email and nothing will happen."
 msgstr "Pour réinitialiser votre mot de passe, rendez-vous à l'adresse suivante. Sinon ignorez simplement ce message et rien ne se passera."
@@ -321,9 +321,9 @@ msgstr "*Blog :* [%s](%s)"
 msgid "*User:* %s"
 msgstr "*Utilisateur :* %s"
 
-#, fuzzy, php-format
+#, php-format
 msgid "*Email:* %s"
-msgstr "Email :"
+msgstr "*Email :* %s"
 
 msgid "Follow this link below to validate it:"
 msgstr "Suivez le lien ci-dessous pour le valider :"
@@ -337,7 +337,7 @@ msgid "Frontend session"
 msgstr "Session publique"
 
 msgid "Content:"
-msgstr "Contenu :"
+msgstr "Contenu :"
 
 msgid "Form and menu"
 msgstr "Formulaire et menu"
