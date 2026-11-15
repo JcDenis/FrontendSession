@@ -22,7 +22,7 @@ $this->registerModule(
     'Frontend sessions',
     'Allow session on frontend.',
     'Jean-Christian Paul Denis and Contributors',
-    '0.45.1',
+    '0.45.2',
     [
         'requires'    => [['core', '2.40']],
         'settings'    => ['blog' => '#params.' . $this->id . '_params'],
@@ -31,6 +31,6 @@ $this->registerModule(
         'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',
         'details'     => 'https://github.com/JcDenis/' . $this->id . '/',
         'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . $this->id . '/master/dcstore.xml',
-        'date'        => '2026-11-15T13:12:06+00:00',
+        'date'        => '2026-11-15T15:11:20+00:00',
     ]
 );

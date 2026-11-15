@@ -1,3 +1,7 @@
+FrontendSession 0.45.2 - 2026.11.15
+===========================================================
+* [lang] Do not override core translations
+
 FrontendSession 0.45.1 - 2026.11.15
 ===========================================================
 * [lang] French translations missing, an empty one hid the core "Save" translation in admin
