@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "Entry"
-msgstr ""
+msgstr "Entrée"
 
 msgid "My account"
 msgstr "Mon compte"
@@ -33,7 +33,7 @@ msgid "Enable user password recovery form on frontend"
 msgstr "Autoriser la récupération publique de mot de passe"
 
 msgid "Preferred format:"
-msgstr ""
+msgstr "Format d'édition préféré :"
 
 msgid "Limit new comments to registered users"
 msgstr "Limiter les nouveaux commentaires aux utilisateurs enregistrés"
@@ -52,7 +52,7 @@ msgid "Terms and Conditions"
 msgstr "Conditions Générales d'Utilisation"
 
 msgid "Choose an entry"
-msgstr ""
+msgstr "Sélectionner une entrée"
 
 #, php-format
 msgid "Leave this field empty if you do not have a \"%s\" page."
@@ -172,7 +172,7 @@ msgid "Current password:"
 msgstr "Mot de passe actuel :"
 
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 msgid "This account is disabled."
 msgstr "Ce compte est désactivé."
@@ -315,11 +315,11 @@ msgstr "Envoyer un message lors d'une nouvelle inscription publique"
 
 #, php-format
 msgid "*Blog:* [%s](%s)"
-msgstr ""
+msgstr "*Blog :* [%s](%s)"
 
 #, php-format
 msgid "*User:* %s"
-msgstr ""
+msgstr "*Utilisateur :* %s"
 
 #, fuzzy, php-format
 msgid "*Email:* %s"
@@ -337,16 +337,16 @@ msgid "Frontend session"
 msgstr "Session publique"
 
 msgid "Content:"
-msgstr ""
+msgstr "Contenu :"
 
 msgid "Form and menu"
-msgstr ""
+msgstr "Formulaire et menu"
 
 msgid "Only form"
-msgstr ""
+msgstr "Formulaire seulement"
 
 msgid "Only menu"
-msgstr ""
+msgstr "Menu seulement"
 
 msgid "You are connected as:"
 msgstr "Vous êtes :"

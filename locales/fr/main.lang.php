@@ -12,18 +12,18 @@ declare(strict_types=1);
 
 use Dotclear\Helper\L10n;
 
-L10n::$locales['Entry'] = '';
+L10n::$locales['Entry'] = 'Entrée';
 L10n::$locales['My account'] = 'Mon compte';
 L10n::$locales['Enable sessions on frontend'] = 'Autoriser les sessions publiques';
 L10n::$locales['Enable user registration form on frontend'] = 'Autoriser le formulaire public d\'inscription';
 L10n::$locales['Enable user password recovery form on frontend'] = 'Autoriser la récupération publique de mot de passe';
-L10n::$locales['Preferred format:'] = '';
+L10n::$locales['Preferred format:'] = 'Format d\'édition préféré :';
 L10n::$locales['Limit new comments to registered users'] = 'Limiter les nouveaux commentaires aux utilisateurs enregistrés';
 L10n::$locales['All themes are not necessarily compatible with this feature.'] = 'Tous les thèmes ne sont pas forcément compatibles avec cette option.';
 L10n::$locales['Disable default CSS'] = 'Désactiver la feuille de style additionnelle.';
 L10n::$locales['Link to the "%s" page or entry:'] = 'Lien vers la page ou le billet des "%s" :';
 L10n::$locales['Terms and Conditions'] = 'Conditions Générales d\'Utilisation';
-L10n::$locales['Choose an entry'] = '';
+L10n::$locales['Choose an entry'] = 'Sélectionner une entrée';
 L10n::$locales['Leave this field empty if you do not have a "%s" page.'] = 'Laisser ce champ vide si vous n\'avez pas de page pour les "%s".';
 L10n::$locales['Registration administrator email:'] = 'Email des superviseurs des inscriptions :';
 L10n::$locales['This is the comma separeted list of administrator mail address who receive new registration notification.'] = 'Ceci est la liste séparée par des virgules des adresses mails qui recevront les notifications de nouvelle inscription d\'utilisateur.';
@@ -64,7 +64,7 @@ L10n::$locales['New password:'] = 'Nouveau mot de passe :';
 L10n::$locales['Repeat new password:'] = 'Répéter le nouveau mot de passe :';
 L10n::$locales['Change'] = 'Changer';
 L10n::$locales['Current password:'] = 'Mot de passe actuel :';
-L10n::$locales['Save'] = '';
+L10n::$locales['Save'] = 'Enregistrer';
 L10n::$locales['This account is disabled.'] = 'Ce compte est désactivé.';
 L10n::$locales['Your account is not yet activated. An administrator will review your account and validate it soon.'] = 'Votre compte n\'est pas encore activé. Un administrateur vérifiera votre inscription dès que possible.';
 L10n::$locales['Wrong username or password.'] = 'Mauvais nom d\'utilisateur ou de mot de passe.';
@@ -108,8 +108,8 @@ L10n::$locales['Your new password'] = 'Votre nouveau mot de passe';
 L10n::$locales['To change this password visit the following address and sign in with these idents.'] = 'Pour changer le mot de passe, rendez-vous à l\'adresse suivante et connectez vous avec ces identifiants.';
 L10n::$locales['New frontend registration'] = 'Nouvelle inscription publique';
 L10n::$locales['Send message on new user frontend registration'] = 'Envoyer un message lors d\'une nouvelle inscription publique';
-L10n::$locales['*Blog:* [%s](%s)'] = '';
-L10n::$locales['*User:* %s'] = '';
+L10n::$locales['*Blog:* [%s](%s)'] = '*Blog :* [%s](%s)';
+L10n::$locales['*User:* %s'] = '*Utilisateur :* %s';
 L10n::$locales['*Email:* %s'] = 'Email :';
 L10n::$locales['Follow this link below to validate it:'] = 'Suivez le lien ci-dessous pour le valider :';
 L10n::$locales['Pending registration'] = [
@@ -117,10 +117,10 @@ L10n::$locales['Pending registration'] = [
 	'Inscriptions en attente',
 ];
 L10n::$locales['Frontend session'] = 'Session publique';
-L10n::$locales['Content:'] = '';
-L10n::$locales['Form and menu'] = '';
-L10n::$locales['Only form'] = '';
-L10n::$locales['Only menu'] = '';
+L10n::$locales['Content:'] = 'Contenu :';
+L10n::$locales['Form and menu'] = 'Formulaire et menu';
+L10n::$locales['Only form'] = 'Formulaire seulement';
+L10n::$locales['Only menu'] = 'Menu seulement';
 L10n::$locales['You are connected as:'] = 'Vous êtes :';
 L10n::$locales['Disconnect'] = 'Se déconnecter';
 L10n::$locales['Connect'] = 'Se connecter';
