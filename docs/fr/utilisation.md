@@ -115,7 +115,5 @@ Cochez **Limiter les nouveaux commentaires aux utilisateurs enregistrés** dans 
 
 ## Bon à savoir
 
-* Quand un visiteur demande un nouveau mot de passe, le message de succès est affiché comme une erreur (la présentation peut être rouge selon le thème) alors que le mail est bien envoyé.
-* Quand les commentaires sont limités, aucun message n'explique aux visiteurs non connectés pourquoi le formulaire a disparu.
-* Le message « You're now connected to the blog. » est affiché en anglais par défaut, même sur un blog en français : modifiez-le dans les réglages.
-* Le mail d'activation et certains messages d'erreur contiennent des fautes de frappe ou un texte non traduit.
+* Quand les commentaires sont réservés aux utilisateurs enregistrés, un visiteur non connecté voit, à la place du formulaire, « La création de commentaire est limitée aux utilisateurs enregistrés. » avec un lien **Se connecter**.
+* Les messages par défaut affichés aux visiteurs connectés et non connectés sont traduits dans la langue du blog. Si vous les modifiez dans les réglages, votre texte est affiché tel quel.
