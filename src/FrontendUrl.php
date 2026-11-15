@@ -130,15 +130,15 @@ class FrontendUrl
                     }
 
                     if ($signup_email !== $signup_vemail) {
-                        App::frontend()->context()->frontend_session->addError(__('Emails missmatch.'));
+                        App::frontend()->context()->frontend_session->addError(__('Emails mismatch.'));
                     } elseif (!Text::isEmail($signup_email)) {
                         App::frontend()->context()->frontend_session->addError(__('Email is not valid.'));
                     }
 
                     if ($signup_password !== $signup_vpassword) {
-                        App::frontend()->context()->frontend_session->addError(__('Passwords missmatch.'));
+                        App::frontend()->context()->frontend_session->addError(__('Passwords mismatch.'));
                     } elseif (strlen($signup_password) < 6) {
-                        App::frontend()->context()->frontend_session->addError(__('Password must be at lesat 6 characters long.'));
+                        App::frontend()->context()->frontend_session->addError(__('Password must be at least 6 characters long.'));
                     }
 
                     $exists = App::users()->getUser($signup_login);
@@ -214,7 +214,7 @@ class FrontendUrl
                             Mail::sendPasswordMail($res['user_id'], $res['new_pass'], $res['user_email']);
                             App::frontend()->context()->frontend_session->success = __('Your new password is in your mailbox.');
                         } catch (Throwable) {
-                            App::frontend()->context()->frontend_session->addError(__('Unknow username or email.'));
+                            App::frontend()->context()->frontend_session->addError(__('Unknown username or email.'));
                         }
 
                         // send recovery email
@@ -227,9 +227,9 @@ class FrontendUrl
                             try {
                                 $recover_key = App::auth()->setRecoverKey($recover_login, $recover_email);
                                 Mail::sendRecoveryMail($recover_login, $recover_key, $recover_email);
-                                App::frontend()->context()->frontend_session->addError(sprintf(__('The e-mail was sent successfully to %s.'), $recover_email));
+                                App::frontend()->context()->frontend_session->success = sprintf(__('The e-mail was sent successfully to %s.'), $recover_email);
                             } catch (Throwable) {
-                                App::frontend()->context()->frontend_session->addError(__('Unknow username or email.'));
+                                App::frontend()->context()->frontend_session->addError(__('Unknown username or email.'));
                             }
                         }
                     }
@@ -297,7 +297,7 @@ class FrontendUrl
                 if (!App::auth()->checkPassword($current)) {
                     App::frontend()->context()->frontend_session->addError(__('Password verification failed.'));
                 } elseif (strlen(trim($newpass)) < 6) {
-                    App::frontend()->context()->frontend_session->addError(__('Password must be 6 or more chars length.'));
+                    App::frontend()->context()->frontend_session->addError(__('Password must be at least 6 characters long.'));
                 } elseif ($newpass !== $vrfpass) {
                     App::frontend()->context()->frontend_session->addError(__('Passwords mismatch.'));
                 } else {

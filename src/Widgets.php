@@ -170,7 +170,7 @@ class Widgets
                         (new Para())
                             ->items([
                                 (new Checkbox([My::id() . My::ACTION_SIGNIN . '_remember', My::id() . My::ACTION_SIGNIN . '_remember_widget']))
-                                    ->label(new Label(__('Remenber me'), Label::OL_FT)),
+                                    ->label(new Label(__('Remember me'), Label::OL_FT)),
                             ]),
                         (new Para())
                             ->items([

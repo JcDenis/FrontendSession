@@ -128,7 +128,7 @@ class FrontendTemplate
      */
     public static function FrontendSessionInfo(ArrayObject $attr): string
     {
-        return self::filter($attr, My::class . "::settings()->get(App::auth()->userID() == '' ? 'disconnected' : 'connected')");
+        return self::filter($attr, '__((string) ' . My::class . "::settings()->get(App::auth()->userID() == '' ? 'disconnected' : 'connected'))");
     }
 
     /**

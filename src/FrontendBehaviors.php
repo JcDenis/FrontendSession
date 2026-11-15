@@ -11,8 +11,11 @@ use Dotclear\Database\MetaRecord;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
 use Dotclear\Helper\Html\Form\Hidden;
+use Dotclear\Helper\Html\Form\Link;
 use Dotclear\Helper\Html\Form\None;
+use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Submit;
+use Dotclear\Helper\Html\Form\Text;
 use Dotclear\Helper\Html\Html;
 use Exception;
 
@@ -42,6 +45,25 @@ class FrontendBehaviors
      */
     public static function publicEntryAfterContent(): void
     {
+        // Comments limited to registered users: tell visitors why there is no comment form
+        if (App::auth()->userID() === ''
+            && My::settings()->getBool('limit_comment', false)
+            && App::url()->isType('post')
+            && App::frontend()->context()->posts instanceof MetaRecord
+            && App::frontend()->context()->posts->boolField('post_open_comment')
+            && !App::frontend()->context()->posts->commentsActive()
+        ) {
+            echo (new Para())
+                ->class('frontend-session-limit-comment')
+                ->items([
+                    (new Text('', __('Comments creation are limited to registered users.') . ' ')),
+                    (new Link())
+                        ->href(App::blog()->url() . App::url()->getURLFor(My::id()))
+                        ->text(__('Sign in')),
+                ])
+                ->render();
+        }
+
         $post_id = 0;
         $url     = '';
         if (App::auth()->check(My::id(), App::blog()->id()) && App::frontend()->context()->posts instanceof MetaRecord) {

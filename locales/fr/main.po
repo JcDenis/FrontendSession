@@ -100,7 +100,7 @@ msgstr "Se connecter"
 msgid "Login:"
 msgstr "Identifiant :"
 
-msgid "Remenber me"
+msgid "Remember me"
 msgstr "Se souvenir de moi"
 
 msgid "Sign up"
@@ -192,16 +192,14 @@ msgstr "Cet identifiant n'est pas disponible."
 msgid "This display name is not valid."
 msgstr "Ce pseudonyme n'est pas valide."
 
-msgid "Emails missmatch."
+msgid "Emails mismatch."
 msgstr "L'email ne correspondent pas."
 
 msgid "Email is not valid."
 msgstr "L'email n'est pas valide."
 
-msgid "Passwords missmatch."
-msgstr "Les mots de passe ne correspondent pas."
 
-msgid "Password must be at lesat 6 characters long."
+msgid "Password must be at least 6 characters long."
 msgstr "Le mot de passe n'est pas valide."
 
 msgid "Username already exists."
@@ -220,7 +218,7 @@ msgstr "Merci pour votre enregistrement. Un administrateur validera bientôt vot
 msgid "Your new password is in your mailbox."
 msgstr "Votre nouveau mot de passe est dans votre boîte à lettres."
 
-msgid "Unknow username or email."
+msgid "Unknown username or email."
 msgstr "identifiant ou adresse email inconnu."
 
 msgid "You are an admin, you must change password from backend."
@@ -248,8 +246,6 @@ msgstr "Mot de passe mis à jour avec succès."
 msgid "Password verification failed."
 msgstr "Echec de la vérification du mot de passe."
 
-msgid "Password must be 6 or more chars length."
-msgstr "Le mot de passe doit contenir au mois si caractères."
 
 msgid "Passwords mismatch."
 msgstr "Les mots de passe ne correspondent pas."
@@ -257,7 +253,7 @@ msgstr "Les mots de passe ne correspondent pas."
 msgid "Confirmation of activation"
 msgstr "Confirmation d'activation"
 
-msgid "Thank you for your registration on blog \"$s\"!"
+msgid "Thank you for your registration on blog \"%s\"!"
 msgstr "Merci pour votre inscription sur le blog \"%s\" !"
 
 msgid "Your account is now activated."
@@ -372,3 +368,9 @@ msgstr "Se connecter"
 
 #~ msgid "Profile successfully updated."
 #~ msgstr "Profil mis à jour avec succés."
+
+msgid "You're now connected to the blog."
+msgstr "Vous êtes maintenant connecté au blog."
+
+msgid "You must be connected to unlock all blog's features."
+msgstr "Vous devez être connecté pour profiter de toutes les fonctionnalités du blog."
