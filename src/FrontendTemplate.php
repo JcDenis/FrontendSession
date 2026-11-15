@@ -208,10 +208,13 @@ class FrontendTemplate
                 ], true),
                 $profil->getInputfield([
                     (new Checkbox(My::id() . $action . '_remember'))
-                        ->label(new Label(__('Remenber me'), Label::OL_FT)),
+                        ->label(new Label(__('Remember me'), Label::OL_FT)),
                 ], false),
                 $profil->getControlset($action, __('Sign in')),
             ]);
+
+            # --BEHAVIOR-- FrontendSessionSignin -- FrontendSessionProfil
+            App::behavior()->callBehavior('FrontendSessionSignin', $profil);
         }
 
         // sign up form

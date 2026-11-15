@@ -36,6 +36,7 @@ Required Dotclear and PHP versions: see `_define.php`.
 * `js/`: `backend-blogpref.js`, `backend-dashboard.js`, `frontend-session.js`.
 * `default-templates/`: public templates.
 * Widgets: `FrontendSession`.
+* Behaviors given: `FrontendSessionSignin` (sign in page, to add other ways to sign in), and others called with `callBehavior('FrontendSession…`.
 * Behaviors used: `initWidgets`, `adminDashboardHeaders`, `adminBlogPreferencesFormV2`, `adminBeforeBlogSettingsUpdate`, `adminBlogPreferencesHeaders`, `adminPopupPosts`, `adminPostEditorTags`, `adminSimpleMenuAddType`, `adminSimpleMenuBeforeEditV2`, `adminUsersActions`, `adminBeforeUserUpdate`, `adminBeforeUserEnable`, `coreBlogGetPosts`, `publicBeforeCommentCreate`, `publicHeadContent`, `publicEntryAfterContent`, `publicCommentAfterContent`, `publicCommentFormBeforeContent`.
 
 ## Pitfalls
