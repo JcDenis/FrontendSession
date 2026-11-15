@@ -1,3 +1,7 @@
+FrontendSession 0.45.1 - 2026.11.15
+===========================================================
+* [lang] French translations missing, an empty one hid the core "Save" translation in admin
+
 FrontendSession 0.45 - 2026.11.15
 ===========================================================
 * [fix] Recovery mail success message, notice when comments are limited, connected texts translated, password length message, typos
