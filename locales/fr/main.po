@@ -193,14 +193,14 @@ msgid "This display name is not valid."
 msgstr "Ce pseudonyme n'est pas valide."
 
 msgid "Emails mismatch."
-msgstr "L'email ne correspondent pas."
+msgstr "Les adresses e-mail ne correspondent pas."
 
 msgid "Email is not valid."
 msgstr "L'email n'est pas valide."
 
 
 msgid "Password must be at least 6 characters long."
-msgstr "Le mot de passe n'est pas valide."
+msgstr "Le mot de passe doit contenir au moins 6 caractères."
 
 msgid "Username already exists."
 msgstr "Cet identifiant n'es pas disponible."
