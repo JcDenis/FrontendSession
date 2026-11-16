@@ -97,11 +97,11 @@ Les administrateurs du blog ne peuvent pas utiliser ce formulaire : ils doivent 
 
 ## Le widget
 
-Dans **Gadgets**, ajoutez le gadget « Session publique » à la zone de votre choix. Il propose :
+Dans **Widgets**, ajoutez le widget « Session publique » à la zone de votre choix. Il propose :
 
 * le titre (« Mon compte » par défaut) ;
 * le contenu : formulaire et menu, formulaire seul ou menu seul ;
-* les options habituelles des gadgets (pages concernées, classe CSS…).
+* les options habituelles des widgets (pages concernées, classe CSS…).
 
 ![Réglages du widget](img/widget-reglages.png)
 
